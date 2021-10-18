@@ -1,0 +1,10 @@
+{
+  "name": "figma-directus-style-generator",
+  "id": "1031641368056826424",
+  "api": "1.0.0",
+  "main": "./build/code.js",
+  "editorType": [
+    "figma"
+  ],
+  "ui": "./src/ui.html"
+}
