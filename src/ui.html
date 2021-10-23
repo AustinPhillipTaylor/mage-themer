@@ -4,16 +4,16 @@
 <button id="close">Close</button>
 <script>
 
-document.getElementById('generate').onclick = () => {
-  // const textbox = document.getElementById('count');
-  // const count = parseInt(textbox.value, 10);
-  parent.postMessage({ pluginMessage: { type: 'generate-styles' } }, '*')
+document.getElementById( 'generate' ).onclick = () => {
+	// const textbox = document.getElementById('count');
+	// const count = parseInt(textbox.value, 10);
+	parent.postMessage( { pluginMessage: { type: 'generate-styles' }}, '*' )
 }
 
-document.getElementById('close').onclick = () => {
-  // const textbox = document.getElementById('count');
-  // const count = parseInt(textbox.value, 10);
-  parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
+document.getElementById( 'close' ).onclick = () => {
+	// const textbox = document.getElementById('count');
+	// const count = parseInt(textbox.value, 10);
+	parent.postMessage( { pluginMessage: { type: 'close' }}, '*' )
 }
 
 </script>

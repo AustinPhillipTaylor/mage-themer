@@ -15,7 +15,9 @@
   "author": "Austin Phillip Taylor",
   "main": "./build/code.js",
   "scripts": {
-    "build": "rollup -c"
+    "build": "concurrently \"npm run build:figma\" \"npm run build:ui\"",
+    "build:figma": "rollup -c",
+    "build:ui": "cd src/ui && npm run build"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.37.0",
@@ -26,11 +28,14 @@
     "@types/node": "^16.11.1",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "concurrently": "^6.3.0",
     "eslint": "^8.0.1",
-    "eslint-plugin-json-format": "^2.0.1",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-vue": "^7.19.1",
     "rollup-plugin-styles": "^3.14.1",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "vue-eslint-parser": "^8.0.0"
   }
 }

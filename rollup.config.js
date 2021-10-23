@@ -12,7 +12,7 @@ export default {
 	output: {
 		file: path.join(
 			__dirname,
-			"./build/code.js"
+			"./build/figma/code.js"
 		),
 		format: "cjs",
 	},
