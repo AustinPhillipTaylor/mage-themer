@@ -3,18 +3,27 @@
 	<div class="container">
 		<app-header class="header" />
 		<div class="main">
-			<app-sidebar class="sidebar" />
+			<app-sidebar
+				class="sidebar"
+				:themes="themes"
+				:palettes="palettes"
+				:selected="selectedView"
+				@setView="setView"
+			/>
 			<app-workspace class="workspace" />
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import AppWorkspace from './components/AppWorkspace.vue'
 import AppSidebar from './components/AppSidebar.vue'
 import WindowResize from './components/WindowResize.vue'
+import * as data from './dummy-data/data'
+import { Palettes } from './types/palette'
+import { Themes } from './types/theme'
 
 export default defineComponent( {
 	components: {
@@ -24,8 +33,21 @@ export default defineComponent( {
 		WindowResize,
 	},
 	setup() {
-		return {
 
+		const palettes: Palettes = data.palettes
+		const themes: Themes = data.themes
+		const selectedView = ref( '' )
+
+		function setView( e:any ) {
+			selectedView.value = e.guid
+			console.log( e )
+		}
+
+		return {
+			palettes,
+			themes,
+			selectedView,
+			setView,
 		}
 	},
 } )

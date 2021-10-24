@@ -1,7 +1,7 @@
-import { Palette } from './palette'
-import { Theme } from './theme'
+import { Palettes } from './palette'
+import { Themes } from './theme'
 
 export interface AppData {
-	palettes: Palette[]
-	themes: Theme[]
+	palettes: Palettes
+	themes: Themes
 }

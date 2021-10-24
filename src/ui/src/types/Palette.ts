@@ -1,4 +1,4 @@
-interface PaletteColor {
+export interface PaletteColor {
 	/** Unique Identifier */
 	guid: string
 	/** Display Name */
@@ -7,11 +7,21 @@ interface PaletteColor {
 	rgb: RGB
 }
 
+interface PaletteColors {
+	/** Each palette color is referenced by its GUID */
+	[guid: string]: PaletteColor
+}
+
 export interface Palette {
 	/** Unique Identifier */
 	guid: string
 	/** Display Name */
 	name: string
 	/** Array of palette colors */
-	colors: Array<PaletteColor>
+	colors: PaletteColors
+}
+
+export interface Palettes {
+	/** Each palette is referenced by its GUID */
+	[guid: string]: Palette
 }

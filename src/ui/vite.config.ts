@@ -1,12 +1,12 @@
-import { defineConfig } from "vite"
-import vue from "@vitejs/plugin-vue"
-import { viteSingleFile } from "vite-plugin-singlefile"
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import { viteSingleFile } from 'vite-plugin-singlefile'
 
 // https://vitejs.dev/config/
 export default defineConfig( {
 	build: {
-		outDir: "../../build/ui",
-		target: "esnext",
+		outDir: '../../build/ui',
+		target: 'esnext',
 		assetsInlineLimit: 100000000,
 		chunkSizeWarningLimit: 100000000,
 		cssCodeSplit: false,
@@ -14,12 +14,12 @@ export default defineConfig( {
 		rollupOptions: {
 			inlineDynamicImports: true,
 			output: {
-				manualChunks: () => "main.js",
+				manualChunks: () => 'main.js',
 			},
 		},
 	},
 	plugins: [
 		vue(),
-		viteSingleFile()
+		viteSingleFile(),
 	],
 } )
