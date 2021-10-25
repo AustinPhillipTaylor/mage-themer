@@ -11,8 +11,8 @@
 					class="sidebar"
 					:themes="themes"
 					:palettes="palettes"
-					:selected="selectedViewID"
-					@setViewID="setViewID"
+					:selected="appView.viewProps?.guid || ''"
+					@setAppView="setAppView"
 				/>
 			</perfect-scrollbar>
 			<perfect-scrollbar>
@@ -48,24 +48,38 @@ export default defineComponent( {
 
 		const palettes: Palettes = data.palettes
 		const themes: Themes = data.themes
-		const selectedViewID: Ref<string> = ref( '' )
-		const appView = reactive( {
+		const appView = reactive<AppView> ( {
 			// Default app view is the dashboard
 			component: ViewDashboard,
 			header: 'Dashboard',
 			viewProps: {},
 		} )
 
-		function setViewID( e:any ) {
-			selectedViewID.value = e.guid
+		/**
+		 * Atomize each setting for appView in order to allow individual pieces
+		 * to be easily updated without updating the entire view.
+		 */
+		function setWorkspaceComponent( component: AppView['component'] ) {
+			appView.component = component
+		}
+		function setHeaderTitle( title: AppView['header'] ) {
+			appView.header = title
+		}
+		function setViewProps( props: AppView['viewProps'] ) {
+			appView.viewProps = props
+		}
+
+		function setAppView( view: AppView ) {
+			setWorkspaceComponent( view.component )
+			setHeaderTitle( view.header )
+			setViewProps( view.viewProps || {} )
 		}
 
 		return {
 			palettes,
 			themes,
-			selectedViewID,
-			setViewID,
 			appView,
+			setAppView,
 		}
 	},
 } )

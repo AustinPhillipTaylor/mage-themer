@@ -13,7 +13,7 @@
 				v-for="(theme, guid) in themes"
 				:key="guid"
 				:class="['sidebar-button', { 'current': selected === guid as string }]"
-				@click="setView(theme)"
+				@click="setAppView( 'theme', `Theme - ${theme.name}`, theme )"
 			>
 				{{ theme.name }}
 			</li>
@@ -31,7 +31,7 @@
 				v-for="(palette, guid) in palettes"
 				:key="guid"
 				:class="['sidebar-button', { 'current': selected === guid as string }]"
-				@click="setView(palette)"
+				@click="setAppView( 'theme', `Palette - ${palette.name}`, palette )"
 			>
 				{{ palette.name }}
 			</li>
@@ -41,8 +41,11 @@
 
 <script lang="ts">
 import { defineComponent, ref, PropType } from 'vue'
-import { Palettes } from '../types/palette'
-import { Themes } from '../types/theme'
+import ViewPalette from '../views/ViewPalette.vue'
+import ViewTheme from '../views/ViewTheme.vue'
+import { Palette, Palettes } from '../types/palette'
+import { Theme, Themes } from '../types/theme'
+import { AppView } from '../types/AppView'
 
 export default defineComponent( {
 	props: {
@@ -61,15 +64,24 @@ export default defineComponent( {
 			required: false,
 		},
 	},
-	emits: [ 'setViewID' ],
+	emits: [ 'setAppView' ],
 	setup( props, { emit } ) {
 
-		function setView( view: any ) {
-			 emit( 'setViewID', view )
+		function setAppView( type: 'palette' | 'theme', header: string, data: Palette | Theme ) {
+			const view: AppView = {
+				component: () => {
+					if( type === 'palette' ) return ViewPalette
+					if( type === 'theme' ) return ViewTheme
+					return {}
+				},
+				header,
+				viewProps: data,
+			}
+			emit( 'setAppView', view )
 		}
 
 		return {
-			setView,
+			setAppView,
 		}
 	},
 } )
