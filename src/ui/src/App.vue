@@ -3,13 +3,15 @@
 	<div class="container">
 		<app-header class="header" />
 		<div class="main">
-			<app-sidebar
-				class="sidebar"
-				:themes="themes"
-				:palettes="palettes"
-				:selected="selectedView"
-				@setView="setView"
-			/>
+			<perfect-scrollbar>
+				<app-sidebar
+					class="sidebar"
+					:themes="themes"
+					:palettes="palettes"
+					:selected="selectedView"
+					@setView="setView"
+				/>
+			</perfect-scrollbar>
 			<app-workspace class="workspace" />
 		</div>
 	</div>
@@ -21,7 +23,7 @@ import AppHeader from './components/AppHeader.vue'
 import AppWorkspace from './components/AppWorkspace.vue'
 import AppSidebar from './components/AppSidebar.vue'
 import WindowResize from './components/WindowResize.vue'
-import * as data from './dummy-data/data'
+import * as data from './mock-data/data'
 import { Palettes } from './types/palette'
 import { Themes } from './types/theme'
 

@@ -76,40 +76,47 @@ export default defineComponent( {
 </script>
 
 <style lang="sass" scoped>
-@use '../styles/mixins/fonts' as fonts
+@use '../styles/mixins/fonts'
+@use '../styles/mixins/colors'
 
 .sidebar
 	@include fonts.font-sidebar
 	overflow-y: auto
-	border-right: 1px solid #E9EDF0
-	padding: 12px
+	border-right: 1px solid colors.$sidebar-border
+	padding: 8px
+	background: colors.$sidebar-background
+	color: colors.$sidebar-link-text
 	.section-label
 		@include fonts.font-sidebar-label
-		width: 100%
+		width: auto
 		height: auto
-		color: #797B7E
-		border-bottom: 1px solid #BDBFC4
-		margin: 0 0 8px 0
-		padding: 24px 0 2px 0
+		color: colors.$sidebar-label-text
+		border-bottom: 1px solid colors.$sidebar-label-border
+		margin: 0 8px 4px 8px
+		padding: 24px 2px 4px 2px
+		display: block
 		&:nth-child(1)
 			padding-top: 8px
 	ul
 		li
 			&.sidebar-button
 				text-align: left
-				padding: 6px
+				padding: 8px 12px
 				border-radius: 4px
 				background: transparent
-				width: 100%
+				width: auto
 				display: block
-				margin: 8px 0
+				margin: 4px 0
 				border: none
 				outline: none
-				font-weight: 500
 				&:hover,
 				&.current
+					color: colors.$sidebar-link-text-hover
 					cursor: pointer
-					background: #F1F5F9
+					background: colors.$sidebar-link-hover-bg
+					border: 1px solid colors.$sidebar-border
+					padding: 7px 11px
 				&:active
-					background: #e8ecf1
+					color: colors.$sidebar-link-text-active
+					background: colors.$sidebar-link-active-bg
 </style>

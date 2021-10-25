@@ -14,6 +14,7 @@
     "vite": "^2.6.4",
     "vite-plugin-singlefile": "^0.5.1",
     "vue": "^3.2.20",
-    "vue-tsc": "^0.3.0"
+    "vue-tsc": "^0.3.0",
+    "vue3-perfect-scrollbar": "^1.5.5"
   }
 }
