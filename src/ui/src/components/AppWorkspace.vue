@@ -1,13 +1,23 @@
 <template>
 	<div class="workspace">
-		Workspace
+		<component
+			:is="appView.component"
+			:="appView.viewProps"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, PropType } from 'vue'
+import { AppView } from '../types/AppView'
 
 export default defineComponent( {
+	props: {
+		appView: {
+			type: Object as PropType<AppView>,
+			required: true,
+		},
+	},
 	setup() {
 		return { }
 	},

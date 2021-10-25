@@ -1,31 +1,41 @@
 <template>
 	<window-resize />
 	<div class="container">
-		<app-header class="header" />
+		<app-header
+			class="header"
+			:title="appView.header"
+		/>
 		<div class="main">
 			<perfect-scrollbar>
 				<app-sidebar
 					class="sidebar"
 					:themes="themes"
 					:palettes="palettes"
-					:selected="selectedView"
-					@setView="setView"
+					:selected="selectedViewID"
+					@setViewID="setViewID"
 				/>
 			</perfect-scrollbar>
-			<app-workspace class="workspace" />
+			<perfect-scrollbar>
+				<app-workspace
+					class="workspace"
+					:appView="appView"
+				/>
+			</perfect-scrollbar>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, Ref, reactive, computed } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import AppWorkspace from './components/AppWorkspace.vue'
 import AppSidebar from './components/AppSidebar.vue'
 import WindowResize from './components/WindowResize.vue'
+import ViewDashboard from './views/ViewDashboard.vue'
 import * as data from './mock-data/data'
 import { Palettes } from './types/palette'
 import { Themes } from './types/theme'
+import { AppView } from './types/AppView'
 
 export default defineComponent( {
 	components: {
@@ -38,18 +48,24 @@ export default defineComponent( {
 
 		const palettes: Palettes = data.palettes
 		const themes: Themes = data.themes
-		const selectedView = ref( '' )
+		const selectedViewID: Ref<string> = ref( '' )
+		const appView = reactive( {
+			// Default app view is the dashboard
+			component: ViewDashboard,
+			header: 'Dashboard',
+			viewProps: {},
+		} )
 
-		function setView( e:any ) {
-			selectedView.value = e.guid
-			console.log( e )
+		function setViewID( e:any ) {
+			selectedViewID.value = e.guid
 		}
 
 		return {
 			palettes,
 			themes,
-			selectedView,
-			setView,
+			selectedViewID,
+			setViewID,
+			appView,
 		}
 	},
 } )
