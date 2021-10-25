@@ -61,11 +61,11 @@ export default defineComponent( {
 			required: false,
 		},
 	},
-	emits: [ 'setView' ],
+	emits: [ 'setViewID' ],
 	setup( props, { emit } ) {
 
 		function setView( view: any ) {
-			 emit( 'setView', view )
+			 emit( 'setViewID', view )
 		}
 
 		return {
