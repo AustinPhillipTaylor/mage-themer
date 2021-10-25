@@ -86,6 +86,7 @@ export default defineComponent( {
 	padding: 8px
 	background: colors.$sidebar-background
 	color: colors.$sidebar-link-text
+	min-height: calc(100% - 1px) // Subtract 1px because theres an odd overflow in Figma's iframe
 	.section-label
 		@include fonts.font-sidebar-label
 		width: auto

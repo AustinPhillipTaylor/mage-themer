@@ -73,4 +73,7 @@ export default defineComponent( {
 		display: grid
 		grid-template-columns: 220px 1fr
 		overflow: hidden
+		.ps // Perfect scrollbar wrapper
+			height: calc( 100% - 1px ) // Subtract 1px because theres an odd overflow in Figma's iframe
+
 </style>
