@@ -3,7 +3,7 @@
 		<span class="material-icons-outlined header-icon">
 			add
 		</span>
-		<span class="title" > Header </span>
+		<span class="title" > {{ title }} </span>
 	</div>
 </template>
 
@@ -11,6 +11,12 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent( {
+	props: {
+		title: {
+			type: String,
+			required: true,
+		},
+	},
 	setup() {
 		return { }
 	},
