@@ -2,7 +2,7 @@
 	<div class="workspace">
 		<component
 			:is="appView.component"
-			:="appView.viewProps"
+			:data="appView.viewData"
 		/>
 	</div>
 </template>

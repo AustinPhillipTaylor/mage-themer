@@ -75,7 +75,7 @@ export default defineComponent( {
 					return {}
 				},
 				header,
-				viewProps: data,
+				viewData: data,
 			}
 			emit( 'setAppView', view )
 		}

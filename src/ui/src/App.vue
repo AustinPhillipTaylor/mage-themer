@@ -11,7 +11,7 @@
 					class="sidebar"
 					:themes="themes"
 					:palettes="palettes"
-					:selected="appView.viewProps?.guid || ''"
+					:selected="appView.viewData?.guid || ''"
 					@setAppView="setAppView"
 				/>
 			</perfect-scrollbar>
@@ -52,7 +52,7 @@ export default defineComponent( {
 			// Default app view is the dashboard
 			component: ViewDashboard,
 			header: 'Dashboard',
-			viewProps: {},
+			viewData: {},
 		} )
 
 		/**
@@ -65,14 +65,14 @@ export default defineComponent( {
 		function setHeaderTitle( title: AppView['header'] ) {
 			appView.header = title
 		}
-		function setViewProps( props: AppView['viewProps'] ) {
-			appView.viewProps = props
+		function setViewProps( props: AppView['viewData'] ) {
+			appView.viewData = props
 		}
 
 		function setAppView( view: AppView ) {
 			setWorkspaceComponent( view.component )
 			setHeaderTitle( view.header )
-			setViewProps( view.viewProps || {} )
+			setViewProps( view.viewData || {} )
 		}
 
 		return {
