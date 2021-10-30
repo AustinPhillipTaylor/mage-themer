@@ -1,41 +1,24 @@
 <template>
 	<window-resize />
 	<div class="container">
-		<app-header
-			class="header"
-			:title="appView.header"
-		/>
+		<app-header class="header" />
 		<div class="main">
 			<perfect-scrollbar>
-				<app-sidebar
-					class="sidebar"
-					:themes="themes"
-					:palettes="palettes"
-					:selected="appView.viewData?.guid || ''"
-					@setAppView="setAppView"
-				/>
+				<app-sidebar class="sidebar" />
 			</perfect-scrollbar>
 			<perfect-scrollbar>
-				<app-workspace
-					class="workspace"
-					:appView="appView"
-				/>
+				<app-workspace class="workspace" />
 			</perfect-scrollbar>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, reactive, computed } from 'vue'
+import { defineComponent } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import AppWorkspace from './components/AppWorkspace.vue'
 import AppSidebar from './components/AppSidebar.vue'
 import WindowResize from './components/WindowResize.vue'
-import ViewDashboard from './views/ViewDashboard.vue'
-import * as data from './mock-data/data'
-import { Palettes } from './types/palette'
-import { Themes } from './types/theme'
-import { AppView } from './types/AppView'
 
 export default defineComponent( {
 	components: {
@@ -43,44 +26,6 @@ export default defineComponent( {
 		AppWorkspace,
 		AppSidebar,
 		WindowResize,
-	},
-	setup() {
-
-		const palettes: Palettes = data.palettes
-		const themes: Themes = data.themes
-		const appView = reactive<AppView> ( {
-			// Default app view is the dashboard
-			component: ViewDashboard,
-			header: 'Dashboard',
-			viewData: {},
-		} )
-
-		/**
-		 * Atomize each setting for appView in order to allow individual pieces
-		 * to be easily updated without updating the entire view.
-		 */
-		function setWorkspaceComponent( component: AppView['component'] ) {
-			appView.component = component
-		}
-		function setHeaderTitle( title: AppView['header'] ) {
-			appView.header = title
-		}
-		function setViewProps( props: AppView['viewData'] ) {
-			appView.viewData = props
-		}
-
-		function setAppView( view: AppView ) {
-			setWorkspaceComponent( view.component )
-			setHeaderTitle( view.header )
-			setViewProps( view.viewData || {} )
-		}
-
-		return {
-			palettes,
-			themes,
-			appView,
-			setAppView,
-		}
 	},
 } )
 </script>

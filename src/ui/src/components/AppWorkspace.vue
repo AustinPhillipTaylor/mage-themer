@@ -1,25 +1,26 @@
 <template>
 	<div class="workspace">
 		<component
-			:is="appView.component"
-			:data="appView.viewData"
+			:is="workspaceComponent"
+			:data="viewData"
 		/>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType } from 'vue'
-import { AppView } from '../types/AppView'
+import { storeToRefs } from 'pinia'
+import { defineComponent } from 'vue'
+import { useAppStore } from '../stores/app'
 
 export default defineComponent( {
-	props: {
-		appView: {
-			type: Object as PropType<AppView>,
-			required: true,
-		},
-	},
 	setup() {
-		return { }
+		const appStore = useAppStore()
+		const { workspaceComponent, viewData } = storeToRefs( appStore )
+
+		return {
+			workspaceComponent,
+			viewData,
+		}
 	},
 } )
 </script>

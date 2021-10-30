@@ -12,8 +12,12 @@
 			<li
 				v-for="(theme, guid) in themes"
 				:key="guid"
-				:class="['sidebar-button', { 'current': selected === guid as string }]"
-				@click="setAppView( 'theme', `Theme - ${theme.name}`, theme )"
+				:class="['sidebar-button', { 'current': selectedItemGUID === guid as string }]"
+				@click="setAppView( {
+					workspaceComponent: ViewTheme,
+					header: `Theme - ${theme.name}`,
+					viewData: theme,
+				})"
 			>
 				{{ theme.name }}
 			</li>
@@ -30,8 +34,12 @@
 			<li
 				v-for="(palette, guid) in palettes"
 				:key="guid"
-				:class="['sidebar-button', { 'current': selected === guid as string }]"
-				@click="setAppView( 'theme', `Palette - ${palette.name}`, palette )"
+				:class="['sidebar-button', { 'current': selectedItemGUID === guid as string }]"
+				@click="setAppView( {
+					workspaceComponent: ViewPalette,
+					header: `Palette - ${palette.name}`,
+					viewData: palette,
+				})"
 			>
 				{{ palette.name }}
 			</li>
@@ -43,45 +51,31 @@
 import { defineComponent, ref, PropType } from 'vue'
 import ViewPalette from '../views/ViewPalette.vue'
 import ViewTheme from '../views/ViewTheme.vue'
-import { Palette, Palettes } from '../types/palette'
-import { Theme, Themes } from '../types/theme'
 import { AppView } from '../types/AppView'
+import { useAppStore } from '../stores/app'
+import { usePalettesStore } from '../stores/palettes'
+import { useThemesStore } from '../stores/themes'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent( {
-	props: {
-		themes: {
-			type: Object as PropType<Themes>,
-			default: () => ( {} ),
-			required: false,
-		},
-		palettes: {
-			type: Object as PropType<Palettes>,
-			default: () => ( {} ),
-			required: false,
-		},
-		selected: {
-			type: String,
-			required: false,
-		},
-	},
-	emits: [ 'setAppView' ],
-	setup( props, { emit } ) {
+	setup() {
+		const appStore = useAppStore()
+		const { setAppView } = appStore
+		const { selectedItemGUID } = storeToRefs( appStore )
 
-		function setAppView( type: 'palette' | 'theme', header: string, data: Palette | Theme ) {
-			const view: AppView = {
-				component: () => {
-					if( type === 'palette' ) return ViewPalette
-					if( type === 'theme' ) return ViewTheme
-					return {}
-				},
-				header,
-				viewData: data,
-			}
-			emit( 'setAppView', view )
-		}
+		const paletteStore = usePalettesStore()
+		const { palettes } = storeToRefs( paletteStore )
+
+		const themeStore = useThemesStore()
+		const { themes } = storeToRefs( themeStore )
 
 		return {
 			setAppView,
+			selectedItemGUID,
+			palettes,
+			themes,
+			ViewPalette,
+			ViewTheme,
 		}
 	},
 } )

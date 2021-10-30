@@ -3,22 +3,22 @@
 		<span class="material-icons-outlined header-icon">
 			add
 		</span>
-		<span class="title" > {{ title }} </span>
+		<span class="title" > {{ header }} </span>
 	</div>
 </template>
 
 <script lang="ts">
+import { storeToRefs } from 'pinia'
 import { defineComponent, ref } from 'vue'
+import { useAppStore } from '../stores/app'
 
 export default defineComponent( {
-	props: {
-		title: {
-			type: String,
-			required: true,
-		},
-	},
 	setup() {
-		return { }
+
+		const appStore = useAppStore()
+		const { header } = storeToRefs( appStore )
+
+		return { header }
 	},
 } )
 </script>
