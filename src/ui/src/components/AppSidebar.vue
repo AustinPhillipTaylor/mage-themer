@@ -51,7 +51,6 @@
 import { defineComponent, ref, PropType } from 'vue'
 import ViewPalette from '../views/ViewPalette.vue'
 import ViewTheme from '../views/ViewTheme.vue'
-import { AppView } from '../types/AppView'
 import { useAppStore } from '../stores/app'
 import { usePalettesStore } from '../stores/palettes'
 import { useThemesStore } from '../stores/themes'
