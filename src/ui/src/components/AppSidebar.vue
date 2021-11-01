@@ -87,8 +87,7 @@ export default defineComponent( {
 .sidebar
 	@include fonts.font-sidebar
 	overflow-y: auto
-	border-right: 1px solid colors.$sidebar-border
-	padding: 8px
+	padding: 0
 	background: colors.$sidebar-background
 	color: colors.$sidebar-link-text
 	min-height: calc(100% - 1px) // Subtract 1px because theres an odd overflow in Figma's iframe
@@ -98,31 +97,34 @@ export default defineComponent( {
 		height: auto
 		color: colors.$sidebar-label-text
 		border-bottom: 1px solid colors.$sidebar-label-border
-		margin: 0 8px 4px 8px
+		margin: 0 14px 8px 14px
 		padding: 24px 2px 4px 2px
 		display: block
 		&:nth-child(1)
-			padding-top: 8px
+			padding-top: 16px
 	ul
 		li
 			&.sidebar-button
 				text-align: left
-				padding: 8px 12px
-				border-radius: 4px
+				padding: 8px 16px 8px 12px
 				background: transparent
 				width: auto
 				display: block
-				margin: 4px 0
+				margin: 0
 				border: none
 				outline: none
-				&:hover,
+				border-left: 4px solid colors.$sidebar-link-border
 				&.current
 					color: colors.$sidebar-link-text-hover
 					cursor: pointer
 					background: colors.$sidebar-link-hover-bg
-					border: 1px solid colors.$sidebar-border
-					padding: 7px 11px
+					border-left: 4px solid colors.$sidebar-link-border-current
+					&:hover
+						border-left: 4px solid colors.$sidebar-link-border-current
+				&:hover,
 				&:active
+					cursor: pointer
 					color: colors.$sidebar-link-text-active
 					background: colors.$sidebar-link-active-bg
+					border-left: 4px solid colors.$sidebar-link-border-hover
 </style>

@@ -1,7 +1,24 @@
 @use './mixins/fonts' as fonts
 
 html, body, *
+	@include fonts.global-font-style
 	padding: 0
 	margin: 0
-	font-family: fonts.$font-family-main
 	box-sizing: border-box
+
+.ps // Perfect scrollbar wrapper
+	height: calc( 100% - 1px ) // Subtract 1px because theres an odd overflow in Figma's iframe
+	&:hover
+		&>.ps__rail-x,
+		&>.ps__rail-y
+			opacity: 0
+	&.ps--focus
+		&>.ps__rail-x,
+		&>.ps__rail-y
+			opacity: .6
+	&.ps--scrolling-x
+		&>.ps__rail-x
+			opacity: .6
+	&.ps--scrolling-y
+		&>.ps__rail-y
+			opacity: .6

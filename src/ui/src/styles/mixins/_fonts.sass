@@ -4,6 +4,10 @@
 $font-family-main: 'Inter', sans-serif
 
 
+@mixin global-font-style
+	font-family: $font-family-main
+	-webkit-font-smoothing: antialiased
+
 @mixin font-header
 	font-family: $font-family-main
 	font-size: 14px
@@ -11,8 +15,9 @@ $font-family-main: 'Inter', sans-serif
 
 @mixin font-sidebar
 	font-family: $font-family-main
-	font-size: 15px
+	font-size: 14px
 	font-weight: 500
+	letter-spacing: .02rem
 
 @mixin font-sidebar-label
 	font-family: $font-family-main
