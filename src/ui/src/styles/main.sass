@@ -1,5 +1,8 @@
 @use './mixins/fonts' as fonts
 
+html
+	@include fonts.html-font-size
+
 html, body, *
 	@include fonts.global-font-style
 	padding: 0

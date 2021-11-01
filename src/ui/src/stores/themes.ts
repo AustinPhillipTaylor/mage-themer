@@ -3,7 +3,7 @@ import * as data from '../mock-data/data'
 import { Themes } from '../types/Theme'
 
 // Grab initial theme state, or set to empty
-const themes: Themes = data.themes || {}
+const themes: Themes = {}
 
 export const useThemesStore = defineStore( {
 	id: 'themes',

@@ -4,7 +4,10 @@
 		<div
 			v-if="Object.keys(themes).length < 1"
 			class="no-items-notice"
-		> No Themes. Create one to get started. </div>
+		>
+			<span class="no-items-title" >No themes found</span>
+			<span class="no-items-guide" >Start creating a new theme using the add (+) icon in the top left.</span>
+		</div>
 		<ul
 			v-else
 			class="themes"
@@ -26,7 +29,10 @@
 		<div
 			v-if="Object.keys(palettes).length < 1"
 			class="no-items-notice"
-		> No Palettes. Create one to get started. </div>
+		>
+			<span class="no-items-title" >No palettes found</span>
+			<span class="no-items-guide" >Start creating a new palette using the add (+) icon in the top left.</span>
+		</div>
 		<ul
 			v-else
 			class="palettes"
@@ -102,6 +108,17 @@ export default defineComponent( {
 		display: block
 		&:nth-child(1)
 			padding-top: 16px
+	.no-items-notice
+		padding: 4px 16px
+		text-align: center
+		.no-items-title
+			@include fonts.font-sidebar-empty-title
+			display: block
+			padding: 0 0 2px 0
+		.no-items-guide
+			@include fonts.font-sidebar-empty-guide
+			display: block
+			color: colors.$sidebar-label-text
 	ul
 		li
 			&.sidebar-button

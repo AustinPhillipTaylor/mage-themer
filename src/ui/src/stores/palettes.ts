@@ -3,7 +3,7 @@ import * as data from '../mock-data/data'
 import { Palettes } from '../types/Palette'
 
 // Grab initial palette state, or set to empty
-const palettes: Palettes = data.palettes || {}
+const palettes: Palettes =  {}
 
 export const usePalettesStore = defineStore( {
 	id: 'palettes',
