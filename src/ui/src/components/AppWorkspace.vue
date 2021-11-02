@@ -29,7 +29,7 @@ export default defineComponent( {
 @use '../styles/mixins/fonts' as fonts
 
 .workspace
-	@include fonts.font-workspace
+	@include fonts.workspace
 	overflow-y: auto
 	padding: 12px
 </style>

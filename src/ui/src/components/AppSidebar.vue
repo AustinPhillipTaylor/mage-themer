@@ -91,14 +91,14 @@ export default defineComponent( {
 @use '../styles/mixins/colors'
 
 .sidebar
-	@include fonts.font-sidebar
+	@include fonts.sidebar
 	overflow-y: auto
 	padding: 0
 	background: colors.$sidebar-background
 	color: colors.$sidebar-link-text
 	min-height: calc(100% - 1px) // Subtract 1px because theres an odd overflow in Figma's iframe
 	.section-label
-		@include fonts.font-sidebar-label
+		@include fonts.sidebar-label
 		width: auto
 		height: auto
 		color: colors.$sidebar-label-text
@@ -112,11 +112,11 @@ export default defineComponent( {
 		padding: 4px 16px
 		text-align: center
 		.no-items-title
-			@include fonts.font-sidebar-empty-title
+			@include fonts.sidebar-empty-title
 			display: block
 			padding: 0 0 2px 0
 		.no-items-guide
-			@include fonts.font-sidebar-empty-guide
+			@include fonts.sidebar-empty-guide
 			display: block
 			color: colors.$sidebar-label-text
 	ul

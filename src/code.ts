@@ -1,8 +1,8 @@
 import { ColorVariant } from './types/colorVariant'
-import { createOrUpdateStyle } from './utils/createOrUpdateStyle'
-import { generateThemeVariants } from './utils/generateThemeVariants'
-import { generateVariantName } from './utils/generateVariantName'
-import { getPalette } from './utils/getPalette'
+// import { createOrUpdateStyle } from './utils/createOrUpdateStyle'
+// import { generateThemeVariants } from './utils/generateThemeVariants'
+// import { generateVariantName } from './utils/generateVariantName'
+// import { getPalette } from './utils/getPalette'
 
 const paletteFolder = 'Palette'
 const step = 5
@@ -22,21 +22,21 @@ figma.showUI( __html__, {
 } )
 
 
-function setPaintStyles() {
-	const variants: ColorVariant[] = []
-	const styles = figma.getLocalPaintStyles()
-	const palette = getPalette( paletteFolder, styles )
-	variants.push(
-		...generateThemeVariants( 'Light', palette, lightMixColor, darkMixColor, step ),
-		...generateThemeVariants( 'Dark', palette, darkMixColor, lightMixColor, step )
-	)
+// function setPaintStyles() {
+// 	const variants: ColorVariant[] = []
+// 	const styles = figma.getLocalPaintStyles()
+// 	const palette = getPalette( paletteFolder, styles )
+// 	variants.push(
+// 		...generateThemeVariants( 'Light', palette, lightMixColor, darkMixColor, step ),
+// 		...generateThemeVariants( 'Dark', palette, darkMixColor, lightMixColor, step )
+// 	)
 
-	// Generate paint styles from list of variants
-	variants.forEach( ( variant ) => {
-		const name = generateVariantName( variant )
-		createOrUpdateStyle( name, variant.color, styles )
-	} )
-}
+// 	// Generate paint styles from list of variants
+// 	variants.forEach( ( variant ) => {
+// 		const name = generateVariantName( variant )
+// 		createOrUpdateStyle( name, variant.color, styles )
+// 	} )
+// }
 
 function resizerClicked() {
 	// If less then minimums, set to minimum
@@ -63,7 +63,7 @@ figma.ui.onmessage = ( msg ) => {
 	// One way of distinguishing between different types of messages sent from
 	// your HTML page is to use an object with a "type" property like this.
 	if ( msg.type === 'generate-styles' ) {
-		setPaintStyles()
+		// setPaintStyles()
 		// const nodes: SceneNode[] = []
 		// for ( let i = 0; i < msg.count; i++ ) {
 		// 	const rect = figma.createRectangle()

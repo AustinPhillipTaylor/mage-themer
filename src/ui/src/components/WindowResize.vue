@@ -1,5 +1,8 @@
 <template>
-	<span @mousedown="startDragging" class="resize-handle">
+	<span
+		@mousedown="startDragging"
+		class="resize-handle"
+	>
 		<span></span>
 	</span>
 </template>
@@ -15,9 +18,8 @@ export default defineComponent( {
 		const dragging = ref( false )
 
 		const startDragging = () => {
-			parent.postMessage( {
-				pluginMessage: {
-					type: 'resizerClicked'
+			parent.postMessage( { pluginMessage: {
+				type: 'resizerClicked',
 			}}, '*' )
 			window.addEventListener( 'mousemove', windowResize )
 			window.addEventListener( 'mouseup', endDragging )
@@ -30,11 +32,10 @@ export default defineComponent( {
 		}
 		const windowResize = ( e: any ) => {
 			e.preventDefault()
-			parent.postMessage( {
-				pluginMessage: {
-					type: 'resizeWindow',
-					widthAdd: e.movementX,
-					heightAdd: e.movementY,
+			parent.postMessage( { pluginMessage: {
+				type: 'resizeWindow',
+				widthAdd: e.movementX,
+				heightAdd: e.movementY,
 			}}, '*' )
 		}
 

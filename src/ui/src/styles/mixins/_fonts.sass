@@ -3,33 +3,36 @@
 
 $font-family-main: 'Inter', sans-serif
 
-@mixin html-font-size
+@mixin html-size
 	font-size: 62.5% // Default size 10px for easy math
 
-@mixin global-font-style
+@mixin global
 	font-family: $font-family-main
 	-webkit-font-smoothing: antialiased
 
-@mixin font-header
+@mixin header
 	font-size: 1.4rem
 	font-weight: 600
 
-@mixin font-sidebar
+@mixin header-add-options
+	font-size: 1.5rem
+
+@mixin sidebar
 	font-size: 1.4rem
 	font-weight: 500
 	letter-spacing: .03rem
 
-@mixin font-sidebar-empty-title
+@mixin sidebar-empty-title
 	font-weight: 600
 
-@mixin font-sidebar-empty-guide
+@mixin sidebar-empty-guide
 	font-size: 1.3rem
 	text-align: justify
 
-@mixin font-sidebar-label
+@mixin sidebar-label
 	font-size: 1.3rem
 	font-weight: 400
 
-@mixin font-workspace
+@mixin workspace
 	font-size: 1.5rem
 	font-weight: 400

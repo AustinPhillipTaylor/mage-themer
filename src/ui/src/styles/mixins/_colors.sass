@@ -1,13 +1,20 @@
 @use 'sass:color'
 
+$main-dark: #3d404c
+$main-light: #fff
+$gray-10: #f0f4f9
+
 $orange: #f7971c
 
-$sidebar-background: #f0f4f9
-$sidebar-link-hover-bg: #fff
+
+$default-text: $main-dark
+
+$sidebar-background: $gray-10
+$sidebar-link-hover-bg: $main-light
 $sidebar-link-active-bg: $sidebar-link-hover-bg
-$sidebar-link-text: #4f5464
-$sidebar-label-text: color.adjust($sidebar-link-text, $lightness: 20%)
-$sidebar-label-border: color.adjust($sidebar-link-text, $lightness: 50%)
+$sidebar-link-text: $default-text
+$sidebar-label-text: color.adjust($sidebar-link-text, $lightness: 23%)
+$sidebar-label-border: color.adjust($sidebar-link-text, $lightness: 60%)
 $sidebar-link-text-hover: $sidebar-link-text
 $sidebar-link-text-active: $sidebar-link-text
 $sidebar-link-border: transparent

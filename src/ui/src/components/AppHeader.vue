@@ -1,8 +1,6 @@
 <template>
 	<div class="header" >
-		<span class="material-icons-outlined header-icon">
-			add
-		</span>
+		<header-add-entry />
 		<span class="title" > {{ header }} </span>
 	</div>
 </template>
@@ -11,8 +9,12 @@
 import { storeToRefs } from 'pinia'
 import { defineComponent, ref } from 'vue'
 import { useAppStore } from '../stores/app'
+import HeaderAddEntry from './HeaderAddEntry.vue'
 
 export default defineComponent( {
+	components: {
+		HeaderAddEntry,
+	},
 	setup() {
 
 		const appStore = useAppStore()
@@ -30,18 +32,8 @@ export default defineComponent( {
 	display: grid
 	grid-template-columns: 32px 32px [header-title] 1fr 32px 32px
 	border-bottom: 1px solid #E9EDF0
-	.header-icon
-		align-self: center
-		justify-self: center
-		padding: 2px
-		font-size: 20px
-		background: transparent
-		border-radius: 4px
-		&:hover
-			background: #E9EDF0
-			cursor: pointer
 	.title
-		@include fonts.font-header
+		@include fonts.header
 		height: 32px
 		width: 100%
 		display: inline-block
