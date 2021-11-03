@@ -9,6 +9,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { sendFigmaMessage } from '../utils/sendFigmaMessage'
 
 export default defineComponent( {
 	props: {
@@ -18,9 +19,9 @@ export default defineComponent( {
 		const dragging = ref( false )
 
 		const startDragging = () => {
-			parent.postMessage( { pluginMessage: {
+			sendFigmaMessage( {
 				type: 'resizerClicked',
-			}}, '*' )
+			} )
 			window.addEventListener( 'mousemove', windowResize )
 			window.addEventListener( 'mouseup', endDragging )
 			dragging.value = true
@@ -32,11 +33,11 @@ export default defineComponent( {
 		}
 		const windowResize = ( e: any ) => {
 			e.preventDefault()
-			parent.postMessage( { pluginMessage: {
+			sendFigmaMessage( {
 				type: 'resizeWindow',
 				widthAdd: e.movementX,
 				heightAdd: e.movementY,
-			}}, '*' )
+			} )
 		}
 
 		return {

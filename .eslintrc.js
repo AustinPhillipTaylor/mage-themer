@@ -73,6 +73,9 @@ module.exports = {
 		'indent': [
 			'error',
 			'tab',
+			{
+				'SwitchCase': 1,
+			},
 		],
 		'linebreak-style': [
 			'error',
