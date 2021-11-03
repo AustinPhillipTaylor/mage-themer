@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia'
 import { AppView } from '../types/AppView'
-import ViewDashboard from '../views/ViewDashboard.vue'
+import { viewTypes } from '../data/viewMap'
 
 export const useAppStore = defineStore( {
 	id: 'app',
 	state: (): AppView => ( {
-		// Default app view is the dashboard
-		workspaceComponent: ViewDashboard,
-		header: 'Dashboard',
+		workspaceComponent: {},
+		header: '',
 		viewData: {},
 	} ),
 	getters: {
@@ -25,10 +24,13 @@ export const useAppStore = defineStore( {
 		setViewData( data: AppView['viewData'] ) {
 			this.viewData = data
 		},
-		setAppView( view: AppView ) {
-			this.setWorkspaceComponent( view.workspaceComponent )
-			this.setHeaderTitle( view.header )
-			this.setViewData( view.viewData || {} )
+		setAppView( view: string, title?: string, guid?: string ) {
+			const viewDetails = viewTypes[view]
+			if( viewDetails ) {
+				this.setWorkspaceComponent( viewDetails.workspaceComponent )
+				this.setHeaderTitle( viewDetails.header( title ) || 'No Title' )
+				this.setViewData( viewDetails.viewData ? viewDetails.viewData( guid as string ) : {} )
+			}
 		},
 	},
 } )

@@ -19,6 +19,7 @@ import AppHeader from './components/AppHeader.vue'
 import AppWorkspace from './components/AppWorkspace.vue'
 import AppSidebar from './components/AppSidebar.vue'
 import WindowResize from './components/WindowResize.vue'
+import { useAppStore } from './stores/app'
 
 export default defineComponent( {
 	components: {
@@ -26,6 +27,11 @@ export default defineComponent( {
 		AppWorkspace,
 		AppSidebar,
 		WindowResize,
+	},
+	setup() {
+		const appStore = useAppStore()
+		appStore.setAppView( 'dashboard' )
+		return {}
 	},
 } )
 </script>

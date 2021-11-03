@@ -16,11 +16,7 @@
 				v-for="(theme, guid) in themes"
 				:key="guid"
 				:class="['sidebar-button', { 'current': selectedItemGUID === guid as string }]"
-				@click="setAppView( {
-					workspaceComponent: ViewTheme,
-					header: `Theme - ${theme.name}`,
-					viewData: theme,
-				})"
+				@click="setAppView( 'theme', theme.name, guid as string )"
 			>
 				{{ theme.name }}
 			</li>
@@ -41,11 +37,7 @@
 				v-for="(palette, guid) in palettes"
 				:key="guid"
 				:class="['sidebar-button', { 'current': selectedItemGUID === guid as string }]"
-				@click="setAppView( {
-					workspaceComponent: ViewPalette,
-					header: `Palette - ${palette.name}`,
-					viewData: palette,
-				})"
+				@click="setAppView( 'palette', palette.name, guid as string )"
 			>
 				{{ palette.name }}
 			</li>
@@ -55,8 +47,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, PropType } from 'vue'
-import ViewPalette from '../views/ViewPalette.vue'
-import ViewTheme from '../views/ViewTheme.vue'
 import { useAppStore } from '../stores/app'
 import { usePalettesStore } from '../stores/palettes'
 import { useThemesStore } from '../stores/themes'
@@ -79,8 +69,6 @@ export default defineComponent( {
 			selectedItemGUID,
 			palettes,
 			themes,
-			ViewPalette,
-			ViewTheme,
 		}
 	},
 } )
