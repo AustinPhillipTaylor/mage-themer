@@ -64,7 +64,7 @@ figma.ui.onmessage = ( msg ) => {
 			resizeWindow( msg.widthAdd, msg.heightAdd )
 			break
 		case 'saveLocal':
-			saveLocal( msg.storageKey, msg.payload, msg.messageIdentifier )
+			saveLocal( msg.storageKey, msg.messageIdentifier, msg.data )
 			break
 		case 'readLocal':
 			readLocal( msg.storageKey, msg.messageIdentifier )
