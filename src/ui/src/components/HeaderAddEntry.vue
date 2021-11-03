@@ -10,8 +10,8 @@
 			<div
 				:class="['entry-options', { 'adding-entry': addingEntry }]"
 			>
-				<span @click="addNewTheme" > Add new theme </span>
-				<span @click="addNewPalette" > Add new palette </span>
+				<span @click="addTheme" > Add new theme </span>
+				<span @click="addPalette" > Add new palette </span>
 			</div>
 		</div>
 	</div>
@@ -20,11 +20,17 @@
 <script lang="ts">
 import { storeToRefs } from 'pinia'
 import { defineComponent, ref } from 'vue'
-import { useAppStore } from '../stores/app'
+import { usePalettesStore } from '../stores/palettes'
+import { useThemesStore } from '../stores/themes'
 
 export default defineComponent( {
 	setup() {
 		const addingEntry = ref( false )
+		const themeStore = useThemesStore()
+		const paletteStore = usePalettesStore()
+		const { addTheme } = themeStore
+		const { addPalette } = paletteStore
+
 
 		function toggleEntryList( e: Event ) {
 			e.stopPropagation()
@@ -37,14 +43,11 @@ export default defineComponent( {
 			}
 		}
 
-		function addNewTheme() { console.log( 'Adding new theme' ) }
-		function addNewPalette() { console.log( 'Adding new palette' ) }
-
 		return {
 			addingEntry,
 			toggleEntryList,
-			addNewTheme,
-			addNewPalette,
+			addTheme,
+			addPalette,
 		}
 	},
 } )

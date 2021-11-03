@@ -1,36 +1,41 @@
 import { defineStore } from 'pinia'
-import * as data from '../mock-data/data'
 import { Palettes } from '../types/Palette'
-import { postMessageResponse } from '../utils/postMessageResponse'
+import { v4 as uuidv4 } from 'uuid'
+import { readLocal } from '../utils/localStorage'
+import { useAppStore } from './app'
 
 const paletteStorageKey = 'theme-styles-palettes'
 
-async function getLocalPalettes() {
-	const localPaletteInfo = await postMessageResponse( {
-		type: 'readLocal',
-		storageKey: 'test',
-	} )
-	if( localPaletteInfo && localPaletteInfo.data ) {
-		return localPaletteInfo.data
-	}
-	return false
-}
+
+// TODO: Save palettes and themes to local storage on change
 
 
 // Grab initial palette state, or set to empty
-const palettes: Palettes = await getLocalPalettes() || {}
-console.log( 'my palettes:', palettes )
+const palettes: Palettes = await readLocal( paletteStorageKey ) || {}
 
 export const usePalettesStore = defineStore( {
 	id: 'palettes',
 	state: () => ( {
 		palettes,
-		storageKey: '',
 	} ),
 	getters: {
-		storageKey: () => paletteStorageKey,
+
 	},
 	actions: {
-		//...
+		addPalette() {
+			const guid = uuidv4()
+			const appStore = useAppStore()
+			const newPalette = {
+				guid,
+				name: 'Untitled Palette',
+				colors: {},
+			}
+			this.palettes[guid] = newPalette
+			appStore.setAppView( 'palette', newPalette.name, guid )
+			return newPalette
+		},
+		updatePalette( guid: string ) {
+			//...
+		},
 	},
 } )
