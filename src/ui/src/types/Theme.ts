@@ -3,8 +3,8 @@ import { Palette, PaletteColor } from './Palette'
 interface ColorVariation {
 	/** Label identifier for color variation */
 	label: string
-	/** Reference to mixing color from mixing colors palette */
-	mixingColor: PaletteColor
+	/** GUID of mixing color from mixing colors palette */
+	mixingColor: string
 	/** Number 0-100, represents amount of mixingColor to add to base palette color */
 	percentage: number
 	/** If color variation should override theme naming scheme */
@@ -18,10 +18,10 @@ export interface Theme {
 	guid: string
 	/** Display name */
 	name: string
-	/** Reference to main color palette */
-	palette: Palette
-	/** Reference to mixing colors palette */
-	mixingColors: Palette
+	/** GUID of main color palette */
+	palette?: string
+	/** GUID of mixing colors palette */
+	mixingColors?: string
 	/**
 	 * String representing naming scheme for color variations. Includes
 	 * special character codes that can be replaced with the variable information.
