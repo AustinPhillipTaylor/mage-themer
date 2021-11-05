@@ -14,7 +14,7 @@ export const viewTypes: ViewMap = {
 	},
 	'theme': {
 		workspaceComponent: ViewTheme,
-		header( title ) {
+		header( title: string ) {
 			return `Theme - ${ title }`
 		},
 		viewData( guid: string ) {
@@ -24,7 +24,7 @@ export const viewTypes: ViewMap = {
 	},
 	'palette': {
 		workspaceComponent: ViewPalette,
-		header( title ) {
+		header( title: string ) {
 			return `Palette - ${ title }`
 		},
 		viewData( guid: string ) {

@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { storeToRefs } from 'pinia'
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { useAppStore } from '../stores/app'
 import HeaderAddEntry from './HeaderAddEntry.vue'
 

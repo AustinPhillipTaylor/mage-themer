@@ -30,6 +30,7 @@ export default defineComponent( {
 	},
 	setup() {
 		const appStore = useAppStore()
+		// Set default view
 		appStore.setAppView( 'dashboard' )
 		return {}
 	},

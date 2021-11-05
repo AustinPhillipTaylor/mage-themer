@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType } from 'vue'
+import { defineComponent } from 'vue'
 import { useAppStore } from '../stores/app'
 import { usePalettesStore } from '../stores/palettes'
 import { useThemesStore } from '../stores/themes'

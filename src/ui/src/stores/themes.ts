@@ -28,6 +28,8 @@ export const useThemesStore = defineStore( {
 				variationMapping: [],
 			}
 			this.themes[guid] = newTheme
+
+			// Set new palette to current view after creation
 			appStore.setAppView( 'theme', newTheme.name, guid )
 			return newTheme
 		},

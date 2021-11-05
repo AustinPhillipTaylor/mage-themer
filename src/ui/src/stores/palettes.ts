@@ -31,6 +31,8 @@ export const usePalettesStore = defineStore( {
 				colors: {},
 			}
 			this.palettes[guid] = newPalette
+
+			// Set new palette to current view after creation
 			appStore.setAppView( 'palette', newPalette.name, guid )
 			return newPalette
 		},

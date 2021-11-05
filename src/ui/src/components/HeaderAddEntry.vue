@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts">
-import { storeToRefs } from 'pinia'
 import { defineComponent, ref } from 'vue'
 import { usePalettesStore } from '../stores/palettes'
 import { useThemesStore } from '../stores/themes'
