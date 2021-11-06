@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { AppView } from '../types/AppView'
 import { viewTypes } from '../data/viewMap'
+import { markRaw } from 'vue'
 
 export const useAppStore = defineStore( {
 	id: 'app',
@@ -16,7 +17,7 @@ export const useAppStore = defineStore( {
 	},
 	actions: {
 		setWorkspaceComponent( component: AppView['workspaceComponent'] ) {
-			this.workspaceComponent = component
+			this.workspaceComponent = markRaw( component )
 		},
 		setHeaderTitle( title: AppView['header'] ) {
 			this.header = title
