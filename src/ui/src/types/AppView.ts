@@ -5,9 +5,11 @@ export interface AppView {
 	workspaceComponent: Component
 	/** Title to display in header */
 	header: string
-	/** Data used to populate view */
-	viewData: {
-		guid?: string
-		[key: string] : any
-	}
+	/**
+	 * GUID of view, used as key when instantiating component.
+	 * May be empty string for components that won't be repeated.
+	 */
+	guid: string
+	/** String coressponding to key in viewMap */
+	viewType: string
 }

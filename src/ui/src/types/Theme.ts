@@ -1,5 +1,3 @@
-import { Palette, PaletteColor } from './Palette'
-
 interface ColorVariation {
 	/** Label identifier for color variation */
 	label: string
@@ -19,9 +17,9 @@ export interface Theme {
 	/** Display name */
 	name: string
 	/** GUID of main color palette */
-	palette?: string
+	palette: string
 	/** GUID of mixing colors palette */
-	mixingColors?: string
+	mixingColors: string
 	/**
 	 * String representing naming scheme for color variations. Includes
 	 * special character codes that can be replaced with the variable information.

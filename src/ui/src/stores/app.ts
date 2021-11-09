@@ -8,29 +8,30 @@ export const useAppStore = defineStore( {
 	state: (): AppView => ( {
 		workspaceComponent: {},
 		header: '',
-		viewData: {},
+		guid: '',
+		viewType: '',
 	} ),
-	getters: {
-		selectedItemGUID: ( state ) => {
-			return state.viewData.guid || ''
-		},
-	},
+	getters: { },
 	actions: {
-		setWorkspaceComponent( component: AppView['workspaceComponent'] ) {
+		setWorkspaceComponent() {
+			const component = viewTypes[this.viewType].workspaceComponent
 			this.workspaceComponent = markRaw( component )
 		},
 		setHeaderTitle( title: AppView['header'] ) {
-			this.header = title
+			const formattedTitle = viewTypes[this.viewType].header( title ) || 'No Title'
+			this.header = formattedTitle
 		},
-		setViewData( data: AppView['viewData'] ) {
-			this.viewData = data
+		setGUID( guid: AppView['guid'] ) {
+			this.guid = guid
 		},
-		setAppView( view: string, title?: string, guid?: string ) {
-			const viewDetails = viewTypes[view]
-			if( viewDetails ) {
-				this.setWorkspaceComponent( viewDetails.workspaceComponent )
-				this.setHeaderTitle( viewDetails.header( title ) || 'No Title' )
-				this.setViewData( viewDetails.viewData ? viewDetails.viewData( guid as string ) : {} )
+		setAppView( type = '', title = '', guid = '' ) {
+			if( viewTypes[type] ) {
+				this.viewType = type
+				this.setWorkspaceComponent()
+				this.setHeaderTitle( title )
+				this.setGUID( guid )
+			} else {
+				console.error( `View type of '${ type }' does not exist in View Map.` )
 			}
 		},
 	},

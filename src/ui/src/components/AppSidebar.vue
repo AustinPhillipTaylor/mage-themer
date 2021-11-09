@@ -15,7 +15,7 @@
 			<li
 				v-for="(theme, guid) in themes"
 				:key="guid"
-				:class="['sidebar-button', { 'current': selectedItemGUID === guid as string }]"
+				:class="['sidebar-button', { 'current': currentGUID === guid as string }]"
 				@click="setAppView( 'theme', theme.name, guid as string )"
 			>
 				{{ theme.name }}
@@ -36,7 +36,7 @@
 			<li
 				v-for="(palette, guid) in palettes"
 				:key="guid"
-				:class="['sidebar-button', { 'current': selectedItemGUID === guid as string }]"
+				:class="['sidebar-button', { 'current': currentGUID === guid as string }]"
 				@click="setAppView( 'palette', palette.name, guid as string )"
 			>
 				{{ palette.name }}
@@ -56,7 +56,7 @@ export default defineComponent( {
 	setup() {
 		const appStore = useAppStore()
 		const { setAppView } = appStore
-		const { selectedItemGUID } = storeToRefs( appStore )
+		const { guid: currentGUID } = storeToRefs( appStore )
 
 		const paletteStore = usePalettesStore()
 		const { palettes } = storeToRefs( paletteStore )
@@ -66,7 +66,7 @@ export default defineComponent( {
 
 		return {
 			setAppView,
-			selectedItemGUID,
+			currentGUID,
 			palettes,
 			themes,
 		}

@@ -1,9 +1,12 @@
 <template>
 	<div class="workspace">
-		<component
-			:is="workspaceComponent"
-			:data="viewData"
-		/>
+		<keep-alive>
+			<component
+				:is="workspaceComponent"
+				:key="guid"
+				:guid="guid"
+			/>
+		</keep-alive>
 	</div>
 </template>
 
@@ -15,11 +18,11 @@ import { useAppStore } from '../stores/app'
 export default defineComponent( {
 	setup() {
 		const appStore = useAppStore()
-		const { workspaceComponent, viewData } = storeToRefs( appStore )
+		const { workspaceComponent, guid } = storeToRefs( appStore )
 
 		return {
 			workspaceComponent,
-			viewData,
+			guid,
 		}
 	},
 } )
@@ -31,5 +34,5 @@ export default defineComponent( {
 .workspace
 	@include fonts.workspace
 	overflow-y: auto
-	padding: 12px
+	padding: 0 24px
 </style>

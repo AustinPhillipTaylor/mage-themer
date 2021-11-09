@@ -24,6 +24,8 @@ export const useThemesStore = defineStore( {
 			const newTheme = {
 				guid,
 				name: 'Untitled Theme',
+				palette: '',
+				mixingColors: '',
 				namingScheme: '%{theme-name}/%{color-name}-%{label}',
 				variationMapping: [],
 			}
@@ -33,8 +35,11 @@ export const useThemesStore = defineStore( {
 			appStore.setAppView( 'theme', newTheme.name, guid )
 			return newTheme
 		},
-		updateTheme( guid: string ) {
-			//...
+		updateTheme( guid: string, theme: Partial<Theme> ) {
+			this.themes[guid] = {
+				...this.themes[guid],
+				...theme,
+			}
 		},
 	},
 } )
