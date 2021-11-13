@@ -46,10 +46,12 @@
 			/>
 		</div>
 		<div class="variations">
-			<input type="text">
+			<color-variation
+				v-model="variationMapping"
+				:mixingOptions="mixingOptions"
+			/>
 		</div>
 	</div>
-	{{ testing }}
 </template>
 
 <script lang="ts">
@@ -59,12 +61,14 @@ import { usePalettesStore } from '../stores/palettes'
 import { useThemesStore } from '../stores/themes'
 import TextInput from '../components/form/TextInput.vue'
 import SelectInput from '../components/form/SelectInput.vue'
+import ColorVariation from '../components/form/ColorVariation.vue'
 import { SelectOption } from '../types/SelectOption'
 
 export default defineComponent( {
 	components: {
 		TextInput,
 		SelectInput,
+		ColorVariation,
 	},
 	props: {
 		guid: {
@@ -110,11 +114,36 @@ export default defineComponent( {
 			}
 		)
 
+		const mixingOptions = computed( ()=> {
+			if( mixingColors.value && palettes[mixingColors.value] ) {
+				const mixGUID = mixingColors.value
+				const mixcolors = palettes[mixGUID].colors
+
+				const options: SelectOption[] = []
+				for( const color in mixcolors ) {
+					const formattedOption = {
+						value: mixcolors[color].guid,
+						text: mixcolors[color].name,
+					}
+					options.push( formattedOption )
+				}
+				if( options.length > 0 ) {
+					return options
+				}
+				return [{
+					value: '',
+					text: 'No colors defined',
+				}]
+			}
+			return []
+		} )
+
 		return {
 			testing,
 			name,
 			themePalette,
 			palettes,
+			mixingOptions,
 			mixingColors,
 			namingScheme,
 			variationMapping,

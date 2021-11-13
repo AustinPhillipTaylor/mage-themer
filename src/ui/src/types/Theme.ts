@@ -1,4 +1,6 @@
-interface ColorVariation {
+export interface ColorVariation {
+	/** Unique identifier */
+	guid: string
 	/** Label identifier for color variation */
 	label: string
 	/** GUID of mixing color from mixing colors palette */
