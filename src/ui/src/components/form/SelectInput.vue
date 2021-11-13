@@ -127,17 +127,6 @@ export default defineComponent( {
 		display: block
 		padding: 0
 		margin: 0 0 4px 0
-	select
-		display: block
-		width: 100%
-		padding: 8px
-		border-radius: 4px
-		outline: none
-		border: 2px solid colors.$input-text-border
-		&:focus,
-		&:focus-within
-			border: 2px solid colors.$input-select-border-focus
-
 	.custom-select
 		@include fonts.default-input
 		position: relative
@@ -145,7 +134,10 @@ export default defineComponent( {
 		text-align: left
 		outline: none
 		.selected
-			padding: 8px 16px
+			padding: 8px 42px 8px 16px
+			white-space: nowrap
+			overflow-x: hidden
+			text-overflow: ellipsis
 			background-color: colors.$input-select-bg
 			border-radius: 4px
 			border: 2px solid colors.$input-select-border
@@ -181,6 +173,9 @@ export default defineComponent( {
 				user-select: none
 				padding: 8px 16px
 				border-radius: 4px
+				white-space: nowrap
+				overflow-x: hidden
+				text-overflow: ellipsis
 				&:hover
 					background-color: colors.$input-select-item-hover-bg
 		.selectHide
