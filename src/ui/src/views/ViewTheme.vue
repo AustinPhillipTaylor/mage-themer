@@ -88,8 +88,6 @@ export default defineComponent( {
 			variationMapping,
 		} = toRefs( themeStore.themes[props.guid] )
 
-		const testing = themeStore.themes[props.guid]
-
 		const paletteStore = usePalettesStore()
 		const palettes = paletteStore.palettes
 		const paletteCount = computed( () => {
@@ -139,7 +137,6 @@ export default defineComponent( {
 		} )
 
 		return {
-			testing,
 			name,
 			themePalette,
 			palettes,
