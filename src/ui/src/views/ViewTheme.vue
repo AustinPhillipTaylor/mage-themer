@@ -155,5 +155,5 @@ export default defineComponent( {
 .view-theme
 	display: block
 	width: 100%
-	max-width: 600px
+	max-width: 800px
 </style>
