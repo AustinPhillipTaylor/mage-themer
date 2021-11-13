@@ -33,6 +33,6 @@ export default defineComponent( {
 
 .workspace
 	@include fonts.workspace
-	overflow-y: auto
+	overflow-y: visible
 	padding: 0 24px
 </style>
