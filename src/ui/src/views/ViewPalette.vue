@@ -9,14 +9,66 @@
 				placeholder="Palette Name"
 			/>
 		</div>
+		<div class="palette-colors">
+			<div
+				v-for="color in colors"
+				:key="color.guid"
+				class="color-definition"
+			>
+				<div
+					class="color-swatch"
+					:style="{
+						background: colorFromObject(color.rgb)
+					}"
+				>
+					<div class="swatch-hover-overlay">
+						<div
+							class="material-icons-outlined edit"
+							@click="setColorPicker( ($event.target as HTMLElement), color )"
+						>
+							palette
+						</div>
+						<div class="material-icons-outlined delete">
+							delete
+						</div>
+					</div>
+					<div
+						class="color-info"
+						:style="{
+							color: colorFromObject(color.rgb)
+						}"
+					>
+						{{ colorFromObject(color.rgb) }}
+					</div>
+				</div>
+				<text-input
+					v-model="color.name"
+					:id="color.guid"
+					class="color-name-input"
+					placeholder="Color Name"
+				/>
+			</div>
+			<div
+				class="add-color"
+				@click="() => addPaletteColor(guid)"
+			>
+				<div class="material-icons-outlined">
+					add
+				</div>
+				<div>Add Color</div>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, ref, computed, PropType } from 'vue'
+import { defineComponent, toRefs, ref, watch, Ref } from 'vue'
 import TextInput from '../components/form/TextInput.vue'
 import { usePalettesStore } from '../stores/palettes'
-import { Palette } from '../types/palette'
+import { useAppStore } from '../stores/app'
+import tinyColor from 'tinycolor2'
+import { PaletteColor } from '../types/palette'
+import { ColorPickerModel } from '../types/ColorPicker'
 
 export default defineComponent( {
 	components: {
@@ -34,18 +86,123 @@ export default defineComponent( {
 			name,
 			colors,
 		} = toRefs( paletteStore.palettes[props.guid] )
+		const { addPaletteColor } = paletteStore
+
+		const appStore = useAppStore()
+
+		const colorFromObject = ( color: RGB ) => {
+			return tinyColor( color ).toHexString().toUpperCase()
+		}
+
+		const setColorPicker = ( element: HTMLElement, colorInfo: PaletteColor ) => {
+			// showColorPicker.value = true
+			appStore.setOverlay( 'color-picker', {
+				initialColor: colorInfo.rgb,
+				clickedComponent: element.parentElement?.parentElement,
+				callback: ( model: ColorPickerModel ) => {
+					colorInfo.rgb = tinyColor( model.rgba ).toRgb()
+				},
+			} )
+		}
+
+		watch(
+			() => name.value,
+			( name ) => {
+				appStore.setHeaderTitle( name )
+			}
+		)
 
 		return {
 			name,
 			colors,
+			addPaletteColor,
+			colorFromObject,
+			setColorPicker,
 		}
 	},
 } )
 </script>
 
 <style lang="sass" scoped>
+@use '../styles/mixins/fonts'
+@use '../styles/mixins/colors'
+
 .view-palette
 	display: block
 	width: 100%
 	max-width: 800px
+	.palette-colors
+		display: grid
+		grid-template-columns: repeat(auto-fill, 130px)
+		grid-gap: 16px
+		position: relative
+		.color-definition,
+		.add-color
+			display: grid
+			width: 130px
+			height: 150px
+			border-radius: 4px
+		.add-color
+			@include fonts.secondary-button
+			grid-template-columns: 1fr
+			grid-template-rows: min-content min-content
+			align-items: center
+			align-content: center
+			grid-gap: 8px
+			text-align: center
+			background: colors.$secondary-button-bg
+			cursor: pointer
+			color: colors.$secondary-button-text
+			&:hover
+				background: colors.$secondary-button-hover-bg
+				div
+					color: colors.$secondary-button-hover-text
+			&:active
+				background: colors.$secondary-button-active-bg
+		.color-definition
+			grid-template-rows: 1fr min-content
+			grid-gap: 8px
+			.color-name-input
+				margin: 0
+			.color-swatch
+				position: relative
+				width: 100%
+				height: 100%
+				background: #fff
+				border-radius: 4px
+				border: 2px solid colors.$palette-color-border
+				cursor: pointer
+				.color-info
+					@include fonts.palette-color-info
+					filter: invert(1) grayscale(1) contrast(99999)
+					padding: 8px
+					color: #fff
+				.swatch-hover-overlay
+					display: none
+					position: absolute
+					top: 0
+					left: 0
+					width: 100%
+					height: 100%
+					background: colors.$palette-color-overlay-bg
+					grid-template-columns: min-content min-content
+					grid-gap: 4px
+					justify-content: center
+					align-content: center
+					z-index: 100
+					.material-icons-outlined
+						@include fonts.material-icons-large
+						padding: 8px
+						color: colors.$palette-color-overlay-text
+						background: transparent
+						border-radius: 50%
+						&.edit
+							&:hover
+								background: colors.$palette-color-overlay-edit-hover
+						&.delete
+							&:hover
+								background: colors.$palette-color-overlay-delete-hover
+				&:hover
+					.swatch-hover-overlay
+						display: grid
 </style>
