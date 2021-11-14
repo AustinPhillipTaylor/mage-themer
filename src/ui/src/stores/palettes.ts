@@ -36,8 +36,20 @@ export const usePalettesStore = defineStore( {
 			appStore.setAppView( 'palette', newPalette.name, guid )
 			return newPalette
 		},
-		updatePalette( guid: string ) {
-			//...
+		addPaletteColor( guid: string ) {
+			const colorGUID = uuidv4()
+			const newColor = {
+				guid: colorGUID,
+				name: '',
+				rgb: {
+					r: 255,
+					g: 255,
+					b: 255,
+				},
+			}
+			this.palettes[guid].colors[colorGUID] = newColor
+
+			return newColor
 		},
 	},
 } )
