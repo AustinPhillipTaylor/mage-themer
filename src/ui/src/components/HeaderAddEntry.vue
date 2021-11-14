@@ -53,26 +53,26 @@ export default defineComponent( {
 </script>
 
 <style lang="sass" scoped>
-@use '../styles/mixins/fonts' as fonts
-@use '../styles/mixins/colors' as colors
+@use '../styles/mixins/fonts'
+@use '../styles/mixins/colors'
 
 .add-entry
 	width: 100%
 	height: 100%
 	padding: 4px
 	.header-icon
+		@include fonts.material-icons
 		position: relative
 		align-self: center
 		justify-self: center
 		padding: 2px
-		font-size: 20px
-		background: transparent
+		background: colors.$action-icon-bg
 		border-radius: 4px
-		z-index: 999999
+		z-index: 999
 		.material-icons-outlined
-			font-size: 20px
+			@include fonts.material-icons
 		&:hover
-			background: #E9EDF0
+			background: colors.$action-icon-hover-bg
 			cursor: pointer
 		.entry-options
 			position: absolute

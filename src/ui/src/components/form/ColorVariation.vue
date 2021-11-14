@@ -16,7 +16,7 @@
 				v-model="step.label"
 				class="variation-label"
 				id="colorLabel"
-				placeholder="Variation"
+				placeholder="Label"
 			/>
 			<select-input
 				v-model="step.mixingColor"
