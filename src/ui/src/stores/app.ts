@@ -36,6 +36,7 @@ export const useAppStore = defineStore( {
 				this.setWorkspaceComponent()
 				this.setHeaderTitle( title )
 				this.setGUID( guid )
+				this.unsetOverlay()
 			} else {
 				console.error( `View type of '${ type }' does not exist in View Map.` )
 			}
