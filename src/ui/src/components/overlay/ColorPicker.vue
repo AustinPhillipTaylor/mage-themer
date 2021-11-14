@@ -104,7 +104,6 @@ export default defineComponent( {
 		} )()
 
 		const optimalX = () => {
-			console.log( positionDetails )
 			let optimal = 0
 			// Favor left side
 			if(

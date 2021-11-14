@@ -95,7 +95,6 @@ export default defineComponent( {
 		}
 
 		const setColorPicker = ( element: HTMLElement, colorInfo: PaletteColor ) => {
-			// showColorPicker.value = true
 			appStore.setOverlay( 'color-picker', {
 				initialColor: colorInfo.rgb,
 				clickedComponent: element.parentElement?.parentElement,
