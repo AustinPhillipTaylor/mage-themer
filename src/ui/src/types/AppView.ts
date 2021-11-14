@@ -12,4 +12,13 @@ export interface AppView {
 	guid: string
 	/** String coressponding to key in viewMap */
 	viewType: string
+	/** Overlay/modal definition */
+	overlay: {
+		active: boolean
+		/** String coressponding to key in overlayMap */
+		overlayType: string
+		props: {
+			[key: string]: any
+		}
+	}
 }

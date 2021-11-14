@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { AppView } from '../types/AppView'
 import { viewTypes } from '../data/viewMap'
+import { overlayTypes } from '../data/overlayMap'
 import { markRaw } from 'vue'
 
 export const useAppStore = defineStore( {
@@ -10,6 +11,11 @@ export const useAppStore = defineStore( {
 		header: '',
 		guid: '',
 		viewType: '',
+		overlay: {
+			active: false,
+			overlayType: '',
+			props: {},
+		},
 	} ),
 	getters: { },
 	actions: {
@@ -33,6 +39,20 @@ export const useAppStore = defineStore( {
 			} else {
 				console.error( `View type of '${ type }' does not exist in View Map.` )
 			}
+		},
+		setOverlay( type = '', props: AppView['overlay']['props'] = {} ) {
+			if( overlayTypes[type] ) {
+				this.overlay.overlayType = type
+				this.overlay.props = props
+				this.overlay.active = true
+			} else {
+				this.unsetOverlay()
+			}
+		},
+		unsetOverlay() {
+			this.overlay.active = false
+			this.overlay.overlayType = ''
+			this.overlay.props = {}
 		},
 	},
 } )

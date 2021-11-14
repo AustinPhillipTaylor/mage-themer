@@ -1,4 +1,5 @@
 <template>
+	<window-overlay />
 	<window-resize />
 	<div class="container">
 		<app-header class="header" />
@@ -19,6 +20,7 @@ import AppHeader from './components/AppHeader.vue'
 import AppWorkspace from './components/AppWorkspace.vue'
 import AppSidebar from './components/AppSidebar.vue'
 import WindowResize from './components/WindowResize.vue'
+import WindowOverlay from './components/overlay/WindowOverlay.vue'
 import { useAppStore } from './stores/app'
 
 export default defineComponent( {
@@ -27,6 +29,7 @@ export default defineComponent( {
 		AppWorkspace,
 		AppSidebar,
 		WindowResize,
+		WindowOverlay,
 	},
 	setup() {
 		const appStore = useAppStore()
