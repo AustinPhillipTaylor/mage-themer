@@ -1,15 +1,15 @@
 {
   "name": "figma-directus-style-generator",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "keywords": [],
-  "homepage": "https://github.com/Illubyte/figma-directus-style-generator#readme",
+  "homepage": "https://github.com/Illubyte/figma-theme-styles-generator#readme",
   "bugs": {
-    "url": "https://github.com/Illubyte/figma-directus-style-generator/issues"
+    "url": "https://github.com/Illubyte/figma-theme-styles-generator/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Illubyte/figma-directus-style-generator.git"
+    "url": "git+https://github.com/Illubyte/figma-theme-styles-generator.git"
   },
   "license": "ISC",
   "author": "Austin Phillip Taylor",
