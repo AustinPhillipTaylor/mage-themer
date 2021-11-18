@@ -46,7 +46,7 @@ export default defineComponent( {
 @use '../../styles/mixins/fonts' as fonts
 
 .app-overlay
-	width: 100%
+	width: 0
 	height: 0
 	display: block
 	position: absolute

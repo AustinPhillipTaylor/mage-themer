@@ -1,14 +1,16 @@
 <template>
 	<div
 		class="add-entry"
-		@click="toggleEntryList"
+		tabindex="0"
+		@blur="isOpen = false"
+		@click="isOpen = !isOpen"
 	>
-		<div class="header-icon">
+		<div class="add-entry-icon">
 			<span class="material-icons-outlined">
 				add
 			</span>
 			<div
-				:class="['entry-options', { 'adding-entry': addingEntry }]"
+				:class="['options', { 'open': isOpen }]"
 			>
 				<span @click="addTheme" > Add new theme </span>
 				<span @click="addPalette" > Add new palette </span>
@@ -19,32 +21,19 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { usePalettesStore } from '../stores/palettes'
-import { useThemesStore } from '../stores/themes'
+import { usePalettesStore } from '../../stores/palettes'
+import { useThemesStore } from '../../stores/themes'
 
 export default defineComponent( {
 	setup() {
-		const addingEntry = ref( false )
+		const isOpen = ref( false )
 		const themeStore = useThemesStore()
 		const paletteStore = usePalettesStore()
 		const { addTheme } = themeStore
 		const { addPalette } = paletteStore
 
-
-		function toggleEntryList( e: Event ) {
-			e.stopPropagation()
-			if( addingEntry.value ) {
-				addingEntry.value = false
-				window.removeEventListener( 'click', toggleEntryList )
-			} else {
-				addingEntry.value = true
-				window.addEventListener( 'click', toggleEntryList )
-			}
-		}
-
 		return {
-			addingEntry,
-			toggleEntryList,
+			isOpen,
 			addTheme,
 			addPalette,
 		}
@@ -53,19 +42,17 @@ export default defineComponent( {
 </script>
 
 <style lang="sass" scoped>
-@use '../styles/mixins/fonts'
-@use '../styles/mixins/colors'
+@use '../../styles/mixins/fonts'
+@use '../../styles/mixins/colors'
 
 .add-entry
-	width: 100%
-	height: 100%
-	padding: 4px
-	.header-icon
+	user-select: none
+	padding: 4px // Fill out space in button area to increase target click area
+	.add-entry-icon
 		@include fonts.material-icons
 		position: relative
-		align-self: center
-		justify-self: center
 		padding: 2px
+		font-size: 0 // Fix issues with height caused by spaces
 		background: colors.$action-icon-bg
 		border-radius: 4px
 		z-index: 999
@@ -74,7 +61,7 @@ export default defineComponent( {
 		&:hover
 			background: colors.$action-icon-hover-bg
 			cursor: pointer
-		.entry-options
+		.options
 			position: absolute
 			top: 100%
 			left: 0
@@ -93,10 +80,10 @@ export default defineComponent( {
 				position: absolute
 				top: -8px
 				left: 0px
-			&.adding-entry
+			&.open
 				display: block
 			span
-				@include fonts.header-add-options
+				@include fonts.header-options
 				white-space: nowrap
 				padding: 4px 8px
 				display: block

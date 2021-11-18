@@ -1,6 +1,7 @@
 <template>
 	<div class="header" >
-		<header-add-entry />
+		<add-entry />
+		<import-export />
 		<span class="title" > {{ header }} </span>
 	</div>
 </template>
@@ -9,11 +10,13 @@
 import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
 import { useAppStore } from '../stores/app'
-import HeaderAddEntry from './HeaderAddEntry.vue'
+import AddEntry from './header/AddEntry.vue'
+import ImportExport from './header/ImportExport.vue'
 
 export default defineComponent( {
 	components: {
-		HeaderAddEntry,
+		AddEntry,
+		ImportExport,
 	},
 	setup() {
 
@@ -30,16 +33,22 @@ export default defineComponent( {
 
 .header
 	display: grid
-	grid-template-columns: 32px 32px [header-title] 1fr 32px 32px
+	grid-template-columns: 32px 150px [header-title] 1fr 150px 32px
+	grid-template-rows: 32px
+	grid-gap: 8px
+	padding: 0 8px
+	justify-items: center
+	align-items: center
 	border-bottom: 1px solid #E9EDF0
 	.title
 		@include fonts.header
-		height: 32px
 		width: 100%
 		display: inline-block
 		line-height: 24px
 		vertical-align: middle
 		text-align: center
-		padding: 4px 32px
 		grid-column: header-title
+		text-overflow: ellipsis
+		overflow: hidden
+		white-space: nowrap
 </style>
