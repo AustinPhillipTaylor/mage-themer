@@ -4,11 +4,11 @@
 	<div class="container">
 		<app-header class="header" />
 		<div class="main">
-			<perfect-scrollbar>
-				<app-sidebar class="sidebar" />
+			<perfect-scrollbar class="sidebar">
+				<app-sidebar />
 			</perfect-scrollbar>
-			<perfect-scrollbar>
-				<app-workspace class="workspace" />
+			<perfect-scrollbar class="workspace">
+				<app-workspace />
 			</perfect-scrollbar>
 		</div>
 	</div>
@@ -53,10 +53,17 @@ export default defineComponent( {
 	width: 100vw
 	display: grid
 	grid-template-columns: 1fr
-	grid-template-rows: 32px 1fr
+	grid-template-rows: [header] 33px [main] 1fr
+	.header
+		grid-row: header
 	.main
 		display: grid
-		grid-template-columns: 220px 1fr
+		grid-row: main
+		grid-template-columns: [sidebar] 220px [workspace] 1fr
 		overflow: hidden
+		.sidebar
+			grid-column: sidebar
+		.workspace
+			grid-column: workspace
 
 </style>
