@@ -29,7 +29,8 @@ export default defineComponent( {
 </script>
 
 <style lang="sass" scoped>
-@use '../styles/mixins/fonts' as fonts
+@use '../styles/mixins/fonts'
+@use '../styles/mixins/colors'
 
 .header
 	display: grid
@@ -39,7 +40,7 @@ export default defineComponent( {
 	padding: 0 8px
 	justify-items: center
 	align-items: center
-	border-bottom: 1px solid #E9EDF0
+	border-bottom: 1px solid colors.$frame-border
 	.title
 		@include fonts.header
 		width: 100%
