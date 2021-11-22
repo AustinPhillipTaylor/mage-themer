@@ -1,6 +1,6 @@
 import Ajv from 'ajv'
-import { paletteJSONSchema } from '../../../types/Palette'
-import { themeJSONSchema } from '../../../types/Theme'
+import { paletteJSONSchema, Palettes } from '../../../types/Palette'
+import { themeJSONSchema, Themes } from '../../../types/Theme'
 
 export function parsingJSON( cancelled: boolean, rawText: string ): Promise<any> {
 	return new Promise( ( resolve, reject ) => {
@@ -46,4 +46,30 @@ export function checkingThemes( cancelled: boolean, parsedJSON: any ): Promise<a
 		}
 		return reject( 'checkingThemes' )
 	} )
+}
+
+export function hasConflicts(
+	parsedJSON: { palettes: Palettes; themes: Themes },
+	palettes: Palettes,
+	themes: Themes
+) {
+	const paletteKeys = Object.keys( palettes )
+	const themeKeys = Object.keys( themes )
+	const newPaletteKeys = Object.keys( parsedJSON.palettes )
+	const newThemeKeys = Object.keys( parsedJSON.themes )
+
+	const paletteOverlap = paletteKeys.filter(
+		( key ) => {
+			return newPaletteKeys.includes( key )
+		} )
+
+	const themeOverlap = themeKeys.filter(
+		( key ) => {
+			return newThemeKeys.includes( key )
+		} )
+
+	if( paletteOverlap.length > 0 || themeOverlap.length > 0 ) {
+		return true
+	}
+	return false
 }

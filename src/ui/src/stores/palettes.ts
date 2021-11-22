@@ -51,5 +51,12 @@ export const usePalettesStore = defineStore( {
 
 			return newColor
 		},
+		importPalettes( addedPalettes: Palettes ) {
+			const newPaletteSet = {
+				...this.palettes,
+				...addedPalettes,
+			}
+			this.palettes = newPaletteSet
+		},
 	},
 } )

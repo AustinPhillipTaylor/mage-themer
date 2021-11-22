@@ -41,5 +41,12 @@ export const useThemesStore = defineStore( {
 				...theme,
 			}
 		},
+		importThemes( addedThemes: Themes ) {
+			const newThemeSet = {
+				...this.themes,
+				...addedThemes,
+			}
+			this.themes = newThemeSet
+		},
 	},
 } )

@@ -7,27 +7,36 @@
 				</div>
 				<div
 					class="material-icons-outlined close-modal"
-					@click="() => closeOverlay()"
+					@click="cancelImport"
 				>
 					close
 				</div>
 			</div>
-			<div class="modal-body">
-				<template
-					v-for="(step, name) in steps"
-					:key="name"
-				>
-					<import-step
-						:done="step.done"
-						:failed="step.failed"
-						:interrupted="status.failed && !step.done && !step.failed"
-						:waiting-text="step.waitingText"
-						:done-text="step.doneText"
-						:failed-text="step.failedText"
-						:interrupted-text="step.interruptedText"
-					/>
-				</template>
-			</div>
+			<perfect-scrollbar class="modal-body">
+				<div>
+					<template
+						v-for="(step, name) in steps"
+						:key="name"
+					>
+						<import-step
+							:done="step.done"
+							:failed="step.failed"
+							:interrupted="status.failed && !step.done && !step.failed"
+							:waiting-text="step.waitingText"
+							:done-text="step.doneText"
+							:failed-text="step.failedText"
+							:interrupted-text="step.interruptedText"
+						/>
+					</template>
+					<notice
+						level="warning"
+						class="modal-footer-notice"
+						v-if="status.conflicts"
+					>
+						Duplicate palettes or themes detected. Clicking 'Finish Import' will overwrite any conflicting items, this is not reversible. To avoid data loss, we recommend exporting your current data before importing this file.
+					</notice>
+				</div>
+			</perfect-scrollbar>
 			<div class="modal-buttons">
 				<button
 					class="button danger"
@@ -37,6 +46,7 @@
 				</button>
 				<button
 					class="button confirm"
+					@click="completeImport"
 					:disabled="!status.ready || status.failed"
 				>
 					Finish Import
@@ -46,13 +56,20 @@
 	</div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, Ref } from 'vue'
 import ImportStep from './ImportStep.vue'
-import { parsingJSON, checkingPalettes, checkingThemes } from './importSteps'
+import { parsingJSON, checkingPalettes, checkingThemes, hasConflicts } from './importSteps'
+import Notice from '../../general/Notice.vue'
+import { usePalettesStore } from '../../../stores/palettes'
+import { useThemesStore } from '../../../stores/themes'
+import { Palettes } from '../../../types/Palette'
+import { Themes } from '../../../types/Theme'
+
 
 export default defineComponent( {
 	components: {
 		ImportStep,
+		Notice,
 	},
 	props: {
 		file: {
@@ -66,13 +83,17 @@ export default defineComponent( {
 	},
 	setup( props ) {
 
+		const paletteStore = usePalettesStore()
+		const themeStore = useThemesStore()
+
 		const status = ref( {
 			ready: false,
 			failed: false,
 			canceled: false,
+			conflicts: false,
 		} )
 
-
+		const uploadedJSON: Ref<{ palettes: Palettes; themes: Themes } | null> = ref( null )
 
 		const steps = ref( {
 			resolve: {
@@ -129,7 +150,11 @@ export default defineComponent( {
 					steps.value.resolvePalettes.done = true
 					return checkingThemes( status.value.canceled, parsedJSON )
 				} )
-				.then( () => {
+				.then( ( parsedJSON ) => {
+					uploadedJSON.value = parsedJSON
+					if( hasConflicts( parsedJSON, paletteStore.palettes, themeStore.themes ) ) {
+						status.value.conflicts = true
+					}
 					steps.value.resolveThemes.done = true
 					status.value.ready = true
 					return true
@@ -152,6 +177,16 @@ export default defineComponent( {
 				} )
 		} )
 
+		function completeImport() {
+			if( uploadedJSON.value?.palettes ) {
+				paletteStore.importPalettes( uploadedJSON.value.palettes )
+			}
+			if( uploadedJSON.value?.themes ) {
+				themeStore.importThemes( uploadedJSON.value.themes )
+			}
+			props.closeOverlay()
+		}
+
 		function cancelImport() {
 			status.value.canceled = true
 			props.closeOverlay()
@@ -161,6 +196,7 @@ export default defineComponent( {
 			steps,
 			status,
 			cancelImport,
+			completeImport,
 		}
 	},
 } )
@@ -185,6 +221,7 @@ export default defineComponent( {
 		background: colors.$modal-bg
 		border-radius: 4px
 		height: auto
+		max-height: 100%
 		min-height: 100px
 		width: 100%
 		max-width: 800px
@@ -218,6 +255,8 @@ export default defineComponent( {
 		.modal-body
 			grid-row: body
 			padding: 32px 0
+			.modal-footer-notice
+				margin: 32px 32px 0 32px
 		.modal-buttons
 			display: grid
 			grid-gap: 16px

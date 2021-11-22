@@ -9,6 +9,16 @@ $orange: #f7971c
 $red: #e35169
 $green: #34A95F
 
+$success: $green
+$warning: $orange
+$danger: $red
+$success-light: color.adjust($green, $lightness: 50%)
+$warning-light: color.adjust($orange, $lightness: 40%)
+$danger-light: color.adjust($red, $lightness: 35%)
+$success-dark: color.adjust($green, $blackness: 20%)
+$warning-dark: color.adjust($orange, $blackness: 40%)
+$danger-dark: color.adjust($red, $blackness: 30%)
+
 $frame-border: $gray-20
 
 $default-text: $main-dark
@@ -69,9 +79,9 @@ $button-disabled: $gray-10
 $button-disabled-text: color.adjust($main-dark, $lightness: 40%)
 $button-hover-text: $main-light
 
-$icon-success-bg: color.adjust($green, $lightness: 50%)
-$icon-danger-bg: color.adjust($red, $lightness: 35%)
+$icon-success-bg: $success-light
+$icon-danger-bg: $danger-light
 $icon-neutral-bg: $gray-10
-$icon-success-text: $green
-$icon-danger-text: $red
+$icon-success-text: $success
+$icon-danger-text: $danger
 $icon-neutral-text: color.adjust($main-dark, $lightness: 40%)
