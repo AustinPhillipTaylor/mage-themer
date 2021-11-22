@@ -20,18 +20,24 @@
 						@change="handleUpload"
 					>
 				</span>
-				<span @click="openFileBrowser" > Export to JSON file </span>
+				<span @click="downloadJSON" > Export to JSON file </span>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
+import exp from 'constants'
 import { defineComponent, ref, Ref } from 'vue'
 import { useAppStore } from '../../stores/app'
+import { usePalettesStore } from '../../stores/palettes'
+import { useThemesStore } from '../../stores/themes'
 
 export default defineComponent( {
 	setup() {
+
+		const paletteStore = usePalettesStore()
+		const themeStore = useThemesStore()
 
 		const isOpen = ref( false )
 		const fileInput: Ref<HTMLInputElement | null> = ref( null )
@@ -55,11 +61,40 @@ export default defineComponent( {
 			}
 		}
 
+		function download( data: any, filename: string, type: string ) {
+			const file = new Blob( [ data ], { type: type } )
+			const a = document.createElement( 'a' )
+			const url = URL.createObjectURL( file )
+			a.href = url
+			a.download = filename
+			document.body.appendChild( a )
+			a.click()
+			setTimeout( function() {
+				document.body.removeChild( a )
+				window.URL.revokeObjectURL( url )
+			}, 10 )
+		}
+
+		function downloadJSON() {
+			const exportData = {
+				palettes: {
+					...paletteStore.palettes,
+				},
+				themes: {
+					...themeStore.themes,
+				},
+			}
+			const jsonString = JSON.stringify( exportData )
+
+			download( jsonString, 'styleGen.json', 'application/json' )
+		}
+
 		return {
 			isOpen,
 			fileInput,
 			handleUpload,
 			openFileBrowser,
+			downloadJSON,
 		}
 	},
 } )
