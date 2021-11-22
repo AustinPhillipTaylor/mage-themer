@@ -4,10 +4,24 @@ module.exports = {
 		'es2021': true,
 		'node': true,
 	},
+	'overrides': [{
+		'files': [ '*.json', '*.jsonc' ],
+		'extends': 'plugin:jsonc/recommended-with-jsonc',
+		'parser': 'jsonc-eslint-parser',
+		'rules': {
+			'jsonc/comma-dangle': [
+				'error',
+				'never',
+			],
+			'jsonc/indent': [
+				'error',
+				'tab',
+			],
+		},
+	}],
 	'extends': [
 		'plugin:@typescript-eslint/recommended',
 		'plugin:vue/vue3-essential',
-		'plugin:json/recommended',
 	],
 	'parserOptions': {
 		'ecmaVersion': 12,
@@ -19,10 +33,6 @@ module.exports = {
 		'vue',
 	],
 	'rules': {
-		'json/*': [
-			'error',
-			'allowComments',
-		],
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'@typescript-eslint/camelcase': 0,
@@ -48,6 +58,7 @@ module.exports = {
 			'error', {
 				'ObjectExpression': {
 					'consistent': true,
+					'multiline': true,
 				},
 				'ObjectPattern': {
 					'multiline': true,
