@@ -1,5 +1,6 @@
 import Ajv from 'ajv'
 import { paletteJSONSchema } from '../../../types/Palette'
+import { themeJSONSchema } from '../../../types/Theme'
 
 export function parsingJSON( cancelled: boolean, rawText: string ): Promise<any> {
 	return new Promise( ( resolve, reject ) => {
@@ -36,7 +37,12 @@ export function checkingThemes( cancelled: boolean, parsedJSON: any ): Promise<a
 			return reject( 'cancelled' )
 		}
 		if( parsedJSON.themes ) {
-			return resolve( parsedJSON )
+			const ajv = new Ajv()
+			const validate = ajv.compile( themeJSONSchema )
+			const valid = validate( parsedJSON.themes )
+			if( valid ) {
+				return resolve( parsedJSON )
+			}
 		}
 		return reject( 'checkingThemes' )
 	} )
