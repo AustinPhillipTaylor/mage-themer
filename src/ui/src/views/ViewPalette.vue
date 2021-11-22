@@ -18,7 +18,7 @@
 				<div
 					class="color-swatch"
 					:style="{
-						background: colorFromObject(color.rgb)
+						background: hexStringFromRGB(color.rgb)
 					}"
 				>
 					<div class="swatch-hover-overlay">
@@ -35,10 +35,10 @@
 					<div
 						class="color-info"
 						:style="{
-							color: colorFromObject(color.rgb)
+							color: hexStringFromRGB(color.rgb)
 						}"
 					>
-						{{ colorFromObject(color.rgb) }}
+						{{ hexStringFromRGB(color.rgb) }}
 					</div>
 				</div>
 				<text-input
@@ -69,6 +69,7 @@ import { useAppStore } from '../stores/app'
 import tinyColor from 'tinycolor2'
 import { PaletteColor } from '../types/palette'
 import { ColorPickerModel } from '../types/ColorPicker'
+import { hexStringFromRGB } from '../utils/hexStringFromRGB'
 
 export default defineComponent( {
 	components: {
@@ -89,10 +90,6 @@ export default defineComponent( {
 		const { addPaletteColor } = paletteStore
 
 		const appStore = useAppStore()
-
-		const colorFromObject = ( color: RGB ) => {
-			return tinyColor( color ).toHexString().toUpperCase()
-		}
 
 		const setColorPicker = ( element: HTMLElement, colorInfo: PaletteColor ) => {
 			appStore.setOverlay( 'color-picker', {
@@ -115,7 +112,7 @@ export default defineComponent( {
 			name,
 			colors,
 			addPaletteColor,
-			colorFromObject,
+			hexStringFromRGB,
 			setColorPicker,
 		}
 	},
