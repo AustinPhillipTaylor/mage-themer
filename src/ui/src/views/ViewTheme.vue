@@ -63,6 +63,7 @@ import TextInput from '../components/form/TextInput.vue'
 import SelectInput from '../components/form/SelectInput.vue'
 import ColorVariation from '../components/form/ColorVariation.vue'
 import { SelectOption } from '../types/SelectOption'
+import { hexStringFromRGB } from '../utils/hexStringFromRGB'
 
 export default defineComponent( {
 	components: {
@@ -121,7 +122,7 @@ export default defineComponent( {
 				for( const color in mixcolors ) {
 					const formattedOption = {
 						value: mixcolors[color].guid,
-						text: mixcolors[color].name,
+						text: mixcolors[color].name || hexStringFromRGB( mixcolors[color].rgb ),
 					}
 					options.push( formattedOption )
 				}
