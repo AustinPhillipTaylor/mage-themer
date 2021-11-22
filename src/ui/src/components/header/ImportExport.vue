@@ -32,6 +32,7 @@ import { useAppStore } from '../../stores/app'
 
 export default defineComponent( {
 	setup() {
+
 		const isOpen = ref( false )
 		const fileInput: Ref<HTMLInputElement | null> = ref( null )
 		const appStore = useAppStore()
@@ -40,6 +41,12 @@ export default defineComponent( {
 			appStore.setOverlay( 'file-import', {
 				file: fileInput.value?.files?.[0],
 			} )
+			/**
+			 * Reset file picker value.
+			 * If we don't do this, closing the modal and then selecting
+			 * the same file again will not trigger the change event.
+			 */
+			;( <HTMLInputElement>fileInput.value ).value = ''
 		}
 
 		function openFileBrowser() {
