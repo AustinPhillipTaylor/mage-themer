@@ -68,7 +68,7 @@ export default defineComponent( {
 		 * We'll leave it for now, but we need to refactor eventually.
 		 */
 
-		const inputModel = ref( props.modelValue?.toString() )
+		const inputModel = computed( () => props.modelValue?.toString() )
 
 		const numberField: Ref<HTMLElement | null> = ref( null )
 

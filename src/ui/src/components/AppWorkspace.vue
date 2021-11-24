@@ -1,12 +1,10 @@
 <template>
 	<div class="workspace">
-		<keep-alive>
-			<component
-				:is="workspaceComponent"
-				:key="guid"
-				:guid="guid"
-			/>
-		</keep-alive>
+		<component
+			:is="workspaceComponent"
+			:key="guid"
+			:guid="guid"
+		/>
 	</div>
 </template>
 

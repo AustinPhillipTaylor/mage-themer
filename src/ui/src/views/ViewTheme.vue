@@ -81,13 +81,14 @@ export default defineComponent( {
 		const appStore = useAppStore()
 
 		const themeStore = useThemesStore()
-		const {
-			name,
-			palette: themePalette,
-			mixingColors,
-			namingScheme,
-			variationMapping,
-		} = toRefs( themeStore.themes[props.guid] )
+
+		const curTheme = computed( () => themeStore.themes[props.guid] )
+
+		const name = computed( () => curTheme.value.name )
+		const themePalette = computed( () => curTheme.value.palette )
+		const mixingColors = computed( () => curTheme.value.mixingColors )
+		const namingScheme = computed( () => curTheme.value.namingScheme )
+		const variationMapping = computed( () => curTheme.value.variationMapping )
 
 		const paletteStore = usePalettesStore()
 		const palettes = paletteStore.palettes
