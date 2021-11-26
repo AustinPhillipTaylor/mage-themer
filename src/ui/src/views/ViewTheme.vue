@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, toRefs, ref, reactive, computed, PropType } from 'vue'
+import { defineComponent, watch, computed } from 'vue'
 import { useAppStore } from '../stores/app'
 import { usePalettesStore } from '../stores/palettes'
 import { useThemesStore } from '../stores/themes'
@@ -84,11 +84,36 @@ export default defineComponent( {
 
 		const curTheme = computed( () => themeStore.themes[props.guid] )
 
-		const name = computed( () => curTheme.value.name )
-		const themePalette = computed( () => curTheme.value.palette )
-		const mixingColors = computed( () => curTheme.value.mixingColors )
-		const namingScheme = computed( () => curTheme.value.namingScheme )
-		const variationMapping = computed( () => curTheme.value.variationMapping )
+		const name = computed( {
+			get: () => curTheme.value.name,
+			set: ( val ) => {
+				curTheme.value.name = val
+			},
+		} )
+		const themePalette = computed( {
+			get: () => curTheme.value.palette,
+			set: ( val ) => {
+				curTheme.value.palette = val
+			},
+		} )
+		const mixingColors = computed( {
+			get: () => curTheme.value.mixingColors,
+			set: ( val ) => {
+				curTheme.value.mixingColors = val
+			},
+		} )
+		const namingScheme = computed( {
+			get: () => curTheme.value.namingScheme,
+			set: ( val ) => {
+				curTheme.value.namingScheme = val
+			},
+		} )
+		const variationMapping = computed( {
+			get: () => curTheme.value.variationMapping,
+			set: ( val ) => {
+				curTheme.value.variationMapping = val
+			},
+		} )
 
 		const paletteStore = usePalettesStore()
 		const palettes = paletteStore.palettes

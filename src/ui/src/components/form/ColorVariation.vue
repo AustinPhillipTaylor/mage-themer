@@ -34,8 +34,8 @@
 				id="mixPercentage"
 				class="mix-percentage"
 				placeholder="%"
-				:min="0"
-				:max="100"
+				min="0"
+				max="100"
 			/>
 		</template>
 	</div>
@@ -46,10 +46,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref, ComputedRef, computed, toRefs, PropType } from 'vue'
+import { defineComponent, ComputedRef, computed, PropType } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
-import { useThemesStore } from '../../stores/themes'
-import { usePalettesStore } from '../../stores/palettes'
 import { ColorVariation } from '../../types/Theme'
 import { SelectOption } from '../../types/SelectOption'
 import TextInput from './TextInput.vue'

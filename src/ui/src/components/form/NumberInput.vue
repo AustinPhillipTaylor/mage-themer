@@ -8,7 +8,7 @@
 			<input
 				ref="numberField"
 				:id="id"
-				:value="inputModel"
+				:value="displayValue"
 				@input="updateNumber"
 				@keydown.up="increment"
 				@keydown.down="decrement"
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref, computed } from 'vue'
+import { defineComponent, Ref, ref, computed, watch } from 'vue'
 export default defineComponent( {
 	props: {
 		id: {
@@ -51,88 +51,82 @@ export default defineComponent( {
 			default: 'Number',
 		},
 		min: {
-			type: Number,
+			type: String,
 			required: false,
-			default: 0,
+			default: '-100',
 		},
 		max: {
-			type: Number,
+			type: String,
 			required: false,
-			default: 100,
+			default: '100',
 		},
 	},
 	setup( props, { emit } ) {
 
-		/**
-		 * TODO: This all works perfectly, however, a lot of redundency can be removed with a little TLC.
-		 * We'll leave it for now, but we need to refactor eventually.
-		 */
+		const displayValue = ref( '' )
 
-		const inputModel = computed( () => props.modelValue?.toString() )
+		watch(
+			() => props.modelValue,
+			( val = NaN ) => {
+				if( !isNaN( val ) ) {
+					displayValue.value = val.toString()
+				}
+			},
+			{ immediate: true }
+		)
 
 		const numberField: Ref<HTMLElement | null> = ref( null )
 
-		const minStr = props.min.toString()
-		const maxStr = props.max.toString()
+		const minNum = parseInt( props.min, 10 )
+		const maxNum = parseInt( props.max, 10 )
 
 		const maxLength = computed( ()=>{
-			const minLength = minStr.length
-			const maxLength = maxStr.length
+			const minLength = props.min.length
+			const maxLength = props.max.length
 			return Math.max( maxLength, minLength )
 		} )
 
-		const emitUpdatedNumber = ( value: string ) => {
-			// Remove everything except numbers and a leading hyphen
-			const formattedValue = parseInt( value.replace( /(?!^-)\D+/g, '' ), 10 )
-			const valueAsString = formattedValue.toString()
-			/**
-				 * We set inputModel twice to force an update. If, for instance, a letter
-				 * is typed into the field, we're essentially allowing the field to briefly
-				 * display that letter, then immediately setting it to the correct value.
-				 */
-			inputModel.value = value
-			if( isNaN( formattedValue ) ) {
-				if( value.trim() === '-' ) {
-					inputModel.value = '-'
-				} else {
-					inputModel.value = ''
-				}
-				return true
-			}
-			if( !( formattedValue < props.min || formattedValue > props.max ) ) {
-				inputModel.value = valueAsString
-				emit( 'update:modelValue', formattedValue )
-				return true
-			}
-			if( formattedValue < props.min ) {
-				inputModel.value = minStr
-				emit( 'update:modelValue', props.min )
-				return true
-			}
-			if( formattedValue > props.max ) {
-				inputModel.value = maxStr
-				emit( 'update:modelValue', props.max )
-				return true
-			}
+		function emitUp( num: number ) {
+			emit( 'update:modelValue', num )
 		}
 
 		const increment = ( evt: Event ) => {
 			evt.preventDefault()
 			numberField.value?.focus()
-			const newValue = parseInt( inputModel.value || '0', 10 ) + 1
-			emitUpdatedNumber( newValue.toString() )
+			const newValue = ( props.modelValue || 0 ) + 1
+			emitUp( Math.min( maxNum, newValue ) )
 		}
 		const decrement = ( evt: Event ) => {
 			evt.preventDefault()
 			numberField.value?.focus()
-			const newValue = parseInt( inputModel.value || '0', 10 ) - 1
-			emitUpdatedNumber( newValue.toString() )
+			const newValue = ( props.modelValue || 0 ) - 1
+			emitUp( Math.max( minNum, newValue ) )
 		}
 
 		const updateNumber = ( evt: Event ) => {
 			const curValue = ( evt.target as HTMLInputElement ).value || ''
 
-			emitUpdatedNumber( curValue )
+			/**
+			 * We set displayValue twice to force an update. If, for instance, a letter
+			 * is typed into the field, we're essentially allowing the field to briefly
+			 * display that letter, then immediately setting it to the correct value.
+			 */
+			displayValue.value = curValue
+
+			// Remove everything except numbers and a leading hyphen
+			const stringValue = curValue.replace( /(?!^-)\D+/g, '' )
+			const numValue = parseInt( stringValue, 10 )
+			const clampedNum = Math.max( minNum, Math.min( numValue, maxNum ) )
+
+			if( stringValue === '-' ) {
+				displayValue.value = stringValue
+			} else if( isNaN( clampedNum ) ) {
+				displayValue.value = ''
+			} else {
+				displayValue.value = clampedNum.toString()
+			}
+
+			emitUp( clampedNum )
 		}
 
 		return {
@@ -141,7 +135,7 @@ export default defineComponent( {
 			decrement,
 			numberField,
 			updateNumber,
-			inputModel,
+			displayValue,
 		}
 	},
 } )
