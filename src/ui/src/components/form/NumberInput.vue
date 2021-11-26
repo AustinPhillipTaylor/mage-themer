@@ -63,12 +63,13 @@ export default defineComponent( {
 	},
 	setup( props, { emit } ) {
 
-		const displayValue = ref( '' )
+		const displayValue = ref( '0' )
 
 		watch(
 			() => props.modelValue,
-			( val = NaN ) => {
-				if( !isNaN( val ) ) {
+			( val ) => {
+				const d = displayValue.value
+				if( val && !( val === 0 && ( d === '' || d === '-' ) ) ) {
 					displayValue.value = val.toString()
 				}
 			},
@@ -118,15 +119,16 @@ export default defineComponent( {
 			const numValue = parseInt( stringValue, 10 )
 			const clampedNum = Math.max( minNum, Math.min( numValue, maxNum ) )
 
-			if( stringValue === '-' ) {
+
+			if( isNaN( numValue ) ) {
 				displayValue.value = stringValue
-			} else if( isNaN( clampedNum ) ) {
-				displayValue.value = ''
+				// We'll emit 0 if the field is NaN or empty
+				emitUp( 0 )
 			} else {
 				displayValue.value = clampedNum.toString()
+				emitUp( clampedNum )
 			}
 
-			emitUp( clampedNum )
 		}
 
 		return {
