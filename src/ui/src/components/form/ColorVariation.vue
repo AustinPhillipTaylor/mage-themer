@@ -28,7 +28,19 @@
 				}"
 				:options="mixingOptions"
 				emptyText="No mixing colors selected"
-			/>
+			>
+				<template
+					v-if="mixingPalette !== {}"
+					#before-option='workingOption'
+				>
+					<div
+						:style="{
+							background: hexStringFromRGB( mixingPalette[workingOption.value].rgb ),
+						}"
+						class="color-preview"
+					></div>
+				</template>
+			</select-input>
 			<number-input
 				v-model="step.percentage"
 				id="mixPercentage"
@@ -50,9 +62,12 @@ import { defineComponent, ComputedRef, computed, PropType } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import { ColorVariation } from '../../types/Theme'
 import { SelectOption } from '../../types/SelectOption'
+import { usePalettesStore } from '../../stores/palettes'
+import { hexStringFromRGB } from '../../utils/hexStringFromRGB'
 import TextInput from './TextInput.vue'
 import NumberInput from './NumberInput.vue'
 import SelectInput from './SelectInput.vue'
+import { PaletteColors } from '../../types/Palette'
 
 export default defineComponent( {
 	components: {
@@ -71,8 +86,16 @@ export default defineComponent( {
 			required: false,
 			default: () => [],
 		},
+		mixingPalette: {
+			type: Object as PropType<PaletteColors>,
+			required: false,
+			default: () => ( {} ),
+		},
 	},
 	setup( props, { emit } ) {
+
+		const paletteStore = usePalettesStore()
+		const palettes = paletteStore.palettes
 
 		const variations: ComputedRef<ColorVariation[]> = computed( (): ColorVariation[] => {
 			return props.modelValue || []
@@ -91,7 +114,9 @@ export default defineComponent( {
 		}
 
 		return {
+			palettes,
 			variations,
+			hexStringFromRGB,
 			addColorVariation,
 		}
 	},
@@ -118,6 +143,14 @@ export default defineComponent( {
 		white-space: nowrap
 	.mix-color
 		min-width: 200px
+		.color-preview
+			display: inline-block
+			height: 17px
+			width: 17px
+			border-radius: 50%
+			margin-right: 6px
+			vertical-align: middle
+			border: 1px solid colors.$input-select-preview-swatch-border
 	.variation-label
 		min-width: 120px
 	.top-row-label

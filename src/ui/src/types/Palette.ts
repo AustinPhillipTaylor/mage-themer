@@ -7,7 +7,7 @@ export interface PaletteColor {
 	rgb: RGB
 }
 
-interface PaletteColors {
+export interface PaletteColors {
 	/** Each palette color is referenced by its GUID */
 	[key: string]: PaletteColor
 }

@@ -20,7 +20,23 @@
 				}"
 				:options="paletteOptions"
 				emptyText="No palettes to select from. Please create a palette to populate your theme."
-			/>
+			>
+				<template
+					#after-option='workingOption'
+				>
+					<template
+						v-for="(color, guid) in palettes[workingOption.value].colors"
+						:key="guid"
+					>
+						<div
+							:style="{
+								background: hexStringFromRGB( color.rgb ),
+							}"
+							class="color-preview"
+						></div>
+					</template>
+				</template>
+			</select-input>
 		</div>
 		<div class="mixing-color-select">
 			<div class="palette-select">
@@ -34,7 +50,23 @@
 					}"
 					:options="paletteOptions"
 					emptyText="No palettes to select from. Please create a palette to populate your mixing colors."
-				/>
+				>
+					<template
+						#after-option='workingOption'
+					>
+						<template
+							v-for="(color, guid) in palettes[workingOption.value].colors"
+							:key="guid"
+						>
+							<div
+								:style="{
+									background: hexStringFromRGB( color.rgb ),
+								}"
+								class="color-preview"
+							></div>
+						</template>
+					</template>
+				</select-input>
 			</div>
 		</div>
 		<div class="naming-scheme">
@@ -48,6 +80,7 @@
 		<div class="variations">
 			<color-variation
 				v-model="variationMapping"
+				:mixingPalette="mixingPalette || {}"
 				:mixingOptions="mixingOptions"
 			/>
 		</div>
@@ -139,16 +172,21 @@ export default defineComponent( {
 			}
 		)
 
+		const mixingPalette = computed( () => {
+			if( mixingColors.value && palettes[mixingColors.value].colors ) {
+				return palettes[mixingColors.value].colors
+			}
+			return false
+		} )
+
 		const mixingOptions = computed( ()=> {
-			if( mixingColors.value && palettes[mixingColors.value] ) {
-				const mixGUID = mixingColors.value
-				const mixcolors = palettes[mixGUID].colors
+			if( mixingPalette.value ) {
 
 				const options: SelectOption[] = []
-				for( const color in mixcolors ) {
+				for( const color in mixingPalette.value ) {
 					const formattedOption = {
-						value: mixcolors[color].guid,
-						text: mixcolors[color].name || hexStringFromRGB( mixcolors[color].rgb ),
+						value: mixingPalette.value[color].guid,
+						text: mixingPalette.value[color].name || hexStringFromRGB( mixingPalette.value[color].rgb ),
 					}
 					options.push( formattedOption )
 				}
@@ -170,17 +208,29 @@ export default defineComponent( {
 			mixingOptions,
 			mixingColors,
 			namingScheme,
+			mixingPalette,
 			variationMapping,
 			paletteCount,
 			paletteOptions,
+			hexStringFromRGB,
 		}
 	},
 } )
 </script>
 
 <style lang="sass" scoped>
+@use '../styles/mixins/colors'
+
 .view-theme
 	display: block
 	width: 100%
 	max-width: 800px
+	.color-preview
+		display: inline-block
+		height: 17px
+		width: 17px
+		border-radius: 50%
+		margin-left: 8px
+		vertical-align: middle
+		border: 1px solid colors.$input-select-preview-swatch-border
 </style>

@@ -19,7 +19,15 @@
 					:class="['selected', { open: isOpen }]"
 					@click="isOpen = !isOpen"
 				>
-					{{ selectedText }}
+					<slot
+						name='before-option'
+						:value='modelValue'
+					></slot>
+					<span class="item-text">{{ selectedText }}</span>
+					<slot
+						name='after-option'
+						:value='modelValue'
+					></slot>
 				</div>
 				<div
 					class="items"
@@ -33,7 +41,15 @@
 							$emit('update:modelValue', option.value);
 						"
 					>
-						{{ option.text }}
+						<slot
+							name='before-option'
+							:value='option.value'
+						></slot>
+						<span class="item-text">{{ option.text }}</span>
+						<slot
+							name='after-option'
+							:value='option.value'
+						></slot>
 					</div>
 				</div>
 			</div>
@@ -127,6 +143,8 @@ export default defineComponent( {
 		display: block
 		padding: 0
 		margin: 0 0 4px 0
+	.item-text
+		vertical-align: middle
 	.custom-select
 		@include fonts.default-input
 		position: relative
