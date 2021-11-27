@@ -68,8 +68,7 @@ export default defineComponent( {
 		watch(
 			() => props.modelValue,
 			( val ) => {
-				const d = displayValue.value
-				if( val && !( val === 0 && ( d === '' || d === '-' ) ) ) {
+				if( val || val === 0 ) {
 					displayValue.value = val.toString()
 				}
 			},
@@ -91,17 +90,21 @@ export default defineComponent( {
 			emit( 'update:modelValue', num )
 		}
 
+		function clamp( min: number, max: number, num: number ) {
+			return Math.max( min, Math.min( num, max ) )
+		}
+
 		const increment = ( evt: Event ) => {
 			evt.preventDefault()
 			numberField.value?.focus()
 			const newValue = ( props.modelValue || 0 ) + 1
-			emitUp( Math.min( maxNum, newValue ) )
+			emitUp( clamp( minNum, maxNum, newValue ) )
 		}
 		const decrement = ( evt: Event ) => {
 			evt.preventDefault()
 			numberField.value?.focus()
 			const newValue = ( props.modelValue || 0 ) - 1
-			emitUp( Math.max( minNum, newValue ) )
+			emitUp( clamp( minNum, maxNum, newValue ) )
 		}
 
 		const updateNumber = ( evt: Event ) => {
@@ -117,7 +120,7 @@ export default defineComponent( {
 			// Remove everything except numbers and a leading hyphen
 			const stringValue = curValue.replace( /(?!^-)\D+/g, '' )
 			const numValue = parseInt( stringValue, 10 )
-			const clampedNum = Math.max( minNum, Math.min( numValue, maxNum ) )
+			const clampedNum = clamp( minNum, maxNum, numValue )
 
 
 			if( isNaN( numValue ) ) {
