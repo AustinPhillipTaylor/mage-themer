@@ -10,7 +10,7 @@
 
 		<template
 			v-for="step in variations"
-			:key="step.guid"
+			:key="step.guid + '-' + Date.now()"
 		>
 			<text-input
 				v-model="step.label"
