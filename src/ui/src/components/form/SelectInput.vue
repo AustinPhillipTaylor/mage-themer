@@ -11,7 +11,9 @@
 			<div
 				:id="id"
 				ref="selectRef"
-				class="custom-select"
+				:class="[ 'custom-select', {
+					selectError
+				}]"
 				:tabindex="tabindex"
 				@blur="isOpen = false"
 			>
@@ -20,13 +22,13 @@
 					@click="isOpen = !isOpen"
 				>
 					<slot
-						name='before-option'
-						:value='modelValue'
+						name="before-option"
+						:value="modelValue"
 					></slot>
 					<span class="item-text">{{ selectedText }}</span>
 					<slot
-						name='after-option'
-						:value='modelValue'
+						name="after-option"
+						:value="modelValue"
 					></slot>
 				</div>
 				<div
@@ -42,13 +44,13 @@
 						"
 					>
 						<slot
-							name='before-option'
-							:value='option.value'
+							name="before-option"
+							:value="option.value"
 						></slot>
 						<span class="item-text">{{ option.text }}</span>
 						<slot
-							name='after-option'
-							:value='option.value'
+							name="after-option"
+							:value="option.value"
 						></slot>
 					</div>
 				</div>
@@ -95,6 +97,16 @@ export default defineComponent( {
 			required: false,
 			default: 0,
 		},
+		selectError: {
+			type: Boolean,
+			required: false,
+			default: false,
+		},
+		errorText: {
+			type: String,
+			required: false,
+			default: 'Error',
+		},
 	},
 	setup( props ) {
 
@@ -107,6 +119,9 @@ export default defineComponent( {
 		const isOpen = ref( false )
 
 		const selectedText = computed( ()=> {
+			if( props.selectError ) {
+				return props.errorText
+			}
 			const curOption = props.options.find( ( opt ) => props.modelValue === opt.value )
 			if( curOption ) {
 				return curOption.text
@@ -194,8 +209,27 @@ export default defineComponent( {
 				white-space: nowrap
 				overflow-x: hidden
 				text-overflow: ellipsis
+				&:last-child
+					border-radius: 4px 4px 0 0
 				&:hover
 					background-color: colors.$input-select-item-hover-bg
 		.selectHide
 			display: none
+		&.selectError
+			.selected,
+			.items
+				border-color: colors.$input-select-error-border
+				background-color: colors.$input-select-error-bg
+				.item-text
+					@include fonts.error-input
+					color: colors.$input-select-error-text
+			.items
+				div
+					&:hover
+						background-color: colors.$input-select-error-item-hover-bg
+						.item-text
+							color: colors.$input-select-error-item-hover-text
+			.selected
+				&:after
+					border-color: colors.$input-select-error-arrow transparent transparent transparent
 </style>

@@ -24,8 +24,8 @@ export const useThemesStore = defineStore( {
 			const newTheme = {
 				guid,
 				name: 'Untitled Theme',
-				palette: '',
-				mixingColors: '',
+				themePalette: '',
+				mixingPalette: '',
 				namingScheme: '%{theme-name}/%{color-name}-%{label}',
 				variationMapping: [],
 			}

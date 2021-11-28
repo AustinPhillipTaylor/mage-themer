@@ -19,9 +19,9 @@ export interface Theme {
 	/** Display name */
 	name: string
 	/** GUID of main color palette */
-	palette: string
+	themePalette: string
 	/** GUID of mixing colors palette */
-	mixingColors: string
+	mixingPalette: string
 	/**
 	 * String representing naming scheme for color variations. Includes
 	 * special character codes that can be replaced with the variable information.
@@ -70,6 +70,7 @@ export const themeJSONSchema = {
 					'type': 'number',
 				},
 			},
+			'required': [ 'guid', 'label', 'mixingColor', 'percentage', 'customNamingScheme' ],
 			'type': 'object',
 		},
 		'Theme': {
@@ -78,7 +79,7 @@ export const themeJSONSchema = {
 					'description': 'Unique identifier',
 					'type': 'string',
 				},
-				'mixingColors': {
+				'mixingPalette': {
 					'description': 'GUID of mixing colors palette',
 					'type': 'string',
 				},
@@ -90,7 +91,7 @@ export const themeJSONSchema = {
 					'description': 'String representing naming scheme for color variations. Includes\nspecial character codes that can be replaced with the variable information.',
 					'type': 'string',
 				},
-				'palette': {
+				'themePalette': {
 					'description': 'GUID of main color palette',
 					'type': 'string',
 				},
@@ -102,6 +103,7 @@ export const themeJSONSchema = {
 					'type': 'array',
 				},
 			},
+			'required': [ 'guid', 'mixingPalette', 'name', 'namingScheme', 'themePalette' ],
 			'type': 'object',
 		},
 	},

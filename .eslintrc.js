@@ -41,6 +41,7 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 0,
 		'@typescript-eslint/no-var-requires': 0,
 		'vue/valid-v-slot': 0,
+		'vue/html-quotes': [ 'error', 'double' ],
 		'comma-dangle': [
 			'error',
 			{

@@ -47,6 +47,7 @@ export const paletteJSONSchema = {
 					'type': 'string',
 				},
 			},
+			'required': [ 'guid', 'colors', 'name' ],
 			'type': 'object',
 		},
 		'PaletteColor': {
@@ -64,6 +65,7 @@ export const paletteJSONSchema = {
 					'description': 'RGB object representation of color. RGB values are values between 0 and 255',
 				},
 			},
+			'required': [ 'guid', 'name', 'rgb' ],
 			'type': 'object',
 		},
 		'PaletteColors': {

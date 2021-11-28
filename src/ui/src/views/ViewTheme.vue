@@ -22,7 +22,7 @@
 				emptyText="No palettes to select from. Please create a palette to populate your theme."
 			>
 				<template
-					#after-option='workingOption'
+					#after-option="workingOption"
 				>
 					<template
 						v-for="(color, guid) in palettes[workingOption.value].colors"
@@ -41,7 +41,7 @@
 		<div class="mixing-color-select">
 			<div class="palette-select">
 				<select-input
-					v-model="mixingColors"
+					v-model="mixingPalette"
 					id="mixingPalette"
 					label="Theme Mixing Colors"
 					:unset="{
@@ -52,7 +52,7 @@
 					emptyText="No palettes to select from. Please create a palette to populate your mixing colors."
 				>
 					<template
-						#after-option='workingOption'
+						#after-option="workingOption"
 					>
 						<template
 							v-for="(color, guid) in palettes[workingOption.value].colors"
@@ -80,7 +80,7 @@
 		<div class="variations">
 			<color-variation
 				v-model="variationMapping"
-				:mixingPalette="mixingPalette || {}"
+				:colorList="mixingColorList || {}"
 				:mixingOptions="mixingOptions"
 			/>
 		</div>
@@ -124,15 +124,15 @@ export default defineComponent( {
 			},
 		} )
 		const themePalette = computed( {
-			get: () => curTheme.value.palette,
+			get: () => curTheme.value.themePalette,
 			set: ( val ) => {
-				curTheme.value.palette = val
+				curTheme.value.themePalette = val
 			},
 		} )
-		const mixingColors = computed( {
-			get: () => curTheme.value.mixingColors,
+		const mixingPalette = computed( {
+			get: () => curTheme.value.mixingPalette,
 			set: ( val ) => {
-				curTheme.value.mixingColors = val
+				curTheme.value.mixingPalette = val
 			},
 		} )
 		const namingScheme = computed( {
@@ -172,21 +172,22 @@ export default defineComponent( {
 			}
 		)
 
-		const mixingPalette = computed( () => {
-			if( mixingColors.value && palettes[mixingColors.value].colors ) {
-				return palettes[mixingColors.value].colors
+		const mixingColorList = computed( () => {
+			if( mixingPalette.value && palettes[mixingPalette.value].colors ) {
+
+				return palettes[mixingPalette.value].colors
 			}
 			return false
 		} )
 
 		const mixingOptions = computed( ()=> {
-			if( mixingPalette.value ) {
+			if( mixingColorList.value ) {
 
 				const options: SelectOption[] = []
-				for( const color in mixingPalette.value ) {
+				for( const color in mixingColorList.value ) {
 					const formattedOption = {
-						value: mixingPalette.value[color].guid,
-						text: mixingPalette.value[color].name || hexStringFromRGB( mixingPalette.value[color].rgb ),
+						value: mixingColorList.value[color].guid,
+						text: mixingColorList.value[color].name || hexStringFromRGB( mixingColorList.value[color].rgb ),
 					}
 					options.push( formattedOption )
 				}
@@ -206,9 +207,9 @@ export default defineComponent( {
 			themePalette,
 			palettes,
 			mixingOptions,
-			mixingColors,
-			namingScheme,
 			mixingPalette,
+			namingScheme,
+			mixingColorList,
 			variationMapping,
 			paletteCount,
 			paletteOptions,

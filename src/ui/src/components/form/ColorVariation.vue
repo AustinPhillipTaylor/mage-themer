@@ -30,12 +30,12 @@
 				emptyText="No mixing colors selected"
 			>
 				<template
-					v-if="mixingPalette !== {}"
-					#before-option='workingOption'
+					v-if="colorList !== {}"
+					#before-option="workingOption"
 				>
 					<div
 						:style="{
-							background: hexStringFromRGB( mixingPalette[workingOption.value].rgb ),
+							background: hexStringFromRGB( colorList[workingOption.value].rgb ),
 						}"
 						class="color-preview"
 					></div>
@@ -86,7 +86,7 @@ export default defineComponent( {
 			required: false,
 			default: () => [],
 		},
-		mixingPalette: {
+		colorList: {
 			type: Object as PropType<PaletteColors>,
 			required: false,
 			default: () => ( {} ),
