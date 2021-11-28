@@ -2,7 +2,7 @@
 	<div class="workspace">
 		<component
 			:is="workspaceComponent"
-			:key="guid"
+			:key="viewKey"
 			:guid="guid"
 		/>
 	</div>
@@ -16,10 +16,11 @@ import { useAppStore } from '../stores/app'
 export default defineComponent( {
 	setup() {
 		const appStore = useAppStore()
-		const { workspaceComponent, guid } = storeToRefs( appStore )
+		const { workspaceComponent, guid, viewKey } = storeToRefs( appStore )
 
 		return {
 			workspaceComponent,
+			viewKey,
 			guid,
 		}
 	},

@@ -52,11 +52,16 @@ export const usePalettesStore = defineStore( {
 			return newColor
 		},
 		importPalettes( addedPalettes: Palettes ) {
+			const appStore = useAppStore()
+
 			const newPaletteSet = {
 				...this.palettes,
 				...addedPalettes,
 			}
 			this.palettes = newPaletteSet
+
+			// Force component update
+			appStore.updateViewKey()
 		},
 	},
 } )

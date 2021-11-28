@@ -42,11 +42,16 @@ export const useThemesStore = defineStore( {
 			}
 		},
 		importThemes( addedThemes: Themes ) {
+			const appStore = useAppStore()
+
 			const newThemeSet = {
 				...this.themes,
 				...addedThemes,
 			}
 			this.themes = newThemeSet
+
+			// Force component update
+			appStore.updateViewKey()
 		},
 	},
 } )

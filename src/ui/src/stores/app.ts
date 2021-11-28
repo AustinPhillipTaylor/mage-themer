@@ -11,6 +11,7 @@ export const useAppStore = defineStore( {
 		header: '',
 		guid: '',
 		viewType: '',
+		viewKey: 0,
 		overlay: {
 			active: false,
 			overlayType: '',
@@ -29,6 +30,9 @@ export const useAppStore = defineStore( {
 		},
 		setGUID( guid: AppView['guid'] ) {
 			this.guid = guid
+		},
+		updateViewKey() {
+			this.viewKey += 1
 		},
 		setAppView( type = '', title = '', guid = '' ) {
 			if( viewTypes[type] ) {

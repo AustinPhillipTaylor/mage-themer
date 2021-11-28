@@ -12,6 +12,8 @@ export interface AppView {
 	guid: string
 	/** String coressponding to key in viewMap */
 	viewType: string
+	/** Key that will be applied to workspace component. Used to force component update. */
+	viewKey: number
 	/** Overlay/modal definition */
 	overlay: {
 		active: boolean
