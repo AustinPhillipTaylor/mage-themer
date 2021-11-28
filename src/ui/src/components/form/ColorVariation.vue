@@ -10,7 +10,7 @@
 
 		<template
 			v-for="step in variations"
-			:key="step.guid + '-' + Date.now()"
+			:key="step.guid"
 		>
 			<text-input
 				v-model="step.label"
@@ -27,6 +27,8 @@
 					text: '-- Select Mix Color --'
 				}"
 				:options="mixingOptions"
+				:selectError="colorList[step.mixingColor] ? false : true"
+				errorText="Missing swatch from mixing palette"
 				emptyText="No mixing colors selected"
 			>
 				<template
@@ -114,6 +116,7 @@ export default defineComponent( {
 		}
 
 		return {
+			computed,
 			palettes,
 			variations,
 			hexStringFromRGB,
@@ -130,7 +133,7 @@ export default defineComponent( {
 .color-variation-steps
 	margin: 24px 0
 	display: grid
-	grid-template-columns: 1fr 1fr auto
+	grid-template-columns: 200px 1fr auto
 	align-items: center
 	grid-gap: 8px
 	.top-row-label,

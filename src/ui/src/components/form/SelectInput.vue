@@ -23,11 +23,13 @@
 				>
 					<slot
 						name="before-option"
+						v-if="!selectError"
 						:value="modelValue"
 					></slot>
 					<span class="item-text">{{ selectedText }}</span>
 					<slot
 						name="after-option"
+						v-if="!selectError"
 						:value="modelValue"
 					></slot>
 				</div>

@@ -20,6 +20,8 @@
 				}"
 				:options="paletteOptions"
 				emptyText="No palettes to select from. Please create a palette to populate your theme."
+				:selectError="!themePaletteExists"
+				errorText="Selected Palette can not be found"
 			>
 				<template
 					#after-option="workingOption"
@@ -50,6 +52,8 @@
 					}"
 					:options="paletteOptions"
 					emptyText="No palettes to select from. Please create a palette to populate your mixing colors."
+					:selectError="!mixingPaletteExists"
+					errorText="Selected Palette can not be found"
 				>
 					<template
 						#after-option="workingOption"
@@ -172,8 +176,22 @@ export default defineComponent( {
 			}
 		)
 
+		const themePaletteExists = computed( () => {
+			if( palettes[themePalette.value] ) {
+				return true
+			}
+			return false
+		} )
+
+		const mixingPaletteExists = computed( () => {
+			if( palettes[mixingPalette.value] ) {
+				return true
+			}
+			return false
+		} )
+
 		const mixingColorList = computed( () => {
-			if( mixingPalette.value && palettes[mixingPalette.value].colors ) {
+			if( mixingPaletteExists.value ) {
 
 				return palettes[mixingPalette.value].colors
 			}
@@ -214,6 +232,8 @@ export default defineComponent( {
 			paletteCount,
 			paletteOptions,
 			hexStringFromRGB,
+			themePaletteExists,
+			mixingPaletteExists,
 		}
 	},
 } )
