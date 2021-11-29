@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, ref, watch, Ref } from 'vue'
+import { defineComponent, toRefs, ref, watch, Ref, computed } from 'vue'
 import TextInput from '../components/form/TextInput.vue'
 import { usePalettesStore } from '../stores/palettes'
 import { useAppStore } from '../stores/app'
@@ -83,10 +83,23 @@ export default defineComponent( {
 	},
 	setup( props ) {
 		const paletteStore = usePalettesStore()
-		const {
-			name,
-			colors,
-		} = toRefs( paletteStore.palettes[props.guid] )
+
+		const curPalette = computed( () => paletteStore.palettes[props.guid] )
+
+		const name = computed( {
+			get: () => curPalette.value.name,
+			set: ( val ) => {
+				curPalette.value.name = val
+			},
+		} )
+
+		const colors = computed( {
+			get: () => curPalette.value.colors,
+			set: ( val ) => {
+				curPalette.value.colors = val
+			},
+		} )
+
 		const { addPaletteColor } = paletteStore
 
 		const appStore = useAppStore()
