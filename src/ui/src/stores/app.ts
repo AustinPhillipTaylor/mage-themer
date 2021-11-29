@@ -41,8 +41,10 @@ export const useAppStore = defineStore( {
 				this.setHeaderTitle( title )
 				this.setGUID( guid )
 				this.unsetOverlay()
+				return true
 			} else {
 				console.error( `View type of '${ type }' does not exist in View Map.` )
+				return true
 			}
 		},
 		async setOverlay( type = '', props: AppView['overlay']['props'] = {} ) {
