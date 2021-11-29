@@ -63,5 +63,34 @@ export const usePalettesStore = defineStore( {
 			// Force component update
 			appStore.updateViewKey()
 		},
+		deletePalette( guid: string ) {
+			const appStore = useAppStore()
+			appStore.setOverlay( 'confirmation-modal', {
+				title: 'Delete Palette?',
+				message: 'Palette deletion can not be undone. If removed, any themes that utilize this palette will need to be updated before theme styles can be generated.',
+				buttons: {
+					cancel: {
+						text: 'Cancel Deletion',
+					},
+					confirm: {
+						text: 'Delete Palette',
+						callback: async () => {
+							if( this.palettes[guid] ) {
+								if( guid === appStore.guid ) {
+									await appStore.setAppView( 'dashboard' )
+								}
+								delete this.palettes[guid]
+							}
+						},
+					},
+				},
+			} )
+		},
+		deleteSwatch( paletteGUID: string, swatchGUID: string ) {
+			if( this.palettes[paletteGUID] && this.palettes[paletteGUID].colors[swatchGUID] ) {
+				delete this.palettes[paletteGUID].colors[swatchGUID]
+			}
+		},
+
 	},
 } )

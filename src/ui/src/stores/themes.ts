@@ -53,5 +53,28 @@ export const useThemesStore = defineStore( {
 			// Force component update
 			appStore.updateViewKey()
 		},
+		deleteTheme( guid: string ) {
+			const appStore = useAppStore()
+			appStore.setOverlay( 'confirmation-modal', {
+				title: 'Delete Theme?',
+				message: 'Theme deletion can not be undone. If removed, color styles already added to Figma will remain intact, and must be removed manually if you choose to do so.',
+				buttons: {
+					cancel: {
+						text: 'Cancel Deletion',
+					},
+					confirm: {
+						text: 'Delete Theme',
+						callback: async () => {
+							if( this.themes[guid] ) {
+								if( guid === appStore.guid ) {
+									await appStore.setAppView( 'dashboard' )
+								}
+								delete this.themes[guid]
+							}
+						},
+					},
+				},
+			} )
+		},
 	},
 } )

@@ -19,6 +19,12 @@
 				@click="setAppView( 'theme', theme.name, guid as string )"
 			>
 				{{ theme.name }}
+				<div
+					class="material-icons-outlined delete-item"
+					@click.stop="() => deleteTheme( guid as string )"
+				>
+					close
+				</div>
 			</li>
 		</ul>
 		<div class="section-label"> Palettes </div>
@@ -40,6 +46,12 @@
 				@click="setAppView( 'palette', palette.name, guid as string )"
 			>
 				{{ palette.name }}
+				<div
+					class="material-icons-outlined delete-item"
+					@click.stop="() => deletePalette( guid as string )"
+				>
+					close
+				</div>
 			</li>
 		</ul>
 	</div>
@@ -64,11 +76,21 @@ export default defineComponent( {
 		const themeStore = useThemesStore()
 		const { themes } = storeToRefs( themeStore )
 
+		function deleteTheme( guid: string ) {
+			themeStore.deleteTheme( guid )
+		}
+
+		function deletePalette( guid: string ) {
+			paletteStore.deletePalette( guid )
+		}
+
 		return {
 			setAppView,
 			currentGUID,
 			palettes,
 			themes,
+			deleteTheme,
+			deletePalette,
 		}
 	},
 } )

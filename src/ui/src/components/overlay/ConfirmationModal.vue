@@ -81,8 +81,8 @@ export default defineComponent( {
 </script>
 
 <style lang="sass" scoped>
-@use '../../../styles/mixins/fonts'
-@use '../../../styles/mixins/colors'
+@use '../../styles/mixins/fonts'
+@use '../../styles/mixins/colors'
 
 .modal-wrapper
 	position: absolute
