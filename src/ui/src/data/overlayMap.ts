@@ -1,6 +1,7 @@
 import { OverlayMap } from '../types/OverlayMap'
 import ColorPicker from '../components/overlay/ColorPicker.vue'
 import FileImport from '../components/overlay/FileImport/FileImport.vue'
+import ConfirmationModal from '../components/overlay/ConfirmationModal.vue'
 
 export const overlayTypes: OverlayMap = {
 	'color-picker': {
@@ -9,8 +10,7 @@ export const overlayTypes: OverlayMap = {
 	'file-import': {
 		overlayComponent: FileImport,
 	},
-	'modal': {
-		// Come back to this later
-		overlayComponent: {},
+	'confirmation-modal': {
+		overlayComponent: ConfirmationModal,
 	},
 }
