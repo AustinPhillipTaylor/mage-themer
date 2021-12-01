@@ -44,20 +44,21 @@
 						text: '-- Select Mix Color --'
 					}"
 					:options="mixingOptions"
-					:selectError="colorList[step.mixingColor] ? false : true"
+					:selectError="swatchError(step)"
 					errorText="Missing swatch from mixing palette"
 					emptyText="No mixing colors selected"
 				>
 					<template
-						v-if="colorList !== {}"
 						#before-option="workingOption"
 					>
-						<div
-							:style="{
-								background: hexStringFromRGB( colorList[workingOption.value].rgb ),
-							}"
-							class="color-preview"
-						></div>
+						<template v-if="workingOption.value">
+							<div
+								:style="{
+									background: hexStringFromRGB( colorList[workingOption.value].rgb ),
+								}"
+								class="color-preview"
+							></div>
+						</template>
 					</template>
 				</select-input>
 				<number-input
@@ -159,6 +160,19 @@ export default defineComponent( {
 			emit( 'update:modelValue', variations.value )
 		}
 
+
+		function swatchError( step: ColorVariation ) {
+			// We don't want to show an error if it's empty or undefined
+			if( step.mixingColor ) {
+				if( props.colorList[step.mixingColor] ) {
+					return false
+				}
+				// Only return here if mixingPalette is non-falsy value and value doesn't exist in palettes
+				return true
+			}
+			return false
+		}
+
 		function deleteVariation( guid: string ) {
 
 		}
@@ -167,6 +181,7 @@ export default defineComponent( {
 			computed,
 			palettes,
 			variations,
+			swatchError,
 			deleteVariation,
 			hexStringFromRGB,
 			addColorVariation,

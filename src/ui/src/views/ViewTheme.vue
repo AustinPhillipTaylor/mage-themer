@@ -24,19 +24,20 @@
 				errorText="Selected Palette can not be found"
 			>
 				<template
-					v-if="themePalette"
 					#after-option="workingOption"
 				>
-					<template
-						v-for="(color, guid) in palettes[workingOption.value].colors"
-						:key="guid"
-					>
-						<div
-							:style="{
-								background: hexStringFromRGB( color.rgb ),
-							}"
-							class="color-preview"
-						></div>
+					<template v-if="workingOption.value">
+						<template
+							v-for="(color, guid) in palettes[workingOption.value].colors"
+							:key="guid"
+						>
+							<div
+								:style="{
+									background: hexStringFromRGB( color.rgb ),
+								}"
+								class="color-preview"
+							></div>
+						</template>
 					</template>
 				</template>
 			</select-input>
@@ -57,19 +58,20 @@
 					errorText="Selected Palette can not be found"
 				>
 					<template
-						v-if="mixingPalette"
 						#after-option="workingOption"
 					>
-						<template
-							v-for="(color, guid) in palettes[workingOption.value].colors"
-							:key="guid"
-						>
-							<div
-								:style="{
-									background: hexStringFromRGB( color.rgb ),
-								}"
-								class="color-preview"
-							></div>
+						<template v-if="workingOption.value">
+							<template
+								v-for="(color, guid) in palettes[workingOption.value].colors"
+								:key="guid"
+							>
+								<div
+									:style="{
+										background: hexStringFromRGB( color.rgb ),
+									}"
+									class="color-preview"
+								></div>
+							</template>
 						</template>
 					</template>
 				</select-input>
@@ -164,7 +166,7 @@ export default defineComponent( {
 			for( const palette in palettes ) {
 				const formattedOption = {
 					value: palettes[palette].guid,
-					text: palettes[palette].name,
+					text: palettes[palette].name || 'Untitled Palette',
 				}
 				options.push( formattedOption )
 			}
@@ -203,7 +205,7 @@ export default defineComponent( {
 		} )
 
 		const mixingColorList = computed( () => {
-			if( mixingPaletteError.value ) {
+			if( mixingPalette.value && !mixingPaletteError.value ) {
 
 				return palettes[mixingPalette.value].colors
 			}
