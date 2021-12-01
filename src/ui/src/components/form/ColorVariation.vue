@@ -73,6 +73,7 @@
 					<div class="delete-item-wrapper">
 						<div
 							class="material-icons-outlined delete-item"
+							@click="() => deleteVariation(step.guid)"
 						>
 							close
 						</div>
@@ -174,7 +175,10 @@ export default defineComponent( {
 		}
 
 		function deleteVariation( guid: string ) {
-
+			const filteredVariationList = variations.value.filter( ( variation ) => {
+				return variation.guid !== guid
+			} )
+			emit( 'update:modelValue', filteredVariationList )
 		}
 
 		return {
