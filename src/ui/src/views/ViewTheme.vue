@@ -20,10 +20,11 @@
 				}"
 				:options="paletteOptions"
 				emptyText="No palettes to select from. Please create a palette to populate your theme."
-				:selectError="!themePaletteExists"
+				:selectError="themePaletteError"
 				errorText="Selected Palette can not be found"
 			>
 				<template
+					v-if="themePalette"
 					#after-option="workingOption"
 				>
 					<template
@@ -52,10 +53,11 @@
 					}"
 					:options="paletteOptions"
 					emptyText="No palettes to select from. Please create a palette to populate your mixing colors."
-					:selectError="!mixingPaletteExists"
+					:selectError="mixingPaletteError"
 					errorText="Selected Palette can not be found"
 				>
 					<template
+						v-if="mixingPalette"
 						#after-option="workingOption"
 					>
 						<template
@@ -176,22 +178,32 @@ export default defineComponent( {
 			}
 		)
 
-		const themePaletteExists = computed( () => {
-			if( palettes[themePalette.value] ) {
+		const themePaletteError = computed( () => {
+			// We don't want to show an error if it's empty or undefined
+			if( themePalette.value ) {
+				if( palettes[themePalette.value] ) {
+					return false
+				}
+				// Only return here if themePalette is non-falsy value and value doesn't exist in palettes
 				return true
 			}
 			return false
 		} )
 
-		const mixingPaletteExists = computed( () => {
-			if( palettes[mixingPalette.value] ) {
+		const mixingPaletteError = computed( () => {
+			// We don't want to show an error if it's empty or undefined
+			if( mixingPalette.value ) {
+				if( palettes[mixingPalette.value] ) {
+					return false
+				}
+				// Only return here if mixingPalette is non-falsy value and value doesn't exist in palettes
 				return true
 			}
 			return false
 		} )
 
 		const mixingColorList = computed( () => {
-			if( mixingPaletteExists.value ) {
+			if( mixingPaletteError.value ) {
 
 				return palettes[mixingPalette.value].colors
 			}
@@ -232,8 +244,8 @@ export default defineComponent( {
 			paletteCount,
 			paletteOptions,
 			hexStringFromRGB,
-			themePaletteExists,
-			mixingPaletteExists,
+			themePaletteError,
+			mixingPaletteError,
 		}
 	},
 } )
