@@ -133,10 +133,11 @@ export default defineComponent( {
 		li
 			&.sidebar-button
 				text-align: left
-				padding: 8px 16px 8px 12px
+				padding: 8px 36px 8px 12px
 				background: transparent
 				width: auto
 				display: block
+				position: relative
 				margin: 0
 				border: none
 				outline: none
@@ -154,4 +155,26 @@ export default defineComponent( {
 					color: colors.$sidebar-link-text-active
 					background: colors.$sidebar-link-active-bg
 					border-left: 4px solid colors.$sidebar-link-border-hover
+				&:hover
+					.material-icons-outlined
+						&.delete-item
+							display: inline-block
+				.material-icons-outlined
+					@include fonts.material-icons
+					&.delete-item
+						padding: 4px
+						display: none
+						position: absolute
+						top: 50%
+						transform: translateY(-50%)
+						right: 4px
+						background: colors.$sidebar-link-active-bg
+						border-radius: 4px
+						cursor: pointer
+						height: 28px
+						width: 28px
+						justify-self: center
+						&:hover
+							background: colors.$icon-danger-bg
+							color: colors.$icon-danger-text
 </style>

@@ -1,56 +1,98 @@
 
 <template>
-	<div class="color-variation-steps">
+	<div class="color-variations">
 
-		<template v-if="variations.length > 0">
+		<div
+			class="variation-labels"
+			v-if="variations.length > 0"
+		>
+			<div class="top-row-label"><!-- Extra options --></div>
 			<div class="top-row-label">Label</div>
 			<div class="top-row-label">Mix Color</div>
 			<div class="top-row-label">Amount (%)</div>
-		</template>
+		</div>
 
 		<template
 			v-for="step in variations"
 			:key="step.guid"
 		>
-			<text-input
-				v-model="step.label"
-				class="variation-label"
-				id="colorLabel"
-				placeholder="Label"
-			/>
-			<select-input
-				v-model="step.mixingColor"
-				id="mixingPaletteSelection"
-				class="mix-color"
-				:unset="{
-					value: '',
-					text: '-- Select Mix Color --'
-				}"
-				:options="mixingOptions"
-				:selectError="colorList[step.mixingColor] ? false : true"
-				errorText="Missing swatch from mixing palette"
-				emptyText="No mixing colors selected"
-			>
-				<template
-					v-if="colorList !== {}"
-					#before-option="workingOption"
+			<div class="variation">
+				<input
+					type="checkbox"
+					:id="'tog-' + step.guid"
+					:style="{display: 'none'}"
+					class="advanced-options-toggle"
 				>
-					<div
-						:style="{
-							background: hexStringFromRGB( colorList[workingOption.value].rgb ),
-						}"
-						class="color-preview"
-					></div>
-				</template>
-			</select-input>
-			<number-input
-				v-model="step.percentage"
-				id="mixPercentage"
-				class="mix-percentage"
-				placeholder="%"
-				min="0"
-				max="100"
-			/>
+				<label
+					:for="'tog-' + step.guid"
+					class="material-icons-outlined expand-more"
+				>
+					expand_more
+				</label>
+				<text-input
+					v-model="step.label"
+					class="variation-label"
+					id="colorLabel"
+					placeholder="Label"
+				/>
+				<select-input
+					v-model="step.mixingColor"
+					id="mixingPaletteSelection"
+					class="mix-color"
+					:unset="{
+						value: '',
+						text: '-- Select Mix Color --'
+					}"
+					:options="mixingOptions"
+					:selectError="colorList[step.mixingColor] ? false : true"
+					errorText="Missing swatch from mixing palette"
+					emptyText="No mixing colors selected"
+				>
+					<template
+						v-if="colorList !== {}"
+						#before-option="workingOption"
+					>
+						<div
+							:style="{
+								background: hexStringFromRGB( colorList[workingOption.value].rgb ),
+							}"
+							class="color-preview"
+						></div>
+					</template>
+				</select-input>
+				<number-input
+					v-model="step.percentage"
+					id="mixPercentage"
+					class="mix-percentage"
+					placeholder="%"
+					min="0"
+					max="100"
+				/>
+				<div class="expanded-options">
+					<div class="delete-item-wrapper">
+						<div
+							class="material-icons-outlined delete-item"
+						>
+							close
+						</div>
+						<div class="tooltip">Delete color variant</div>
+					</div>
+					<div class="advanced-options">
+						<toggle-input
+							:modelValue="true"
+							id="something"
+							label="Variation naming scheme"
+						/>
+						<text-input
+							v-model="step.label"
+							class="variation-label"
+							id="colorLabel"
+							label="Variation naming scheme"
+							placeholder="Naming Scheme"
+						/>
+					</div>
+				</div>
+			</div>
 		</template>
 	</div>
 	<div
@@ -69,6 +111,7 @@ import { hexStringFromRGB } from '../../utils/hexStringFromRGB'
 import TextInput from './TextInput.vue'
 import NumberInput from './NumberInput.vue'
 import SelectInput from './SelectInput.vue'
+import ToggleInput from './ToggleInput.vue'
 import { PaletteColors } from '../../types/Palette'
 
 export default defineComponent( {
@@ -76,6 +119,7 @@ export default defineComponent( {
 		TextInput,
 		NumberInput,
 		SelectInput,
+		ToggleInput,
 	},
 	props: {
 		modelValue: {
@@ -115,10 +159,15 @@ export default defineComponent( {
 			emit( 'update:modelValue', variations.value )
 		}
 
+		function deleteVariation( guid: string ) {
+
+		}
+
 		return {
 			computed,
 			palettes,
 			variations,
+			deleteVariation,
 			hexStringFromRGB,
 			addColorVariation,
 		}
@@ -130,10 +179,10 @@ export default defineComponent( {
 @use '../../styles/mixins/fonts'
 @use '../../styles/mixins/colors'
 
-.color-variation-steps
+.color-variations
 	margin: 24px 0
 	display: grid
-	grid-template-columns: 200px 1fr auto
+	grid-template-columns: 28px 200px 1fr auto
 	align-items: center
 	grid-gap: 8px
 	.top-row-label,
@@ -144,6 +193,10 @@ export default defineComponent( {
 		margin: 0
 		vertical-align: middle
 		white-space: nowrap
+	.variation-labels
+		display: contents
+	.variation
+		display: contents
 	.mix-color
 		min-width: 200px
 		.color-preview
@@ -158,6 +211,80 @@ export default defineComponent( {
 		min-width: 120px
 	.top-row-label
 		@include fonts.input-label
+	.expanded-options
+		display: none
+		grid-template-columns: 28px 1fr
+		min-height: 32px
+		grid-gap: 8px
+		grid-column: 1/-1
+		.advanced-options
+			grid-column: 2/-1
+			background: colors.$gray-10
+			border-radius: 4px
+			padding: 8px 16px
+		.delete-item-wrapper
+			height: min-content
+			position: relative
+			.tooltip
+				@include fonts.tooltip
+				display: none
+				padding: 4px 8px
+				white-space: nowrap
+				position: absolute
+				left: 0
+				top: 100%
+				background: colors.$main-dark
+				color: colors.$main-light
+				pointer-events: none
+				border-radius: 0 4px 4px 4px
+				&:before
+					content: ""
+					display: block
+					width: 0
+					height: 0
+					border: 8px solid transparent
+					border-left: 8px solid colors.$main-dark
+					position: absolute
+					top: -8px
+					left: 0px
+			.delete-item
+				&:hover
+					&+.tooltip
+						display: inline-block
+	.advanced-options-toggle
+		&:checked
+			&+.material-icons-outlined
+				&.expand-more
+					background: colors.$action-icon-active-bg
+					transform: rotate(180deg)
+					&:hover
+						background: colors.$action-icon-hover-bg
+				&~.expanded-options
+					display: grid
+	.material-icons-outlined
+		@include fonts.material-icons
+		&.expand-more
+			padding: 4px
+			display: inline-block
+			background: colors.$action-icon-bg
+			border-radius: 4px
+			cursor: pointer
+			height: 28px
+			width: 28px
+			justify-self: center
+			&:hover
+				background: colors.$action-icon-hover-bg
+		&.delete-item
+			padding: 4px
+			background: colors.$sidebar-link-active-bg
+			border-radius: 4px
+			cursor: pointer
+			height: 28px
+			width: 28px
+			justify-self: center
+			&:hover
+				background: colors.$icon-danger-bg
+				color: colors.$icon-danger-text
 .add-new-variation
 	@include fonts.secondary-button
 	display: block

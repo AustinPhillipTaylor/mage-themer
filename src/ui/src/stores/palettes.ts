@@ -67,7 +67,7 @@ export const usePalettesStore = defineStore( {
 			const appStore = useAppStore()
 			appStore.setOverlay( 'confirmation-modal', {
 				title: 'Delete Palette?',
-				message: 'Palette deletion can not be undone. If removed, any themes that utilize this palette will need to be updated before theme styles can be generated.',
+				message: 'Palette deletion can not be undone. If removed, any themes that utilize this palette will need to be updated before Figma styles can be generated for the affected themes.',
 				buttons: {
 					cancel: {
 						text: 'Cancel Deletion',

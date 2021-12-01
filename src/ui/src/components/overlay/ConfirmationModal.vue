@@ -131,8 +131,9 @@ export default defineComponent( {
 					&:hover
 						background: colors.$action-icon-hover-bg
 		.modal-body
+			@include fonts.modal-message
 			grid-row: body
-			padding: 32px 0
+			padding: 32px
 			.modal-footer-notice
 				margin: 32px 32px 0 32px
 		.modal-buttons
