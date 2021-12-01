@@ -18,7 +18,7 @@
 				:class="['sidebar-button', { 'current': currentGUID === guid as string }]"
 				@click="setAppView( 'theme', theme.name, guid as string )"
 			>
-				{{ theme.name }}
+				{{ theme.name || 'Untitled Theme' }}
 				<div
 					class="material-icons-outlined delete-item"
 					@click.stop="() => deleteTheme( guid as string )"
@@ -45,7 +45,7 @@
 				:class="['sidebar-button', { 'current': currentGUID === guid as string }]"
 				@click="setAppView( 'palette', palette.name, guid as string )"
 			>
-				{{ palette.name }}
+				{{ palette.name || 'Untitled Palette' }}
 				<div
 					class="material-icons-outlined delete-item"
 					@click.stop="() => deletePalette( guid as string )"

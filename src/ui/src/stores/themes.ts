@@ -23,7 +23,7 @@ export const useThemesStore = defineStore( {
 			const appStore = useAppStore()
 			const newTheme = {
 				guid,
-				name: 'Untitled Theme',
+				name: '',
 				themePalette: '',
 				mixingPalette: '',
 				namingScheme: '%{theme-name}/%{color-name}-%{label}',

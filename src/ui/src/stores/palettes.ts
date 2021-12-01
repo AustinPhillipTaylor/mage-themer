@@ -27,7 +27,7 @@ export const usePalettesStore = defineStore( {
 			const appStore = useAppStore()
 			const newPalette = {
 				guid,
-				name: 'Untitled Palette',
+				name: '',
 				colors: {},
 			}
 			this.palettes[guid] = newPalette

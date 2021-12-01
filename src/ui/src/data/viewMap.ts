@@ -13,13 +13,13 @@ export const viewTypes: ViewMap = {
 	'theme': {
 		workspaceComponent: ViewTheme,
 		header( title: string ) {
-			return `Theme - ${ title }`
+			return `Theme - ${ title || 'Untitled Theme' }`
 		},
 	},
 	'palette': {
 		workspaceComponent: ViewPalette,
 		header( title: string ) {
-			return `Palette - ${ title }`
+			return `Palette - ${ title || 'Untitled Palette' }`
 		},
 	},
 }
