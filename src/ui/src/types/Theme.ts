@@ -10,7 +10,7 @@ export interface ColorVariation {
 	/** If color variation should override theme naming scheme */
 	customNamingScheme: boolean
 	/** Variation-specific naming scheme */
-	namingScheme?: string
+	namingScheme: string
 }
 
 export interface Theme {
@@ -70,7 +70,7 @@ export const themeJSONSchema = {
 					'type': 'number',
 				},
 			},
-			'required': [ 'guid', 'label', 'mixingColor', 'percentage', 'customNamingScheme' ],
+			'required': [ 'guid', 'label', 'mixingColor', 'percentage', 'customNamingScheme', 'namingScheme' ],
 			'type': 'object',
 		},
 		'Theme': {
