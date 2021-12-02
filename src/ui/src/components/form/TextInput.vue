@@ -10,6 +10,7 @@
 			@input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
 			:placeholder="placeholder"
 			type="text"
+			:disabled="disabled"
 		>
 	</div>
 </template>
@@ -35,6 +36,11 @@ export default defineComponent( {
 			type: String,
 			required: false,
 			default: '',
+		},
+		disabled: {
+			type: Boolean,
+			required: false,
+			default: false,
 		},
 	},
 } )
