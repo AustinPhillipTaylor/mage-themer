@@ -32,12 +32,12 @@
 				<text-input
 					v-model="step.label"
 					class="variation-label"
-					id="colorLabel"
+					:id="'colorLabel-' + step.guid"
 					placeholder="Label"
 				/>
 				<select-input
 					v-model="step.mixingColor"
-					id="mixingPaletteSelection"
+					:id="'mixPalette-' + step.guid"
 					class="mix-color"
 					:unset="{
 						value: '',
@@ -63,7 +63,7 @@
 				</select-input>
 				<number-input
 					v-model="step.percentage"
-					id="mixPercentage"
+					:id="'percent-' + step.guid"
 					class="mix-percentage"
 					placeholder="%"
 					min="0"
@@ -81,16 +81,16 @@
 					</div>
 					<div class="advanced-options">
 						<toggle-input
-							:modelValue="true"
-							id="something"
-							label="Variation naming scheme"
+							v-model="step.customNamingScheme"
+							:id="'csToggle-' + step.guid"
+							label="Override naming scheme for this variation?"
 						/>
 						<text-input
-							v-model="step.label"
-							class="variation-label"
-							id="colorLabel"
+							v-model="step.namingScheme"
+							:id="'customScheme-' + step.guid"
 							label="Variation naming scheme"
 							placeholder="Naming Scheme"
+							:disabled="!step.customNamingScheme"
 						/>
 					</div>
 				</div>
@@ -156,6 +156,7 @@ export default defineComponent( {
 				mixingColor: '',
 				percentage: 0,
 				customNamingScheme: false,
+				namingScheme: '%{theme-name}/%{color-name}-%{labels}',
 			}
 			variations.value.push( newColorStep )
 			emit( 'update:modelValue', variations.value )
@@ -240,12 +241,13 @@ export default defineComponent( {
 			grid-column: 2/-1
 			background: colors.$gray-10
 			border-radius: 4px
-			padding: 8px 16px
+			padding: 0 16px
 		.delete-item-wrapper
 			height: min-content
 			position: relative
 			.tooltip
 				@include fonts.tooltip
+				z-index: 999999
 				display: none
 				padding: 4px 8px
 				white-space: nowrap
