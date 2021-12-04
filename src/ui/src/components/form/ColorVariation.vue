@@ -85,11 +85,12 @@
 							:id="'csToggle-' + step.guid"
 							label="Override naming scheme for this variation?"
 						/>
-						<text-input
+						<template-text-input
 							v-model="step.namingScheme"
 							:id="'customScheme-' + step.guid"
 							label="Variation naming scheme"
 							placeholder="Naming Scheme"
+							:templates="propTemplates"
 							:disabled="!step.customNamingScheme"
 						/>
 					</div>
@@ -114,7 +115,9 @@ import TextInput from './TextInput.vue'
 import NumberInput from './NumberInput.vue'
 import SelectInput from './SelectInput.vue'
 import ToggleInput from './ToggleInput.vue'
+import TemplateTextInput from './TemplateTextInput.vue'
 import { PaletteColors } from '../../types/Palette'
+import { propTemplates } from '../../data/nameSchemeTemplates'
 
 export default defineComponent( {
 	components: {
@@ -122,6 +125,7 @@ export default defineComponent( {
 		NumberInput,
 		SelectInput,
 		ToggleInput,
+		TemplateTextInput,
 	},
 	props: {
 		modelValue: {
@@ -156,7 +160,7 @@ export default defineComponent( {
 				mixingColor: '',
 				percentage: 0,
 				customNamingScheme: false,
-				namingScheme: '%{theme-name}/%{color-name}-%{labels}',
+				namingScheme: [],
 			}
 			variations.value.push( newColorStep )
 			emit( 'update:modelValue', variations.value )
@@ -190,6 +194,7 @@ export default defineComponent( {
 			deleteVariation,
 			hexStringFromRGB,
 			addColorVariation,
+			propTemplates,
 		}
 	},
 } )

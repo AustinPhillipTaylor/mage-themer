@@ -78,11 +78,12 @@
 			</div>
 		</div>
 		<div class="naming-scheme">
-			<text-input
+			<template-text-input
 				v-model="namingScheme"
 				id="namingScheme"
 				label="Naming Scheme"
 				placeholder="Naming Scheme"
+				:templates="propTemplates"
 			/>
 		</div>
 		<div class="variations">
@@ -103,14 +104,17 @@ import { useThemesStore } from '../stores/themes'
 import TextInput from '../components/form/TextInput.vue'
 import SelectInput from '../components/form/SelectInput.vue'
 import ColorVariation from '../components/form/ColorVariation.vue'
+import TemplateTextInput from '../components/form/TemplateTextInput.vue'
 import { SelectOption } from '../types/SelectOption'
 import { hexStringFromRGB } from '../utils/hexStringFromRGB'
+import { propTemplates } from '../data/nameSchemeTemplates'
 
 export default defineComponent( {
 	components: {
 		TextInput,
 		SelectInput,
 		ColorVariation,
+		TemplateTextInput,
 	},
 	props: {
 		guid: {
@@ -248,6 +252,7 @@ export default defineComponent( {
 			hexStringFromRGB,
 			themePaletteError,
 			mixingPaletteError,
+			propTemplates,
 		}
 	},
 } )
