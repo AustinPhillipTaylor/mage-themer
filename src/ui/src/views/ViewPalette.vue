@@ -28,7 +28,10 @@
 						>
 							palette
 						</div>
-						<div class="material-icons-outlined delete">
+						<div
+							class="material-icons-outlined delete"
+							@click="() => deleteSwatch( guid, color.guid )"
+						>
 							delete
 						</div>
 					</div>
@@ -100,7 +103,7 @@ export default defineComponent( {
 			},
 		} )
 
-		const { addPaletteColor } = paletteStore
+		const { addPaletteColor, deleteSwatch } = paletteStore
 
 		const appStore = useAppStore()
 
@@ -124,6 +127,7 @@ export default defineComponent( {
 		return {
 			name,
 			colors,
+			deleteSwatch,
 			addPaletteColor,
 			hexStringFromRGB,
 			setColorPicker,

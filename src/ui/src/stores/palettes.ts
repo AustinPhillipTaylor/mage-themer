@@ -87,9 +87,24 @@ export const usePalettesStore = defineStore( {
 			} )
 		},
 		deleteSwatch( paletteGUID: string, swatchGUID: string ) {
-			if( this.palettes[paletteGUID] && this.palettes[paletteGUID].colors[swatchGUID] ) {
-				delete this.palettes[paletteGUID].colors[swatchGUID]
-			}
+			const appStore = useAppStore()
+			appStore.setOverlay( 'confirmation-modal', {
+				title: 'Delete Swatch?',
+				message: 'Swatch deletion can not be undone. If removed, themes that utilize this swatch may need to be updated before Figma styles can be generated for the affected themes.',
+				buttons: {
+					cancel: {
+						text: 'Cancel Deletion',
+					},
+					confirm: {
+						text: 'Delete Swatch',
+						callback: async () => {
+							if( this.palettes[paletteGUID] && this.palettes[paletteGUID].colors[swatchGUID] ) {
+								delete this.palettes[paletteGUID].colors[swatchGUID]
+							}
+						},
+					},
+				},
+			} )
 		},
 
 	},
