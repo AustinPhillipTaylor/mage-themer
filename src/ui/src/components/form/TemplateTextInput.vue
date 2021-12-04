@@ -298,8 +298,13 @@ export default defineComponent( {
 		background: colors.$input-template-bg
 		&.disabled
 			background: colors.$input-disabled-bg
-			color: colors.$input-disabled-text
 			border-color: colors.$input-disabled-border
+			.input-container
+				color: colors.$input-disabled-text
+				&:deep(.template-item)
+					.template-inner
+						background: colors.$gray-20
+						color: colors.$input-disabled-text
 		&:focus,
 		&:focus-within
 			border: 2px solid colors.$orange

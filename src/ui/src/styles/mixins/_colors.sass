@@ -5,6 +5,7 @@ $main-light: #fff
 $gray-10: #f0f4f9
 $gray-20: #e1e7ef
 $placeholder: #757575
+$disabled-text: color.adjust($main-dark, $lightness: 40%)
 
 
 $orange: #f7971c
@@ -101,7 +102,7 @@ $button-success-active: color.adjust($green, $blackness: 15%)
 $button-danger-active: color.adjust($red, $blackness: 15%)
 $button-bg: $main-light
 $button-disabled: $gray-10
-$button-disabled-text: color.adjust($main-dark, $lightness: 40%)
+$button-disabled-text: $disabled-text
 $button-hover-text: $main-light
 
 $icon-success-bg: $success-light
@@ -111,6 +112,6 @@ $icon-success-text: $success
 $icon-danger-text: $danger
 $icon-neutral-text: color.adjust($main-dark, $lightness: 40%)
 
-$input-disabled-bg: rgba(239, 239, 239, 0.3)
-$input-disabled-text: rgb(84, 84, 84)
-$input-disabled-border: rgba(118, 118, 118, 0.3)
+$input-disabled-bg: $gray-10
+$input-disabled-text: $disabled-text
+$input-disabled-border: color.adjust($main-dark, $lightness: 60%)
