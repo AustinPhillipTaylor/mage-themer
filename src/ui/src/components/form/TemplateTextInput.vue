@@ -343,7 +343,7 @@ export default defineComponent( {
 			right: 16px
 			top: 50%
 			transform: translateY(-50%)
-			z-index: 9999
+			z-index: 99
 			.material-icons-outlined
 				@include fonts.material-icons-large
 				color: colors.$input-template-add-button
