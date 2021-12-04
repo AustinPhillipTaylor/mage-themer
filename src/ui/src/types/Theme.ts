@@ -1,3 +1,7 @@
+import { ItemTemplate, TextTemplate } from './TemplateInput'
+
+export type NamingScheme = ( TextTemplate | ItemTemplate )[]
+
 export interface ColorVariation {
 	/** Unique identifier */
 	guid: string
@@ -10,7 +14,7 @@ export interface ColorVariation {
 	/** If color variation should override theme naming scheme */
 	customNamingScheme: boolean
 	/** Variation-specific naming scheme */
-	namingScheme: string
+	namingScheme: NamingScheme
 }
 
 export interface Theme {
@@ -26,7 +30,7 @@ export interface Theme {
 	 * String representing naming scheme for color variations. Includes
 	 * special character codes that can be replaced with the variable information.
 	 */
-	namingScheme: string
+	namingScheme: NamingScheme
 	/** Array of variations for theme */
 	variationMapping: ColorVariation[]
 }
@@ -63,14 +67,67 @@ export const themeJSONSchema = {
 				},
 				'namingScheme': {
 					'description': 'Variation-specific naming scheme',
-					'type': 'string',
+					'items': {
+						'anyOf': [
+							{
+								'$ref': '#/definitions/TextTemplate',
+							},
+							{
+								'$ref': '#/definitions/ItemTemplate',
+							},
+						],
+					},
+					'type': 'array',
 				},
 				'percentage': {
 					'description': 'Number 0-100, represents amount of mixingColor to add to base palette color',
 					'type': 'number',
 				},
 			},
-			'required': [ 'guid', 'label', 'mixingColor', 'percentage', 'customNamingScheme', 'namingScheme' ],
+			'required': [
+				'customNamingScheme',
+				'guid',
+				'label',
+				'mixingColor',
+				'namingScheme',
+				'percentage',
+			],
+			'type': 'object',
+		},
+		'ItemTemplate': {
+			'properties': {
+				'template': {
+					'type': 'string',
+				},
+				'type': {
+					'enum': [
+						'template',
+					],
+					'type': 'string',
+				},
+			},
+			'required': [
+				'template',
+				'type',
+			],
+			'type': 'object',
+		},
+		'TextTemplate': {
+			'properties': {
+				'text': {
+					'type': 'string',
+				},
+				'type': {
+					'enum': [
+						'text',
+					],
+					'type': 'string',
+				},
+			},
+			'required': [
+				'text',
+				'type',
+			],
 			'type': 'object',
 		},
 		'Theme': {
@@ -89,7 +146,17 @@ export const themeJSONSchema = {
 				},
 				'namingScheme': {
 					'description': 'String representing naming scheme for color variations. Includes\nspecial character codes that can be replaced with the variable information.',
-					'type': 'string',
+					'items': {
+						'anyOf': [
+							{
+								'$ref': '#/definitions/TextTemplate',
+							},
+							{
+								'$ref': '#/definitions/ItemTemplate',
+							},
+						],
+					},
+					'type': 'array',
 				},
 				'themePalette': {
 					'description': 'GUID of main color palette',
@@ -103,7 +170,14 @@ export const themeJSONSchema = {
 					'type': 'array',
 				},
 			},
-			'required': [ 'guid', 'mixingPalette', 'name', 'namingScheme', 'themePalette' ],
+			'required': [
+				'guid',
+				'mixingPalette',
+				'name',
+				'namingScheme',
+				'themePalette',
+				'variationMapping',
+			],
 			'type': 'object',
 		},
 	},
