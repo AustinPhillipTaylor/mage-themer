@@ -166,6 +166,7 @@ export default defineComponent( {
 			background: colors.$secondary-button-bg
 			cursor: pointer
 			color: colors.$secondary-button-text
+			border: 1px solid colors.$secondary-button-border
 			&:hover
 				background: colors.$secondary-button-hover-bg
 				div
