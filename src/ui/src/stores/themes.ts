@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
-import { Theme, Themes } from '../types/Theme'
+import { Theme, Themes, themeJSONSchema } from '../types/Theme'
 import { v4 as uuidv4 } from 'uuid'
 import { readLocal } from '../utils/localStorage'
 import { useAppStore } from './app'
+import { usePalettesStore } from './palettes'
 
 const themeStorageKey = 'theme-styles-themes'
 
@@ -15,7 +16,76 @@ export const useThemesStore = defineStore( {
 		themes,
 	} ),
 	getters: {
-
+		themeErrors: ( state ) => {
+			/**
+			 * This will return an array of numbers corresponding to different errors
+			 * (-1) -> Theme does not exist
+			 * (1) -> GUID property not set
+			 * (2) -> Theme palette not set
+			 * (3) -> Theme palette does not exist
+			 * (4) -> Theme palette has no colors defined
+			 * (5) -> Mixing palette not set
+			 * (6) -> Mixing palette does not exist
+			 * (7) -> Mixing palette has no colors defined
+			 * (8) -> Name is unset or empty
+			 * (9) -> Naming scheme is unset or empty
+			 * (10) -> Variations are unset or empty
+			 */
+			return ( guid: string ) => {
+				const required = themeJSONSchema.definitions.Theme.required
+				const errors = []
+				const paletteStore = usePalettesStore()
+				const palettes = paletteStore.palettes
+				if( state.themes[guid] ) {
+					const theme = state.themes[guid]
+					for( const key of required ) {
+						switch( key ) {
+							case 'guid':
+								if( !theme.guid ) {
+									errors.push( 1 )
+								}
+								break
+							case 'themePalette':
+								if( !theme.themePalette ) {
+									errors.push( 2 )
+								} else if( !palettes[theme.themePalette] ) {
+									errors.push( 3 )
+								} else if( Object.keys( palettes[theme.themePalette].colors ).length < 1 ) {
+									errors.push( 4 )
+								}
+								break
+							case 'mixingPalette':
+								if( !theme.mixingPalette ) {
+									errors.push( 5 )
+								} else if( !palettes[theme.mixingPalette] ) {
+									errors.push( 6 )
+								} else if( Object.keys( palettes[theme.mixingPalette].colors ).length < 1 ) {
+									errors.push( 7 )
+								}
+								break
+							case 'name':
+								if( !theme.name || theme.name.trim() === '' ) {
+									errors.push( 8 )
+								}
+								break
+							case 'namingScheme':
+								if( !theme.namingScheme || theme.namingScheme.length < 1 ) {
+									errors.push( 9 )
+								}
+								break
+							case 'variationMapping':
+								if( !theme.variationMapping || theme.variationMapping.length < 1 ) {
+									errors.push( 10 )
+								}
+								break
+						}
+					}
+				} else {
+					errors.push( -1 )
+				}
+				return errors
+			}
+		},
 	},
 	actions: {
 		addTheme(): Theme {
