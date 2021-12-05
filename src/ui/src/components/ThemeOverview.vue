@@ -230,7 +230,7 @@ export default defineComponent( {
 				height: 17px
 				width: 17px
 				border-radius: 50%
-				margin: 4px 8px 4px 0
+				margin: 4px 4px 4px 0
 				vertical-align: middle
 				border: 1px solid colors.$input-select-preview-swatch-border
 		&.errors
