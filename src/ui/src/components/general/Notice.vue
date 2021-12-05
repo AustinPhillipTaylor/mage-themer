@@ -69,15 +69,18 @@ $icon-size: 32px
 	&.danger
 		background: colors.$danger-light
 		border-color: colors.$danger
-		color: colors.$danger-dark
+		&:deep(*)
+			color: colors.$danger-dark
 	&.warning
 		background: colors.$warning-light
 		border-color: colors.$warning
-		color: colors.$warning-dark
+		&:deep(*)
+			color: colors.$warning-dark
 	&.success
 		background: colors.$success-light
 		border-color: colors.$success
-		color: colors.$success-dark
+		&:deep(*)
+			color: colors.$success-dark
 	.icon
 		div
 			display: grid
