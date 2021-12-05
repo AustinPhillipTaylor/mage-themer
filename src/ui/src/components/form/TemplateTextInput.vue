@@ -203,7 +203,12 @@ export default defineComponent( {
 					}
 				} else if( rootOffset === -2 ) {
 					const range = new Range()
-					range.setStart( inputField.value!, focusOffset )
+					try {
+						range.setStart( inputField.value!, focusOffset )
+					} catch ( error ) {
+						range.selectNodeContents( inputField.value! )
+						range.collapse( false ) // false = collapse to end
+					}
 					selection.addRange( range )
 				}
 			}
