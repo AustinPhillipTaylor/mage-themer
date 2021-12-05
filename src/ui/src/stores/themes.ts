@@ -30,12 +30,26 @@ export const useThemesStore = defineStore( {
 			 * (8) -> Name is unset or empty
 			 * (9) -> Naming scheme is unset or empty
 			 * (10) -> Variations are unset or empty
+			 * (11) -> Error in one or more variations
 			 */
 			return ( guid: string ) => {
 				const required = themeJSONSchema.definitions.Theme.required
 				const errors = []
 				const paletteStore = usePalettesStore()
 				const palettes = paletteStore.palettes
+				function variationMixError( theme: Theme ) {
+					for( const variation of theme.variationMapping ) {
+						if( !variation.mixingColor ) {
+							return true
+						} else if(
+							theme.mixingPalette &&
+							!palettes[theme.mixingPalette].colors[variation.mixingColor]
+						) {
+							return true
+						}
+					}
+					return false
+				}
 				if( state.themes[guid] ) {
 					const theme = state.themes[guid]
 					for( const key of required ) {
@@ -76,6 +90,8 @@ export const useThemesStore = defineStore( {
 							case 'variationMapping':
 								if( !theme.variationMapping || theme.variationMapping.length < 1 ) {
 									errors.push( 10 )
+								} else if( variationMixError( theme ) ) {
+									errors.push( 11 )
 								}
 								break
 						}

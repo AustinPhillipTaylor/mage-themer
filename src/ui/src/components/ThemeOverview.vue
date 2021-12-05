@@ -99,6 +99,7 @@
 					<template v-if="item === 8"> – Name must be set </template>
 					<template v-if="item === 9"> – Naming scheme must be set </template>
 					<template v-if="item === 10"> – Theme must define color variations </template>
+					<template v-if="item === 11"> – One or more color variations contain errors </template>
 				</li>
 			</ul>
 		</notice>
