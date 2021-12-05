@@ -20,12 +20,12 @@ export interface ColorVariation {
 export interface Theme {
 	/** Unique identifier */
 	guid: string
-	/** Display name */
-	name: string
 	/** GUID of main color palette */
 	themePalette: string
 	/** GUID of mixing colors palette */
 	mixingPalette: string
+	/** Display name */
+	name: string
 	/**
 	 * String representing naming scheme for color variations. Includes
 	 * special character codes that can be replaced with the variable information.
@@ -172,10 +172,10 @@ export const themeJSONSchema = {
 			},
 			'required': [
 				'guid',
+				'themePalette',
 				'mixingPalette',
 				'name',
 				'namingScheme',
-				'themePalette',
 				'variationMapping',
 			],
 			'type': 'object',
