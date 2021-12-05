@@ -1,5 +1,22 @@
 <template>
 	<div class="sidebar" >
+
+		<div class="section-label"> General </div>
+		<ul class="dashboard" >
+			<li
+				:class="['sidebar-button', { 'current': viewType === 'dashboard' }]"
+				@click="setAppView( 'dashboard' )"
+			>
+				Dashboard
+			</li>
+			<li
+				:class="['sidebar-button', { 'current': viewType === 'help' }]"
+				@click="setAppView( 'help' )"
+			>
+				Help
+			</li>
+		</ul>
+
 		<div class="section-label"> Themes </div>
 		<div
 			v-if="Object.keys(themes).length < 1"
@@ -68,7 +85,7 @@ export default defineComponent( {
 	setup() {
 		const appStore = useAppStore()
 		const { setAppView } = appStore
-		const { guid: currentGUID } = storeToRefs( appStore )
+		const { guid: currentGUID, viewType } = storeToRefs( appStore )
 
 		const paletteStore = usePalettesStore()
 		const { palettes } = storeToRefs( paletteStore )
@@ -87,6 +104,7 @@ export default defineComponent( {
 		return {
 			setAppView,
 			currentGUID,
+			viewType,
 			palettes,
 			themes,
 			deleteTheme,
