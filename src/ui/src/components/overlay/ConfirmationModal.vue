@@ -36,7 +36,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref, PropType } from 'vue'
-import { ConfirmationModalButtons } from '../../types/ConformationModalButtons'
+import { ConfirmationModalButtons } from '../../types/ConfirmationModalButtons'
 
 export default defineComponent( {
 	props: {
