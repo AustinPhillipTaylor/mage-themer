@@ -1,7 +1,7 @@
 // Stored as object in order to maintain global reference
 export const windowSize = {
-	windowWidth: 800,
-	windowHeight: 500,
+	windowWidth: 950,
+	windowHeight: 600,
 }
 
 const minWindowWidth = 600
