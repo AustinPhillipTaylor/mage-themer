@@ -6,8 +6,12 @@ export const propTemplates: PropTemplates[] = [
 		template: 'theme-name',
 	},
 	{
-		text: 'Palette Name',
-		template: 'palette-name',
+		text: 'Main Palette Name',
+		template: 'main-palette-name',
+	},
+	{
+		text: 'Mixing Palette Name',
+		template: 'mix-palette-name',
 	},
 	{
 		text: 'Palette Color Name',
