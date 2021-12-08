@@ -4,8 +4,10 @@ import { v4 as uuidv4 } from 'uuid'
 import { readLocal } from '../utils/localStorage'
 import { useAppStore } from './app'
 import { usePalettesStore } from './palettes'
+import { hexStringFromRGB } from '../utils/hexStringFromRGB'
+import { generateTheme } from '../utils/generateTheme'
 
-const themeStorageKey = 'theme-styles-themes'
+export const themeStorageKey = 'theme-styles-themes'
 
 // Grab initial theme state, or set to empty
 const themes: Themes = await readLocal( themeStorageKey ) || {}
@@ -102,6 +104,27 @@ export const useThemesStore = defineStore( {
 				return errors
 			}
 		},
+		getColorList: ( state ) => {
+			return ( guid: string ) => {
+				const paletteStore = usePalettesStore()
+				const palettes = paletteStore.palettes
+				const theme = state.themes[guid]
+				const mainPalette = palettes[theme.themePalette]
+				const mainName = mainPalette.name
+				const mainColors = mainPalette.colors
+				const mixPalette = palettes[theme.mixingPalette]
+				const mixName = mixPalette.name
+				const mixColors = mixPalette.colors
+				// Color list object, each level corresponds to a folder level
+				return generateTheme( mainColors, mixColors, mainName, mixName, theme.name, theme.namingScheme, theme.variationMapping )
+			}
+		},
+		getFigmaColorList: ( state ) => {
+			const colorList = {}
+			return ( guid: string ) => {
+				return false
+			}
+		},
 	},
 	actions: {
 		addTheme(): Theme {
@@ -162,5 +185,17 @@ export const useThemesStore = defineStore( {
 				},
 			} )
 		},
+		generateThemeStyles( guid: string ) {
+			const appStore = useAppStore()
+			appStore.setOverlay( 'generate-theme', {
+				title: 'Generate Theme Styles',
+				buttons: {
+					cancel: 'Close Preview',
+					confirm: 'Add Color Styles to Figma',
+				},
+				guid: guid,
+			} )
+		},
+
 	},
 } )
