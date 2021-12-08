@@ -38,7 +38,10 @@
 					<div
 						class="color-info"
 						:style="{
-							color: hexStringFromRGB(color.rgb)
+							//@ts-ignore
+							'--red': color.rgb.r,
+							'--green': color.rgb.g,
+							'--blue': color.rgb.b,
 						}"
 					>
 						{{ hexStringFromRGB(color.rgb) }}
@@ -188,9 +191,14 @@ export default defineComponent( {
 				cursor: pointer
 				.color-info
 					@include fonts.palette-color-info
-					filter: invert(1) grayscale(1) contrast(99999)
+					--threshold: 0.5
+					--r: calc(var(--red) * 0.299)
+					--g: calc(var(--green) * 0.587)
+					--b: calc(var(--blue) * 0.114)
+					--sum: calc(var(--r) + var(--g) + var(--b))
+					--perceived-lightness: calc(var(--sum) / 255)
+					color: hsl(0, 0%, calc((var(--perceived-lightness) - var(--threshold)) * -10000000%))
 					padding: 8px
-					color: #fff
 				.swatch-hover-overlay
 					display: none
 					position: absolute
