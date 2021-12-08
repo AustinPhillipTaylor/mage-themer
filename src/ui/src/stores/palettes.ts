@@ -6,10 +6,6 @@ import { useAppStore } from './app'
 
 export const paletteStorageKey = 'theme-styles-palettes'
 
-
-// TODO: Save palettes and themes to local storage on change
-
-
 // Grab initial palette state, or set to empty
 const palettes: Palettes = await readLocal( paletteStorageKey ) || {}
 
