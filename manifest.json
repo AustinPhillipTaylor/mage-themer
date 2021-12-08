@@ -1,10 +1,10 @@
 {
-  "name": "Style System Generator",
-  "id": "1031641368056826424",
-  "api": "1.0.0",
-  "main": "./build/figma/code.js",
-  "editorType": [
-    "figma"
-  ],
-  "ui": "./build/ui/index.html"
+	"name": "Style System Generator",
+	"id": "1031641368056826424",
+	"api": "1.0.0",
+	"main": "./build/figma/code.js",
+	"editorType": [
+		"figma"
+	],
+	"ui": "./build/ui/index.html"
 }

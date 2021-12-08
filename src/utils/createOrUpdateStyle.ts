@@ -1,5 +1,5 @@
-import { clone } from "./clone"
-import { createSolidPaintStyle } from "./createSolidPaintStyle"
+import { clone } from './clone'
+import { createSolidPaintStyle } from './createSolidPaintStyle'
 
 export function createOrUpdateStyle( name: string, color: RGB, styles: PaintStyle[] ) {
 	// Index of existing style if it was already populated
