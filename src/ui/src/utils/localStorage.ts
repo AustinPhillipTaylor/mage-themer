@@ -6,7 +6,7 @@ export async function readLocal( storageKey: string ) {
 		storageKey,
 	} )
 	if( localRead ) {
-		if( localRead.data ) return localRead.data
+		if( localRead.data ) return JSON.parse( localRead.data )
 		if( localRead.error ) {
 			console.error( localRead.error )
 		}
@@ -21,7 +21,7 @@ export async function saveLocal( storageKey: string, data: string ) {
 		data,
 	} )
 	if( localSave ) {
-		if( localSave.data ) return localSave.data
+		if( localSave.data ) return JSON.parse( localSave.data )
 		if( localSave.error ) {
 			console.error( localSave.error )
 		}
