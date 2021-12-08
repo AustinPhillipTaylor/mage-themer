@@ -64,17 +64,8 @@
 							'disabled': hasErrors
 						}
 					]"
-					@click="!(hasErrors) && previewStyles()"
-				>Preview Styles</div>
-				<div
-					:class="[
-						'action-button',
-						{
-							'disabled': hasErrors
-						}
-					]"
-					@click="!(hasErrors) && renderStyles()"
-				>Add Styles to Figma</div>
+					@click="!hasErrors && generateThemeStyles( guid )"
+				>Generate Styles and Preview</div>
 				<!-- <div class="action-button">Add Swatches to Canvas</div> -->
 			</div>
 		</div>
@@ -134,6 +125,7 @@ export default defineComponent( {
 		const themes = computed( () => themeStore.themes )
 		const themesLength = computed( () => Object.keys( themes.value ).length )
 		const themeErrors = themeStore.themeErrors( props.guid )
+		const generateThemeStyles = themeStore.generateThemeStyles
 
 		const paletteStore = usePalettesStore()
 		const palettes = paletteStore.palettes
@@ -163,14 +155,6 @@ export default defineComponent( {
 			return false
 		}
 
-		function previewStyles() {
-			console.log( 'preview styles' )
-		}
-
-		function renderStyles() {
-			console.log( 'render styles' )
-		}
-
 		return {
 			themes,
 			colorList,
@@ -180,8 +164,7 @@ export default defineComponent( {
 			themesLength,
 			themeErrors,
 			hasErrors,
-			previewStyles,
-			renderStyles,
+			generateThemeStyles,
 		}
 	},
 } )
