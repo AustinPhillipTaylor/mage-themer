@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { readLocal } from '../utils/localStorage'
 import { useAppStore } from './app'
 
-const paletteStorageKey = 'theme-styles-palettes'
+export const paletteStorageKey = 'theme-styles-palettes'
 
 
 // TODO: Save palettes and themes to local storage on change
