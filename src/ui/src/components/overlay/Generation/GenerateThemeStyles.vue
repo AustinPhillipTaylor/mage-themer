@@ -37,6 +37,7 @@
 import { defineComponent, onMounted, ref, Ref, PropType } from 'vue'
 import { useThemesStore } from '../../../stores/themes'
 import ColorListTree from './ColorListTree.vue'
+import { generateStyles } from '../../../utils/setFigmaStyles'
 
 export default defineComponent( {
 	components: {
@@ -71,6 +72,7 @@ export default defineComponent( {
 		const colorList = themeStore.getColorList( props.guid )
 
 		function confirmation() {
+			generateStyles( themeStore.getFigmaColorList( props.guid ) )
 			props.closeOverlay()
 		}
 

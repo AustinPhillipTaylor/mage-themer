@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { readLocal } from '../utils/localStorage'
 import { useAppStore } from './app'
 import { usePalettesStore } from './palettes'
-import { hexStringFromRGB } from '../utils/hexStringFromRGB'
 import { generateTheme } from '../utils/generateTheme'
+import { generateFigmaTheme } from '../utils/generateFigmaTheme'
 
 export const themeStorageKey = 'theme-styles-themes'
 
@@ -120,9 +120,18 @@ export const useThemesStore = defineStore( {
 			}
 		},
 		getFigmaColorList: ( state ) => {
-			const colorList = {}
 			return ( guid: string ) => {
-				return false
+				const paletteStore = usePalettesStore()
+				const palettes = paletteStore.palettes
+				const theme = state.themes[guid]
+				const mainPalette = palettes[theme.themePalette]
+				const mainName = mainPalette.name
+				const mainColors = mainPalette.colors
+				const mixPalette = palettes[theme.mixingPalette]
+				const mixName = mixPalette.name
+				const mixColors = mixPalette.colors
+				// Color list object, each level corresponds to a folder level
+				return generateFigmaTheme( mainColors, mixColors, mainName, mixName, theme.name, theme.namingScheme, theme.variationMapping )
 			}
 		},
 	},

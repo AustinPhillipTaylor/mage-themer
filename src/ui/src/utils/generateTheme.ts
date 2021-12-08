@@ -4,8 +4,9 @@ import { resolveName } from './resolveName'
 import { unescapeEntities as _U } from './escapeEntities'
 import { ColorEntries } from '../types/Generation'
 import { mix } from 'tinycolor2'
+import { ColorList } from '../types/ColorList'
 
-export function generateTheme( mainColors: PaletteColors, mixColors: PaletteColors, mainName: string, mixName: string, themeName: string, namingScheme: NamingScheme, variations: ColorVariation[] )  {
+export function generateTheme( mainColors: PaletteColors, mixColors: PaletteColors, mainName: string, mixName: string, themeName: string, namingScheme: NamingScheme, variations: ColorVariation[] ): ColorList  {
 	const colorList = {}
 
 	// Loop through main palette
@@ -36,7 +37,9 @@ export function generateTheme( mainColors: PaletteColors, mixColors: PaletteColo
 				.map( ( dir ) => _U( dir ) )
 			// Rip off last entry and store here
 			const styleName = dirList.pop()
-			// Temporary reference to sub-entry in colorList
+			// Temporary reference to sub-entry in colorList,
+			// Starts at root, then we walk through/set directories
+			// in the following for loop.
 			let objPath: any = colorList
 			for( const dir of dirList ) {
 				if( dir ) {
