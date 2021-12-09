@@ -1,7 +1,7 @@
 
 <template>
 	<div class="view-help">
-		Help / Information
+		Help / Information page coming soon! Sorry about that.
 	</div>
 </template>
 
@@ -24,4 +24,6 @@ export default defineComponent( {
 	display: block
 	width: 100%
 	max-width: 800px
+	min-width: 450px
+	padding: 24px 0
 </style>
