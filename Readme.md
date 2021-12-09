@@ -19,18 +19,18 @@ To install the alpha version of Mage Themer, follow the steps below:
 
  1. Clone this directory (example uses SSH)
 ```
-	git clone git@github.com:Illubyte/mage-themer.git
+ git clone git@github.com:Illubyte/mage-themer.git
 ```
  2. cd into the cloned directory and then install the NPM packages
 ```
-	cd ./mage-themer
+ cd ./mage-themer
 ```
 ```
-	npm install
+ npm install
 ```
  3. Build the plugin
 ```
-	npm run build
+ npm run build
 ```
 
 ### Executing program
