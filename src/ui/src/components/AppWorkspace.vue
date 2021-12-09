@@ -33,5 +33,5 @@ export default defineComponent( {
 .workspace
 	@include fonts.workspace
 	overflow-y: visible
-	padding: 0 24px
+	padding: 0 24px 64px 24px
 </style>
