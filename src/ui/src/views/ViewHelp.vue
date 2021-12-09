@@ -20,7 +20,7 @@ export default defineComponent( {
 <style lang="sass" scoped>
 @use '../styles/mixins/colors'
 
-.view-help
+.view-dashboard
 	display: block
 	width: 100%
 	max-width: 800px
