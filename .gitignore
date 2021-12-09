@@ -2,3 +2,8 @@ node_modules
 build
 .DS_Store
 *.code-workspace
+dist
+dist-ssr
+*.local
+mock-data
+.vscode
