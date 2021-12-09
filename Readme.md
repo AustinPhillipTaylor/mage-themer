@@ -35,7 +35,7 @@ To install the alpha version of Mage Themer, follow the steps below:
 
 ### Executing program
 
-That's all you need to do on the command line, now open Figma and navigate to the file where you'd like to use Mage Themer (Must be on desktop version). Next, click `Plugins` in the menubar at the top of the app. Navigate to `Development` > `Import plugin from manifest...`, then select the `manifest.json` file from your root `mage-themer` directory. Figma will save the plugin in the list under `Plugins` > `Development` for easy access the next time you'd like to run Mage Themer.
+That's all you need to do on the command line, now open Figma and navigate to the file where you'd like to use Mage Themer (Must be on desktop version). Next, click `Plugins` in the menubar at the top of the app. Navigate to `Development` > `Import plugin from manifest...`, then select the `manifest.json` file from your root `mage-themer` directory. Figma will save the plugin in the list under `Plugins` > `Development` for easy access whenever you'd like to run Mage Themer.
 
 ## License
 
