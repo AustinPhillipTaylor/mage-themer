@@ -6,4 +6,4 @@ dist
 dist-ssr
 *.local
 mock-data
-.vscode
+/.vscode
