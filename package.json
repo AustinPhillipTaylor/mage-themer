@@ -1,23 +1,24 @@
 {
-	"name": "figma-directus-style-generator",
-	"version": "0.0.1",
-	"description": "",
+	"name": "mage-themer",
+	"version": "0.1.0",
+	"description": "Theme color styles generation plugin for Figma",
 	"keywords": [],
-	"homepage": "https://github.com/Illubyte/figma-theme-styles-generator#readme",
+	"homepage": "https://github.com/Illubyte/mage-themer#readme",
 	"bugs": {
-		"url": "https://github.com/Illubyte/figma-theme-styles-generator/issues"
+		"url": "https://github.com/Illubyte/mage-themer/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Illubyte/figma-theme-styles-generator.git"
+		"url": "git+https://github.com/Illubyte/mage-themer.git"
 	},
 	"license": "ISC",
-	"author": "Austin Phillip Taylor",
+	"author": "Austin Fish",
 	"main": "./build/code.js",
 	"scripts": {
 		"build": "concurrently \"npm run build:figma\" \"npm run build:ui\"",
 		"build:figma": "rollup -c",
-		"build:ui": "cd src/ui && npm run build"
+		"build:ui": "cd src/ui && npm run build",
+		"postinstall": "cd src/ui && npm install"
 	},
 	"devDependencies": {
 		"@figma/plugin-typings": "1.31.0",
