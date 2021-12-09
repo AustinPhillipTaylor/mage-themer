@@ -1,7 +1,7 @@
 
 <template>
 	<div class="view-help">
-		Help / Information
+		Help / Information page coming soon! Sorry about that.
 	</div>
 </template>
 
@@ -20,8 +20,10 @@ export default defineComponent( {
 <style lang="sass" scoped>
 @use '../styles/mixins/colors'
 
-.view-help
+.view-dashboard
 	display: block
 	width: 100%
 	max-width: 800px
+	min-width: 450px
+	padding: 24px 0
 </style>
