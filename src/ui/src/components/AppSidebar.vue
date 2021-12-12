@@ -1,19 +1,21 @@
 <template>
-	<div class="sidebar" >
+	<div class="sidebar-area" >
 
 		<div class="section-label"> General </div>
 		<ul class="dashboard" >
 			<li
-				:class="['sidebar-button', { 'current': viewType === 'dashboard' }]"
+				:class="['sidebar-button', { 'current type--medium': viewType === 'dashboard' }]"
 				@click="setAppView( 'dashboard' )"
 			>
-				Dashboard
+				<div class="icon icon--check"></div>
+				<span class="sidebar-button-text">Dashboard</span>
 			</li>
 			<li
-				:class="['sidebar-button', { 'current': viewType === 'help' }]"
+				:class="['sidebar-button', { 'current type--medium': viewType === 'help' }]"
 				@click="setAppView( 'help' )"
 			>
-				Help
+				<div class="icon icon--check"></div>
+				<span class="sidebar-button-text">Help</span>
 			</li>
 		</ul>
 
@@ -22,8 +24,14 @@
 			v-if="Object.keys(themes).length < 1"
 			class="no-items-notice"
 		>
-			<span class="no-items-title" >No themes found</span>
-			<span class="no-items-guide" >Start creating a new theme using the add (+) icon in the top left.</span>
+			<div class="no-items-icon">
+				<div class="icon icon--theme"></div>
+			</div>
+			<div class="no-items-copy">
+				<span class="no-items-title type--medium" >No themes found</span>
+				<span class="no-items-guide" >Start creating a new theme using the add (+) icon in the top left.</span>
+			</div>
+
 		</div>
 		<ul
 			v-else
@@ -32,15 +40,16 @@
 			<li
 				v-for="(theme, guid) in themes"
 				:key="guid"
-				:class="['sidebar-button', { 'current': currentGUID === guid as string }]"
+				:class="['sidebar-button', { 'current type--medium': currentGUID === guid as string }]"
 				@click="setAppView( 'theme', theme.name, guid as string )"
 			>
-				{{ theme.name || 'Untitled Theme' }}
+				<div class="icon icon--check"></div>
+				<span class="sidebar-button-text">{{ theme.name || 'Untitled Theme' }}</span>
 				<div
-					class="material-icons-outlined delete-item"
+					class="icon-button icon--red delete-item"
 					@click.stop="() => deleteTheme( guid as string )"
 				>
-					close
+					<div class="icon icon--trash"></div>
 				</div>
 			</li>
 		</ul>
@@ -49,8 +58,13 @@
 			v-if="Object.keys(palettes).length < 1"
 			class="no-items-notice"
 		>
-			<span class="no-items-title" >No palettes found</span>
-			<span class="no-items-guide" >Start creating a new palette using the add (+) icon in the top left.</span>
+			<div class="no-items-icon">
+				<div class="icon icon--blend-empty"></div>
+			</div>
+			<div class="no-items-copy">
+				<span class="no-items-title type--medium" >No palettes found</span>
+				<span class="no-items-guide" >Start creating a new palette using the add (+) icon in the top left.</span>
+			</div>
 		</div>
 		<ul
 			v-else
@@ -59,15 +73,16 @@
 			<li
 				v-for="(palette, guid) in palettes"
 				:key="guid"
-				:class="['sidebar-button', { 'current': currentGUID === guid as string }]"
+				:class="['sidebar-button', { 'current type--medium': currentGUID === guid as string }]"
 				@click="setAppView( 'palette', palette.name, guid as string )"
 			>
-				{{ palette.name || 'Untitled Palette' }}
+				<div class="icon icon--check"></div>
+				<span class="sidebar-button-text">{{ palette.name || 'Untitled Palette' }}</span>
 				<div
-					class="material-icons-outlined delete-item"
+					class="icon-button icon--red delete-item"
 					@click.stop="() => deletePalette( guid as string )"
 				>
-					close
+					<div class="icon icon--trash"></div>
 				</div>
 			</li>
 		</ul>
@@ -113,86 +128,3 @@ export default defineComponent( {
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../styles/mixins/fonts'
-@use '../styles/mixins/colors'
-
-.sidebar
-	@include fonts.sidebar
-	overflow-y: auto
-	padding: 0
-	background: colors.$sidebar-background
-	color: colors.$sidebar-link-text
-	min-height: calc(100% - 1px) // Subtract 1px because theres an odd overflow in Figma's iframe
-	.section-label
-		@include fonts.sidebar-label
-		width: auto
-		height: auto
-		color: colors.$sidebar-label-text
-		border-bottom: 1px solid colors.$sidebar-label-border
-		margin: 0 14px 8px 14px
-		padding: 24px 2px 4px 2px
-		display: block
-		&:nth-child(1)
-			padding-top: 16px
-	.no-items-notice
-		padding: 4px 16px
-		text-align: center
-		.no-items-title
-			@include fonts.sidebar-empty-title
-			display: block
-			padding: 0 0 2px 0
-		.no-items-guide
-			@include fonts.sidebar-empty-guide
-			display: block
-			color: colors.$sidebar-label-text
-	ul
-		li
-			&.sidebar-button
-				text-align: left
-				padding: 8px 36px 8px 12px
-				background: transparent
-				width: auto
-				display: block
-				position: relative
-				margin: 0
-				border: none
-				outline: none
-				border-left: 4px solid colors.$sidebar-link-border
-				&.current
-					color: colors.$sidebar-link-text-hover
-					cursor: pointer
-					background: colors.$sidebar-link-hover-bg
-					border-left: 4px solid colors.$sidebar-link-border-current
-					&:hover
-						border-left: 4px solid colors.$sidebar-link-border-current
-				&:hover,
-				&:active
-					cursor: pointer
-					color: colors.$sidebar-link-text-active
-					background: colors.$sidebar-link-active-bg
-					border-left: 4px solid colors.$sidebar-link-border-hover
-				&:hover
-					.material-icons-outlined
-						&.delete-item
-							display: inline-block
-				.material-icons-outlined
-					@include fonts.material-icons
-					&.delete-item
-						padding: 4px
-						display: none
-						position: absolute
-						top: 50%
-						transform: translateY(-50%)
-						right: 4px
-						background: colors.$sidebar-link-active-bg
-						border-radius: 4px
-						cursor: pointer
-						height: 28px
-						width: 28px
-						justify-self: center
-						&:hover
-							background: colors.$icon-danger-bg
-							color: colors.$icon-danger-text
-</style>
