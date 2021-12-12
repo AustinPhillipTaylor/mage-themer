@@ -1,15 +1,17 @@
 <template>
-	<window-overlay />
-	<window-resize />
-	<div class="container">
-		<app-header class="header" />
-		<div class="main">
-			<perfect-scrollbar class="sidebar">
-				<app-sidebar />
-			</perfect-scrollbar>
-			<perfect-scrollbar class="workspace">
-				<app-workspace />
-			</perfect-scrollbar>
+	<div class="root-wrapper type">
+		<window-overlay />
+		<window-resize />
+		<div class="container">
+			<app-header class="header" />
+			<div class="main">
+				<perfect-scrollbar class="sidebar">
+					<app-sidebar />
+				</perfect-scrollbar>
+				<perfect-scrollbar class="workspace">
+					<app-workspace />
+				</perfect-scrollbar>
+			</div>
 		</div>
 	</div>
 </template>
@@ -41,29 +43,25 @@ export default defineComponent( {
 </script>
 
 <style lang="sass" scoped>
-.container
-	font-family: Avenir, Helvetica, Arial, sans-serif
-	-webkit-font-smoothing: antialiased
-	-moz-osx-font-smoothing: grayscale
-	text-align: left
-	color: #2c3e50
-	margin: 0
-	padding: 0
-	height: 100vh
-	width: 100vw
-	display: grid
-	grid-template-columns: 1fr
-	grid-template-rows: [header] 33px [main] 1fr
-	.header
-		grid-row: header
-	.main
+.root-wrapper
+	.container
+		margin: 0
+		padding: 0
+		height: 100vh
+		width: 100vw
 		display: grid
-		grid-row: main
-		grid-template-columns: [sidebar] 220px [workspace] 1fr
-		overflow: hidden
-		.sidebar
-			grid-column: sidebar
-		.workspace
-			grid-column: workspace
+		grid-template-columns: 1fr
+		grid-template-rows: [header] calc(var(--size-large) + 1px) [main] 1fr
+		.header
+			grid-row: header
+		.main
+			display: grid
+			grid-row: main
+			grid-template-columns: [sidebar] 240px [workspace] 1fr
+			overflow: hidden
+			.sidebar
+				grid-column: sidebar
+			.workspace
+				grid-column: workspace
 
 </style>

@@ -1,1 +1,1 @@
-Figma boilerplate styles originally compiled by [Thomas Lowry](https://github.com/thomas-lowry/figma-plugin-ds) and licensed under MIT (See the adjacent LICENSE.md file for details)
+Portion of Figma boilerplate styles originally compiled by [Thomas Lowry](https://github.com/thomas-lowry/figma-plugin-ds) and licensed under MIT (See the adjacent LICENSE.md file for details)

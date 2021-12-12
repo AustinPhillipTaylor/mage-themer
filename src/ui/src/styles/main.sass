@@ -1,29 +1,3 @@
-@use './mixins/fonts' as fonts
-@use './mixins/colors' as colors
-
-html
-	@include fonts.html-size
-
-html, body, *
-	@include fonts.global
-	color: colors.$default-text
-	padding: 0
-	margin: 0
-	box-sizing: border-box
-
-.ps // Perfect scrollbar wrapper
-	height: calc( 100% - 1px ) // Subtract 1px because theres an odd overflow in Figma's iframe
-	&:hover
-		&>.ps__rail-x,
-		&>.ps__rail-y
-			opacity: 0
-	&.ps--focus
-		&>.ps__rail-x,
-		&>.ps__rail-y
-			opacity: .6
-	&.ps--scrolling-x
-		&>.ps__rail-x
-			opacity: .6
-	&.ps--scrolling-y
-		&>.ps__rail-y
-			opacity: .6
+@import 'mixins/perfect-scrollbar'
+@import 'mixins/menu'
+@import 'mixins/header-button'
