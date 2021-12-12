@@ -67,4 +67,5 @@ export default defineComponent( {
 		text-overflow: ellipsis
 		overflow: hidden
 		white-space: nowrap
+		padding: 0 var(--size-medium)
 </style>
