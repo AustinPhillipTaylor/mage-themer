@@ -5,12 +5,8 @@
 		<div class="container">
 			<app-header class="header" />
 			<div class="main">
-				<perfect-scrollbar class="sidebar">
-					<app-sidebar />
-				</perfect-scrollbar>
-				<perfect-scrollbar class="workspace">
-					<app-workspace />
-				</perfect-scrollbar>
+				<app-sidebar />
+				<app-workspace />
 			</div>
 		</div>
 	</div>

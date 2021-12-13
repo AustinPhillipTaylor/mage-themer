@@ -1,10 +1,14 @@
 <template>
-	<div class="workspace">
-		<component
-			:is="workspaceComponent"
-			:key="viewKey"
-			:guid="guid"
-		/>
+	<div class="workspace" >
+		<perfect-scrollbar
+			:key="guid || viewKey"
+		>
+			<component
+				:is="workspaceComponent"
+				:key="viewKey"
+				:guid="guid"
+			/>
+		</perfect-scrollbar>
 	</div>
 </template>
 
@@ -26,12 +30,3 @@ export default defineComponent( {
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../styles/mixins/fonts' as fonts
-
-.workspace
-	@include fonts.workspace
-	overflow-y: visible
-	padding: 0 24px 64px 24px
-</style>
