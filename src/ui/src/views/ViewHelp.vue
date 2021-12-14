@@ -1,6 +1,6 @@
 
 <template>
-	<div class="view-help">
+	<div class="view-wrapper view-help">
 		Help / Information page coming soon! Sorry about that.
 	</div>
 </template>
@@ -16,14 +16,3 @@ export default defineComponent( {
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../styles/mixins/colors'
-
-.view-help
-	display: block
-	width: 100%
-	max-width: 800px
-	min-width: 450px
-	padding: 24px 0
-</style>

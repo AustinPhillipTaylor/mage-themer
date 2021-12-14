@@ -22,7 +22,7 @@
 			<div class="section-label"> Themes </div>
 			<div
 				v-if="Object.keys(themes).length < 1"
-				class="no-items-notice"
+				class="no-items-card"
 			>
 				<div class="no-items-icon">
 					<div class="icon icon--theme"></div>
@@ -31,7 +31,6 @@
 					<span class="no-items-title type--medium" >No themes found</span>
 					<span class="no-items-guide" >Start creating a new theme using the add (+) icon in the top left.</span>
 				</div>
-
 			</div>
 			<ul
 				v-else
@@ -56,7 +55,7 @@
 			<div class="section-label"> Palettes </div>
 			<div
 				v-if="Object.keys(palettes).length < 1"
-				class="no-items-notice"
+				class="no-items-card"
 			>
 				<div class="no-items-icon">
 					<div class="icon icon--blend-empty"></div>

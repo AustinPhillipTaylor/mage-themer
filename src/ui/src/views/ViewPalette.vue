@@ -1,6 +1,6 @@
 
 <template>
-	<div class="view-palette">
+	<div class="view-wrapper view-palette">
 		<div class="palette-name">
 			<text-input
 				v-model="name"

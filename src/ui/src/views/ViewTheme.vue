@@ -1,6 +1,6 @@
 
 <template>
-	<div class="view-theme">
+	<div class="view-wrapper view-theme">
 		<div class="theme-name">
 			<text-input
 				v-model="name"
