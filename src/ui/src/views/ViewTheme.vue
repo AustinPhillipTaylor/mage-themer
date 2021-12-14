@@ -7,6 +7,7 @@
 				id="themeName"
 				label="Theme Name"
 				placeholder="Theme Name"
+				icon="type-layer"
 			/>
 		</div>
 		<div class="palette-select">
@@ -259,18 +260,18 @@ export default defineComponent( {
 </script>
 
 <style lang="sass" scoped>
-@use '../styles/mixins/colors'
+// @use '../styles/mixins/colors'
 
-.view-theme
-	display: block
-	width: 100%
-	max-width: 800px
-	.color-preview
-		display: inline-block
-		height: 17px
-		width: 17px
-		border-radius: 50%
-		margin-left: 8px
-		vertical-align: middle
-		border: 1px solid colors.$input-select-preview-swatch-border
+// .view-theme
+// 	display: block
+// 	width: 100%
+// 	max-width: 800px
+// 	.color-preview
+// 		display: inline-block
+// 		height: 17px
+// 		width: 17px
+// 		border-radius: 50%
+// 		margin-left: 8px
+// 		vertical-align: middle
+// 		border: 1px solid colors.$input-select-preview-swatch-border
 </style>

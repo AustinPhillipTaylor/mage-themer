@@ -2,16 +2,37 @@
 <template>
 	<div class="text-input">
 		<template v-if="label">
-			<label :for="id">{{ label }}</label>
+			<label
+				:for="id"
+				class="section-title"
+			>{{ label }}</label>
 		</template>
-		<input
-			:id="id"
-			:value="modelValue"
-			@input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-			:placeholder="placeholder"
-			type="text"
-			:disabled="disabled"
+		<div
+			:class="[
+				'input',
+				{
+					'input--with-icon': icon
+				}
+			]"
 		>
+			<div
+				v-if="icon"
+				:class="[
+					'icon',
+					`icon--${icon}`
+				]"
+			></div>
+			<input
+				:id="id"
+				:value="modelValue"
+				autocomplete="off"
+				@input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+				:placeholder="placeholder"
+				type="text"
+				:disabled="disabled"
+				class="input__field"
+			>
+		</div>
 	</div>
 </template>
 
@@ -42,30 +63,11 @@ export default defineComponent( {
 			required: false,
 			default: false,
 		},
+		icon: {
+			type: String,
+			required: false,
+			default: '',
+		},
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../../styles/mixins/fonts'
-@use '../../styles/mixins/colors'
-
-.text-input
-	margin: 24px 0
-	label
-		@include fonts.input-label
-		display: block
-		padding: 0
-		margin: 0 0 4px 0
-	input[type=text]
-		@include fonts.default-input
-		display: block
-		width: 100%
-		padding: 8px 16px
-		border-radius: 4px
-		outline: none
-		border: 2px solid colors.$input-text-border
-		&:focus,
-		&:focus-within
-			border: 2px solid colors.$orange
-</style>
