@@ -53,7 +53,7 @@ export default defineComponent( {
 		.main
 			display: grid
 			grid-row: main
-			grid-template-columns: [sidebar] 240px [workspace] 1fr
+			grid-template-columns: [sidebar] 224px [workspace] 1fr
 			overflow: hidden
 			.sidebar
 				grid-column: sidebar
