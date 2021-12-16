@@ -35,7 +35,7 @@
 					:id="'colorLabel-' + step.guid"
 					placeholder="Label"
 				/>
-				<select-input
+				<select-menu
 					v-model="step.mixingColor"
 					:id="'mixPalette-' + step.guid"
 					class="mix-color"
@@ -60,7 +60,7 @@
 							></div>
 						</template>
 					</template>
-				</select-input>
+				</select-menu>
 				<number-input
 					v-model="step.percentage"
 					:id="'percent-' + step.guid"
@@ -113,7 +113,7 @@ import { usePalettesStore } from '../../stores/palettes'
 import { hexStringFromRGB } from '../../utils/hexStringFromRGB'
 import TextInput from './TextInput.vue'
 import NumberInput from './NumberInput.vue'
-import SelectInput from './SelectInput.vue'
+import SelectMenu from './SelectMenu.vue'
 import ToggleInput from './ToggleInput.vue'
 import TemplateTextInput from './TemplateTextInput.vue'
 import { PaletteColors } from '../../types/Palette'
@@ -123,7 +123,7 @@ export default defineComponent( {
 	components: {
 		TextInput,
 		NumberInput,
-		SelectInput,
+		SelectMenu,
 		ToggleInput,
 		TemplateTextInput,
 	},
