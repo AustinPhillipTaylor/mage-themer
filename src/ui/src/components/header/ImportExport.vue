@@ -21,25 +21,25 @@
 		:menu-margin="8"
 	>
 		<template #display>
-			<header-button :chevron="true">
+			<contained-button :chevron="true">
 				<span class="type type--large type--medium">Import / Export</span>
-			</header-button>
+			</contained-button>
 		</template>
 	</button-with-menu>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue'
-import { useAppStore } from '../../stores/app'
-import { usePalettesStore } from '../../stores/palettes'
-import { useThemesStore } from '../../stores/themes'
-import ButtonWithMenu from '../general/ButtonWithMenu.vue'
-import HeaderButton from './HeaderButton.vue'
+import { useAppStore } from '@/stores/app'
+import { usePalettesStore } from '@/stores/palettes'
+import { useThemesStore } from '@/stores/themes'
+import ButtonWithMenu from '@/components/general/ButtonWithMenu.vue'
+import ContainedButton from '@/components/general/ContainedButton.vue'
 
 export default defineComponent( {
 	components: {
 		ButtonWithMenu,
-		HeaderButton,
+		ContainedButton,
 	},
 	setup() {
 

@@ -1,7 +1,7 @@
 <template>
 	<div
 		:class="[
-			'header-button',
+			'contained-button',
 			{
 				'with-chevron': chevron
 			}
