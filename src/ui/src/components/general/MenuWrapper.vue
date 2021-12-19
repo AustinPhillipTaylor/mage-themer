@@ -7,7 +7,7 @@
 			v-for="(option, index) in options"
 			:key="index"
 			class="single-item"
-			@click="() => option.callback(option.text)"
+			@click="handleClick( option )"
 		>
 			<span class="item-icon"></span>
 			<span class="item-label">{{ option.text }}</span>
@@ -26,15 +26,21 @@ export default defineComponent( {
 			required: true,
 		},
 	},
-	setup() {
+	setup( props, { emit } ) {
 		const itemList = ref( null )
 		function getRef() {
 			return itemList.value
 		}
 
+		function handleClick( option: MenuOption ) {
+			emit( 'item-selected', option )
+			option.callback( option.text )
+		}
+
 		return {
 			itemList,
 			getRef,
+			handleClick,
 		}
 	},
 } )

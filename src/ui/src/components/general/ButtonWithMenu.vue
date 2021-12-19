@@ -1,9 +1,15 @@
 <template>
 	<div
-		class="button-with-menu"
+		:class="[
+			'button-with-menu',
+			{
+				'disabled': disabled
+			}
+		]"
 		tabindex="0"
-		@blur="unsetMenu"
-		@click="toggleMenu"
+		ref="menuContainer"
+		@blur="unsetMenu()"
+		@focus="!disabled && toggleMenu()"
 	>
 		<div
 			ref="button"
@@ -39,6 +45,10 @@
 			></div>
 			<menu-wrapper
 				ref="menuWrapperElm"
+				@item-selected="( e: any ) => {
+					unsetMenu()
+					$emit('item-selected', e)
+				}"
 				:options="options"
 			/>
 		</div>
@@ -64,6 +74,11 @@ export default defineComponent( {
 			type: Array as PropType<MenuOption[]>,
 			required: true,
 		},
+		disabled: {
+			type: Boolean,
+			required: false,
+			default: false,
+		},
 	},
 	setup( props ) {
 
@@ -72,6 +87,7 @@ export default defineComponent( {
 		const isOpen = ref( false )
 		const button: Ref<HTMLElement | null> = ref( null )
 		const menuWrapperElm: Ref<any> = ref( null )
+		const menuContainer: Ref<HTMLElement | null> = ref( null )
 		const menuHeight: Ref<number | string | null> = ref( null )
 		const fromBottom: Ref<number | string | null> = ref( null )
 		const fromLeft: Ref<number | string | null> = ref( null )
@@ -185,6 +201,7 @@ export default defineComponent( {
 		}
 
 		function unsetMenu() {
+			menuContainer.value?.blur()
 			isOpen.value = false
 			useArrow.value = true
 			menuHeight.value = null
@@ -203,6 +220,7 @@ export default defineComponent( {
 			fromLeft,
 			useArrow,
 			arrowFromLeftMenu,
+			menuContainer,
 		}
 	},
 } )

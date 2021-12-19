@@ -1,7 +1,7 @@
 .button-display
 	.contained-button
 		background: transparent
-	&.is-active
+	&.is-active // This is the main purpose of this selector, this is the toggle state (if menu is open)
 		.contained-button
 			background: var(--blue)
 			color: var(--white)
@@ -12,13 +12,13 @@
 			transform: translateY(3px)
 			opacity: 1
 .contained-button
-	height: var(--size-large)
 	width: auto
 	display: flex
 	align-items: center
 	padding: 0 8px
 	cursor: pointer
 	white-space: nowrap
+	user-select: none
 	*
 		cursor: pointer
 	&:hover
@@ -51,3 +51,9 @@
 	.icon
 		&~.chevron
 			margin-left: -10px
+	&.disabled
+		pointer-events: none
+		.icon
+			opacity: .3
+		.chevron
+			opacity: 0

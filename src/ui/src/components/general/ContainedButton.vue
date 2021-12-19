@@ -3,9 +3,13 @@
 		:class="[
 			'contained-button',
 			{
-				'with-chevron': chevron
+				'with-chevron': chevron,
+				'disabled': disabled
 			}
 		]"
+		:style="{
+			height: `var(--size-${buttonHeight})`
+		}"
 	>
 		<slot></slot>
 		<div
@@ -16,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, PropType } from 'vue'
 
 export default defineComponent( {
 	props: {
@@ -25,10 +29,26 @@ export default defineComponent( {
 			required: false,
 			default: false,
 		},
-	},
-	setup() {
-		return {
-		}
+		buttonHeight: {
+			type: String as PropType<(
+												'xxxsmall' |
+												'xxsmall' |
+												'xsmall' |
+												'small' |
+												'medium' |
+												'large' |
+												'xlarge' |
+												'xxlarge' |
+												'xxxlarge'
+											)>,
+			required: false,
+			default: 'large',
+		},
+		disabled: {
+			type: Boolean,
+			required: false,
+			default: false,
+		},
 	},
 } )
 </script>
