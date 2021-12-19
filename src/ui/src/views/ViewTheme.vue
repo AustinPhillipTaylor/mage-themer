@@ -96,6 +96,7 @@
 				label="Naming Scheme"
 				placeholder="Naming Scheme"
 				:templates="propTemplates"
+				:disabled="false"
 			/>
 		</div>
 		<div class="variations">

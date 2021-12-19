@@ -2,7 +2,10 @@
 <template>
 	<div class="template-input">
 		<template v-if="label">
-			<label :for="id">{{ label }}</label>
+			<label
+				:for="id"
+				class="section-title"
+			>{{ label }}</label>
 		</template>
 		<div
 			:class="[
@@ -15,7 +18,7 @@
 			<div
 				:id="id"
 				ref="inputField"
-				class="input-container"
+				class="input-container type"
 				@input="updateModel"
 				@keydown.enter.prevent
 				:contenteditable="!disabled"
@@ -27,35 +30,40 @@
 				v-if="placeholder && !modelValue.length"
 				class="placeholder"
 			>{{ placeholder }}</span>
-			<div
-				class="add-template-element"
+			<button-with-menu
+				:options="menuOptions"
+				:menu-margin="8"
 				tabindex="0"
 				@blur="blurAddTemplate"
-				@click="focusAddTemplate"
+				@focus="focusAddTemplate"
+				:disabled="disabled"
 			>
-				<span class="material-icons-outlined">
-					add_box
-				</span>
-				<div
-					:class="['options', { 'open': isOpen }]"
-				>
-					<template
-						v-for="(item, index) in templates"
-						:key="index"
+				<template #display>
+					<contained-button
+						:disabled="disabled"
+						button-height="medium"
+						:chevron="true"
 					>
-						<span @click.stop="addTemplate(item.template)" > {{ item.text }} </span>
-					</template>
-				</div>
-			</div>
+						<div class="icon icon--plus" />
+					</contained-button>
+				</template>
+			</button-with-menu>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, ref, Ref, PropType, watch, onMounted } from 'vue'
-import { ItemTemplate, PropTemplates } from '../../types/TemplateInput'
-import { NamingScheme } from '../../types/Theme'
+import { ItemTemplate, PropTemplates } from '@/types/TemplateInput'
+import { NamingScheme } from '@/types/Theme'
+import ButtonWithMenu from '@/components/general/ButtonWithMenu.vue'
+import ContainedButton from '@/components/general/ContainedButton.vue'
+
 export default defineComponent( {
+	components: {
+		ButtonWithMenu,
+		ContainedButton,
+	},
 	props: {
 		id: {
 			type: String,
@@ -91,12 +99,23 @@ export default defineComponent( {
 		let focusOffset = 0
 		let rootOffset = -1
 
-		const isOpen = ref( false )
-
 		watch( () => props.modelValue, setFieldValue )
 
 		onMounted( () => {
 			setFieldValue( props.modelValue )
+		} )
+
+		const menuOptions = computed( () => {
+			const options = []
+			for( let option of props.templates ) {
+				options.push( {
+					text: option.text,
+					callback: () => {
+						addTemplate( option.template )
+					},
+				} )
+			}
+			return options
 		} )
 
 		const defaultEmptyNode = computed( ()=> {
@@ -112,13 +131,13 @@ export default defineComponent( {
 		} )
 
 		function focusAddTemplate() {
-			isOpen.value = !isOpen.value
+			console.log( 'focused' )
 			storeCursorPosition()
 		}
 
 		function blurAddTemplate() {
-			isOpen.value = false
-			restoreCursorPosition()
+			console.log( 'blurred' )
+			//restoreCursorPosition()
 		}
 
 		function getRangeAtEnd() {
@@ -126,6 +145,15 @@ export default defineComponent( {
 			range.selectNodeContents( inputField.value! )
 			range.collapse( false ) // false = collapse to end
 			return range
+		}
+
+		function scrollField( range: Range ) {
+			const rect = range.getClientRects()[0]
+			inputField.value?.scrollTo( {
+				top: 0,
+				left: rect.left,
+				behavior: 'smooth',
+			} )
 		}
 
 		function addTemplate( template: string ) {
@@ -137,7 +165,9 @@ export default defineComponent( {
 				const range = selection.getRangeAt( 0 )
 				range.insertNode( newNode )
 			} else {
-				getRangeAtEnd().insertNode( newNode )
+				const range = getRangeAtEnd()
+				range.insertNode( newNode )
+				scrollField( range )
 			}
 
 			updateModel()
@@ -145,8 +175,14 @@ export default defineComponent( {
 
 		function generateTemplateElement( template: string ) {
 			const nodeInner = document.createElement( 'span' )
-			nodeInner.className = 'template-inner'
+			nodeInner.className = 'template-inner type--medium'
 			nodeInner.innerText = getTemplate( template )?.text || template
+
+			const nodeInnerLeft = document.createElement( 'span' )
+			nodeInnerLeft.appendChild( document.createTextNode( '\u200B' ) )
+			nodeInnerLeft.className = 'template-inner-padding'
+
+			const nodeInnerRight = nodeInnerLeft.cloneNode( true )
 
 			const nodeOuter = document.createElement( 'span' )
 			nodeOuter.className = 'template-item'
@@ -155,11 +191,48 @@ export default defineComponent( {
 
 			// Inserting spaces into wrapper text node prevents cursor from
 			// visually appearing inside template tag
-			nodeOuter.appendChild( document.createTextNode( '\u202F' ) )
+			nodeOuter.appendChild( nodeInnerLeft )
 			nodeOuter.appendChild( nodeInner )
-			nodeOuter.appendChild( document.createTextNode( '\u202F' ) )
+			nodeOuter.appendChild( nodeInnerRight )
+
+
+			//TODO:
+			nodeOuter.addEventListener( 'click', ( e ) => {
+				const rect = nodeOuter.getBoundingClientRect()
+				const nodeX = rect.x
+				const nodeW = rect.width
+				const clickX = e.x
+				let add = 0
+				// If we click over half way through the node, add one to caret position
+				if( clickX - nodeX > nodeW / 2 ) {
+					add = 1
+				}
+
+				setCaretPosition( inputField.value!, getNodePosition( nodeOuter ) + add )
+			} )
 
 			return nodeOuter
+		}
+
+		function setCaretPosition( target: HTMLElement, offset: number ) {
+			if( target && offset > -1  ) {
+				const selection = window.getSelection()!
+				selection.removeAllRanges()
+				const range = new Range()
+				range.setStart( target, offset )
+				selection.addRange( range )
+			}
+			rootOffset = -1
+			focusNode = null
+			focusOffset = 0
+		}
+
+		function getNodePosition( target: EventTarget | null ) {
+			if( !target ) {
+				return -1
+			}
+			const nodeOffset = Array.from( inputField.value!.childNodes ).indexOf( target as ChildNode )
+			return nodeOffset
 		}
 
 		function setFieldValue( val: NamingScheme ) {
@@ -212,6 +285,7 @@ export default defineComponent( {
 					selection.addRange( range )
 				}
 			}
+
 			rootOffset = -1
 			focusNode = null
 			focusOffset = 0
@@ -267,124 +341,15 @@ export default defineComponent( {
 			} )
 		}
 
-
 		return {
-			isOpen,
 			inputField,
 			addTemplate,
 			updateModel,
 			getTemplate,
 			focusAddTemplate,
 			blurAddTemplate,
+			menuOptions,
 		}
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../../styles/mixins/fonts'
-@use '../../styles/mixins/colors'
-
-.template-input
-	margin: 24px 0
-	label
-		@include fonts.input-label
-		display: block
-		padding: 0
-		margin: 0 0 4px 0
-	.input-wrapper
-		white-space: nowrap
-		display: block
-		position: relative
-		width: 100%
-		padding: 8px 58px 8px 16px
-		border-radius: 4px
-		border: 2px solid colors.$input-text-border
-		background: colors.$input-template-bg
-		&.disabled
-			background: colors.$input-disabled-bg
-			border-color: colors.$input-disabled-border
-			.input-container
-				color: colors.$input-disabled-text
-				&:deep(.template-item)
-					.template-inner
-						background: colors.$gray-20
-						color: colors.$input-disabled-text
-		&:focus,
-		&:focus-within
-			border: 2px solid colors.$orange
-		.input-container
-			outline: none
-			overflow-x: auto
-			scrollbar-width: none
-			-ms-overflow-style: none
-			padding: 4px 0
-			&::-webkit-scrollbar
-				width: 0
-				height: 0
-			&:deep(.template-item)
-				display: inline-block
-				.template-inner
-					@include fonts.input-template-tag
-					display: inline-block
-					padding: 2px 6px
-					margin: -2px 0
-					border-radius: 4px
-					background: colors.$warning-light
-					color: colors.$warning
-		.placeholder
-			position: absolute
-			top: 50%
-			left: 16px
-			transform: translateY(-50%)
-			color: colors.$placeholder
-			user-select: none
-			pointer-events: none
-		.add-template-element
-			display: inline-block
-			font-size: 0
-			height: auto
-			position: absolute
-			right: 16px
-			top: 50%
-			transform: translateY(-50%)
-			z-index: 99
-			.material-icons-outlined
-				@include fonts.material-icons-large
-				color: colors.$input-template-add-button
-				cursor: pointer
-				&:hover
-					color: colors.$input-template-add-button-hover
-			.options
-				position: absolute
-				top: 100%
-				right: 0
-				background: colors.$main-dark
-				color: white
-				padding: 4px
-				border-radius: 4px 0 4px 4px
-				display: none
-				&:before
-					content: ""
-					display: block
-					width: 0
-					height: 0
-					border: 8px solid transparent
-					border-right: 8px solid #3d404c
-					position: absolute
-					top: -8px
-					right: 0px
-				&.open
-					display: block
-				span
-					@include fonts.header-options
-					white-space: nowrap
-					padding: 4px 8px
-					display: block
-					border-radius: 2px
-					color: colors.$main-light
-					&:hover
-						background: rgba(colors.$main-light, .1)
-						cursor: pointer
-
-</style>
