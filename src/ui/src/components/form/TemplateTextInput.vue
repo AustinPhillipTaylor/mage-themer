@@ -22,7 +22,7 @@
 				@input="updateModel"
 				@keydown.enter.prevent
 				:contenteditable="!disabled"
-				@focus="blurAddTemplate"
+				@focus="onBlurTemplateSelect"
 				spellcheck="false"
 			>
 			</div>
@@ -34,8 +34,8 @@
 				:options="menuOptions"
 				:menu-margin="8"
 				tabindex="0"
-				@blur="blurAddTemplate"
-				@focus="focusAddTemplate"
+				@blur="onBlurTemplateSelect"
+				@focus="onFocusTemplateSelect"
 				:disabled="disabled"
 			>
 				<template #display>
@@ -130,14 +130,12 @@ export default defineComponent( {
 			return node
 		} )
 
-		function focusAddTemplate() {
-			console.log( 'focused' )
+		function onFocusTemplateSelect() {
 			storeCursorPosition()
 		}
 
-		function blurAddTemplate() {
-			console.log( 'blurred' )
-			//restoreCursorPosition()
+		function onBlurTemplateSelect() {
+			restoreCursorPosition()
 		}
 
 		function getRangeAtEnd() {
@@ -147,28 +145,32 @@ export default defineComponent( {
 			return range
 		}
 
-		function scrollField( range: Range ) {
-			const rect = range.getClientRects()[0]
+		function scrollField( node: HTMLElement ) {
+			const elmWidth = node.offsetWidth
+			const elmOffset = node.offsetLeft
+
 			inputField.value?.scrollTo( {
 				top: 0,
-				left: rect.left,
+				left: elmOffset - elmWidth - 32, // 32 is just an arbitrary amount of padding
 				behavior: 'smooth',
 			} )
 		}
 
 		function addTemplate( template: string ) {
 			const newNode = generateTemplateElement( template )
-			restoreCursorPosition()
 
-			const selection = window.getSelection()
+			const selection = window.getSelection()!
+			let range = null
 			if( selection?.focusNode ) {
-				const range = selection.getRangeAt( 0 )
-				range.insertNode( newNode )
+				range = selection.getRangeAt( 0 )
 			} else {
-				const range = getRangeAtEnd()
-				range.insertNode( newNode )
-				scrollField( range )
+				range = getRangeAtEnd()
 			}
+			range.insertNode( newNode )
+
+			// Very important to scroll before updateModel(), because
+			// newNode will no longer exist once updateModel replaces all nodes
+			scrollField( newNode )
 
 			updateModel()
 		}
@@ -195,8 +197,6 @@ export default defineComponent( {
 			nodeOuter.appendChild( nodeInner )
 			nodeOuter.appendChild( nodeInnerRight )
 
-
-			//TODO:
 			nodeOuter.addEventListener( 'click', ( e ) => {
 				const rect = nodeOuter.getBoundingClientRect()
 				const nodeX = rect.x
@@ -236,6 +236,7 @@ export default defineComponent( {
 		}
 
 		function setFieldValue( val: NamingScheme ) {
+			storeCursorPosition()
 			if( !val.length ) {
 				inputField.value?.replaceChildren( defaultEmptyNode.value )
 			} else {
@@ -343,11 +344,10 @@ export default defineComponent( {
 
 		return {
 			inputField,
-			addTemplate,
 			updateModel,
 			getTemplate,
-			focusAddTemplate,
-			blurAddTemplate,
+			onFocusTemplateSelect,
+			onBlurTemplateSelect,
 			menuOptions,
 		}
 	},
