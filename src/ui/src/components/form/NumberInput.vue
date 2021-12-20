@@ -2,29 +2,59 @@
 <template>
 	<div class="number-input">
 		<template v-if="label">
-			<label :for="id">{{ label }}</label>
+			<label
+				:for="id"
+				class="section-title"
+			>{{ label }}</label>
 		</template>
-		<div class="number-field-wrapper">
+		<div
+			:class="[
+				'number-input-wrapper',
+				{
+					'number-input-with-icon': icon,
+					'number-input-with-arrows': arrows,
+				}
+			]"
+		>
+			<div
+				v-if="icon"
+				:class="[
+					'icon',
+					`icon--${icon}`,
+					'num-adjust-icon'
+				]"
+				@mousedown="startDragging"
+			></div>
 			<input
 				ref="numberField"
 				:id="id"
 				:value="displayValue"
 				@input="updateNumber"
-				@keydown.up="increment"
-				@keydown.down="decrement"
+				@keydown.up="adjustValue($event, 1)"
+				@keydown.down="adjustValue($event, -1)"
 				:placeholder="placeholder"
 				:maxLength="maxLength"
 				:size="maxLength"
 				type="text"
+				class="number-input-field"
 			>
 			<div
-				class="num-increase"
-				@mousedown="increment"
-			></div>
-			<div
-				class="num-decrease"
-				@mousedown="decrement"
-			></div>
+				v-if="arrows"
+				class="adjustment-arrows"
+			>
+				<div
+					class="num-increase"
+					@mousedown="adjustValue($event, 1)"
+				>
+					<div class="icon icon--caret-up"></div>
+				</div>
+				<div
+					class="num-decrease"
+					@mousedown="adjustValue($event, -1)"
+				>
+					<div class="icon icon--caret-down"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -60,16 +90,31 @@ export default defineComponent( {
 			required: false,
 			default: '100',
 		},
+		icon: {
+			type: String,
+			required: false,
+			default: '',
+		},
+		arrows: {
+			type: Boolean,
+			required: false,
+			default: false,
+		},
+		suffix: {
+			type: String,
+			required: false,
+			default: ' %',
+		},
 	},
 	setup( props, { emit } ) {
 
-		const displayValue = ref( '0' )
+		const displayValue = ref( `0${ props.suffix }` )
 
 		watch(
 			() => props.modelValue,
 			( val ) => {
 				if( val || val === 0 ) {
-					displayValue.value = val.toString()
+					displayValue.value = val.toString() + props.suffix
 				}
 			},
 			{ immediate: true }
@@ -81,8 +126,9 @@ export default defineComponent( {
 		const maxNum = parseInt( props.max, 10 )
 
 		const maxLength = computed( ()=>{
-			const minLength = props.min.length
-			const maxLength = props.max.length
+			const suffixLength = props.suffix.length
+			const minLength = props.min.length + suffixLength
+			const maxLength = props.max.length + suffixLength
 			return Math.max( maxLength, minLength )
 		} )
 
@@ -94,20 +140,14 @@ export default defineComponent( {
 			return Math.max( min, Math.min( num, max ) )
 		}
 
-		const increment = ( evt: Event ) => {
+		function adjustValue( evt: Event, amount = 1 ) {
 			evt.preventDefault()
 			numberField.value?.focus()
-			const newValue = ( props.modelValue || 0 ) + 1
-			emitUp( clamp( minNum, maxNum, newValue ) )
-		}
-		const decrement = ( evt: Event ) => {
-			evt.preventDefault()
-			numberField.value?.focus()
-			const newValue = ( props.modelValue || 0 ) - 1
+			const newValue = ( props.modelValue || 0 ) + amount
 			emitUp( clamp( minNum, maxNum, newValue ) )
 		}
 
-		const updateNumber = ( evt: Event ) => {
+		function updateNumber( evt: Event ) {
 			const curValue = ( evt.target as HTMLInputElement ).value || ''
 
 			/**
@@ -134,74 +174,40 @@ export default defineComponent( {
 
 		}
 
+		// Icon dragging
+		const dragging = ref( false )
+		const initialMouseX = ref( 0 )
+		const initialModelValue = ref( 0 )
+
+		function startDragging( e: MouseEvent ) {
+			initialMouseX.value = e.clientX
+			initialModelValue.value = props.modelValue || 0
+			window.addEventListener( 'mousemove', dragValue )
+			window.addEventListener( 'mouseup', endDragging )
+			dragging.value = true
+		}
+		function endDragging() {
+			initialMouseX.value = 0
+			initialModelValue.value = 0
+			window.removeEventListener( 'mousemove', dragValue )
+			window.removeEventListener( 'mouseup', endDragging )
+			dragging.value = false
+		}
+		function dragValue( e: any ) {
+			e.preventDefault()
+			const newValue = initialModelValue.value + ( e.clientX - initialMouseX.value ) * .5
+			emitUp( clamp( minNum, maxNum, Math.round( newValue ) ) )
+		}
+
+
 		return {
 			maxLength,
-			increment,
-			decrement,
+			adjustValue,
 			numberField,
 			updateNumber,
 			displayValue,
+			startDragging,
 		}
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../../styles/mixins/fonts'
-@use '../../styles/mixins/colors'
-
-.number-input
-	margin: 0
-	label
-		@include fonts.input-label
-		display: block
-		padding: 0
-		margin: 0 0 4px 0
-	.number-field-wrapper
-		position: relative
-		display: inline-block
-		.num-increase,
-		.num-decrease
-			width: 32px
-			height: 14px
-			position: absolute
-			right: 4px
-			border-radius: 2px
-			cursor: pointer
-			&:after
-				position: absolute
-				content: ""
-				right: 11px
-				width: 0
-				height: 0
-				border: 5px solid colors.$input-number-arrows
-				border-left-color: transparent !important
-				border-right-color: transparent !important
-			&:hover
-				background: colors.$input-select-item-hover-bg
-				&:after
-					border-color: colors.$input-number-arrow-hover
-			&:active
-				&:after
-					border-color: colors.$input-number-arrow-active
-		.num-increase
-			top: 5px
-			&:after
-				top: -1px
-				border-top-color: transparent !important
-		.num-decrease
-			bottom: 5px
-			&:after
-				bottom: -1px
-				border-bottom-color: transparent !important
-		input[type=text]
-			@include fonts.default-input
-			display: inline-block
-			padding: 8px 48px 8px 16px
-			border-radius: 4px
-			outline: none
-			border: 2px solid colors.$input-text-border
-			&:focus,
-			&:focus-within
-				border: 2px solid colors.$orange
-</style>
