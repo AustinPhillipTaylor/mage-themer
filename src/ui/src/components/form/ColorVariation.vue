@@ -6,10 +6,24 @@
 			class="variation-labels"
 			v-if="variations.length > 0"
 		>
-			<div class="top-row-label"><!-- Extra options --></div>
-			<div class="top-row-label">Label</div>
-			<div class="top-row-label">Mix Color</div>
-			<div class="top-row-label">Amount (%)</div>
+			<div class="section-title">
+				<div class="top-row-label">Label</div>
+			</div>
+			<div class="section-title">
+				<div class="top-row-label">Mix Color</div>
+			</div>
+			<div class="section-title">
+				<div class="top-row-label">Amount (%)</div>
+			</div>
+			<div class="section-title">
+				<div class="top-row-label"><!-- Extra options --></div>
+			</div>
+			<div class="top-row-label">
+				<icon-button
+					type="plus"
+					@click="addColorVariation"
+				></icon-button>
+			</div>
 		</div>
 
 		<template
@@ -17,18 +31,6 @@
 			:key="step.guid"
 		>
 			<div class="variation">
-				<input
-					type="checkbox"
-					:id="'tog-' + step.guid"
-					:style="{display: 'none'}"
-					class="advanced-options-toggle"
-				>
-				<label
-					:for="'tog-' + step.guid"
-					class="material-icons-outlined expand-more"
-				>
-					expand_more
-				</label>
 				<text-input
 					v-model="step.label"
 					class="variation-label"
@@ -75,16 +77,31 @@
 					:arrows="true"
 					icon="blend"
 				/>
+				<!-- Toggle for more options -->
+				<input
+					type="checkbox"
+					:id="'tog-' + step.guid"
+					:style="{display: 'none'}"
+					class="advanced-options-toggle"
+				>
+				<label
+					:for="'tog-' + step.guid"
+				>
+					<icon-button
+						type="ellipses"
+					></icon-button>
+				</label>
+				<!-- Delete button -->
+				<div class="delete-item-wrapper">
+					<icon-button
+						class="delete-item"
+						type="minus"
+						@click="() => deleteVariation(step.guid)"
+					></icon-button>
+					<div class="tooltip">Delete color variant</div>
+				</div>
+				<!-- More options -->
 				<div class="expanded-options">
-					<div class="delete-item-wrapper">
-						<div
-							class="material-icons-outlined delete-item"
-							@click="() => deleteVariation(step.guid)"
-						>
-							close
-						</div>
-						<div class="tooltip">Delete color variant</div>
-					</div>
 					<div class="advanced-options">
 						<toggle-input
 							v-model="step.customNamingScheme"
@@ -98,16 +115,13 @@
 							placeholder="Naming Scheme"
 							:templates="propTemplates"
 							:disabled="!step.customNamingScheme"
+							v-show="step.customNamingScheme"
 						/>
 					</div>
 				</div>
 			</div>
 		</template>
 	</div>
-	<div
-		class="add-new-variation"
-		@click="addColorVariation"
-	> + Add color variation </div>
 </template>
 
 <script lang="ts">
@@ -121,6 +135,7 @@ import TextInput from './TextInput.vue'
 import NumberInput from './NumberInput.vue'
 import SelectMenu from './SelectMenu.vue'
 import ToggleInput from './ToggleInput.vue'
+import IconButton from '@/components/general/IconButton.vue'
 import TemplateTextInput from './TemplateTextInput.vue'
 import { PaletteColors } from '../../types/Palette'
 import { propTemplates } from '../../data/nameSchemeTemplates'
@@ -132,6 +147,7 @@ export default defineComponent( {
 		SelectMenu,
 		ToggleInput,
 		TemplateTextInput,
+		IconButton,
 	},
 	props: {
 		modelValue: {
@@ -168,7 +184,7 @@ export default defineComponent( {
 				customNamingScheme: false,
 				namingScheme: [],
 			}
-			variations.value.push( newColorStep )
+			variations.value.unshift( newColorStep )
 			emit( 'update:modelValue', variations.value )
 		}
 
