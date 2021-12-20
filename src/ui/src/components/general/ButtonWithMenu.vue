@@ -134,7 +134,6 @@ export default defineComponent( {
 
 			const spaceBelow = page.height - button.bottomY
 
-			// If there's either enough space below, or even less space above
 			if( spaceBelow >= arrowMenuHeight ) {
 				fromBottom.value = spaceBelow - ( arrowHeight + menu.height )
 				useArrow.value = true
