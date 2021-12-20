@@ -44,17 +44,21 @@
 						text: '-- Select Mix Color --'
 					}"
 					:options="mixingOptions"
-					:selectError="swatchError(step)"
-					errorText="Missing swatch from mixing palette"
-					emptyText="No mixing colors selected"
+					:select-error="swatchError(step)"
+					error-text="Missing swatch from mixing palette"
+					no-options-text="No mixing colors selected"
 				>
 					<template
-						#before-option="workingOption"
+						#before-selected="workingOption"
 					>
 						<template v-if="workingOption.value">
 							<div
 								:style="{
 									background: hexStringFromRGB( colorList[workingOption.value].rgb ),
+									//@ts-ignore
+									'--red': colorList[workingOption.value].rgb.r,
+									'--green': colorList[workingOption.value].rgb.g,
+									'--blue': colorList[workingOption.value].rgb.b,
 								}"
 								class="color-preview"
 							></div>
@@ -68,6 +72,8 @@
 					placeholder="%"
 					min="0"
 					max="100"
+					:arrows="true"
+					icon="blend"
 				/>
 				<div class="expanded-options">
 					<div class="delete-item-wrapper">
@@ -199,132 +205,3 @@ export default defineComponent( {
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../../styles/mixins/fonts'
-@use '../../styles/mixins/colors'
-
-.color-variations
-	margin: 24px 0
-	display: grid
-	grid-template-columns: 28px 200px 1fr auto
-	align-items: center
-	grid-gap: 8px
-	.top-row-label,
-	.variation-label,
-	.mix-percentage,
-	.mix-color
-		display: inline-block
-		margin: 0
-		vertical-align: middle
-		white-space: nowrap
-	.variation-labels
-		display: contents
-	.variation
-		display: contents
-	.mix-color
-		min-width: 200px
-		.color-preview
-			display: inline-block
-			height: 17px
-			width: 17px
-			border-radius: 50%
-			margin-right: 6px
-			vertical-align: middle
-			border: 1px solid colors.$input-select-preview-swatch-border
-	.variation-label
-		min-width: 120px
-	.top-row-label
-		@include fonts.input-label
-	.expanded-options
-		display: none
-		grid-template-columns: 28px 1fr
-		min-height: 32px
-		grid-gap: 8px
-		grid-column: 1/-1
-		.advanced-options
-			grid-column: 2/-1
-			background: colors.$gray-10
-			border-radius: 4px
-			padding: 0 16px
-		.delete-item-wrapper
-			height: min-content
-			position: relative
-			.tooltip
-				@include fonts.tooltip
-				z-index: 999999
-				display: none
-				padding: 4px 8px
-				white-space: nowrap
-				position: absolute
-				left: 0
-				top: 100%
-				background: colors.$main-dark
-				color: colors.$main-light
-				pointer-events: none
-				border-radius: 0 4px 4px 4px
-				&:before
-					content: ""
-					display: block
-					width: 0
-					height: 0
-					border: 8px solid transparent
-					border-left: 8px solid colors.$main-dark
-					position: absolute
-					top: -8px
-					left: 0px
-			.delete-item
-				&:hover
-					&+.tooltip
-						display: inline-block
-	.advanced-options-toggle
-		&:checked
-			&+.material-icons-outlined
-				&.expand-more
-					background: colors.$action-icon-active-bg
-					transform: rotate(180deg)
-					&:hover
-						background: colors.$action-icon-hover-bg
-				&~.expanded-options
-					display: grid
-	.material-icons-outlined
-		@include fonts.material-icons
-		&.expand-more
-			padding: 4px
-			display: inline-block
-			background: colors.$action-icon-bg
-			border-radius: 4px
-			cursor: pointer
-			height: 28px
-			width: 28px
-			justify-self: center
-			&:hover
-				background: colors.$action-icon-hover-bg
-		&.delete-item
-			padding: 4px
-			background: colors.$sidebar-link-active-bg
-			border-radius: 4px
-			cursor: pointer
-			height: 28px
-			width: 28px
-			justify-self: center
-			&:hover
-				background: colors.$icon-danger-bg
-				color: colors.$icon-danger-text
-.add-new-variation
-	@include fonts.secondary-button
-	display: block
-	width: 100%
-	padding: 8px
-	border-radius: 4px
-	text-align: center
-	margin: 8px 0
-	background: colors.$secondary-button-bg
-	color: colors.$secondary-button-text
-	cursor: pointer
-	&:hover
-		background: colors.$secondary-button-hover-bg
-		color: colors.$secondary-button-hover-text
-	&:active
-		background: colors.$secondary-button-active-bg
-</style>
