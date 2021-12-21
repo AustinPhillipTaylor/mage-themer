@@ -1,0 +1,37 @@
+.item-with-tooltip
+	display: inline-block
+.simple-tooltip
+	display: block
+	position: fixed
+	z-index: 9999999999999999
+	visibility: hidden
+	opacity: 0
+	width: auto
+	height: auto
+	background-color: var(--hud)
+	color: var(--white)
+	box-shadow: var(--shadow-menu)
+	padding: var(--size-xxsmall)
+	border-radius: var(--border-radius-small)
+	margin: 0
+	&.active
+		visibility: visible
+		opacity: 1
+	.arrow
+		display: block
+		width: 0
+		height: 0
+		position: absolute
+		border: 7px solid transparent
+		&.top
+			top: -6px
+			left: 5px
+			border-bottom-color: var(--hud)
+			border-top: none
+		&.bottom
+			bottom: -6px
+			left: 5px
+			border-top-color: var(--hud)
+			border-bottom: none
+	.tooltip-content
+		display: block
