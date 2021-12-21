@@ -41,39 +41,25 @@
 	.delete-item-wrapper
 		height: min-content
 		position: relative
-		.tooltip
-			z-index: 999999
-			display: none
-			padding: 4px 8px
-			white-space: nowrap
-			position: absolute
-			right: 0
-			top: 100%
-			background: var(--hud)
-			color: var(--white)
-			pointer-events: none
-			border-radius: var(--border-radius-small)
-			&:before
-				content: ""
-				display: block
-				width: 0
-				height: 0
-				border: 8px solid transparent
-				position: absolute
-				top: -8px
-				left: 0px
-		.delete-item
-			&:hover
-				&+.tooltip
-					display: inline-block
 	.advanced-options-toggle
 		&:checked
 			&~.expanded-options
 				display: grid
-			&+ label
-				.icon-button
-					background-color: var(--blue)
-					&:hover
+			&~.simple-tooltip
+				.closed
+					display: none
+				.open
+					display: inline
+			&+ .item-with-tooltip
+				label
+					.icon-button
 						background-color: var(--blue)
-					*
-						filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(269deg) brightness(103%) contrast(104%)
+						&:hover
+							background-color: var(--blue)
+						*
+							filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(269deg) brightness(103%) contrast(104%)
+	.simple-tooltip
+		.closed
+			display: inline
+		.open
+			display: none

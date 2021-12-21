@@ -19,10 +19,17 @@
 				<div class="top-row-label"><!-- Extra options --></div>
 			</div>
 			<div class="top-row-label">
-				<icon-button
-					type="plus"
-					@click="addColorVariation"
-				></icon-button>
+				<with-simple-tooltip :horizontalMargin="8">
+					<template #contents>
+						<icon-button
+							type="plus"
+							@click="addColorVariation"
+						></icon-button>
+					</template>
+					<template #tooltip>
+						Add new color variation
+					</template>
+				</with-simple-tooltip>
 			</div>
 		</div>
 
@@ -84,21 +91,34 @@
 					:style="{display: 'none'}"
 					class="advanced-options-toggle"
 				>
-				<label
-					:for="'tog-' + step.guid"
-				>
-					<icon-button
-						type="ellipses"
-					></icon-button>
-				</label>
+				<with-simple-tooltip :horizontalMargin="8">
+					<template #contents>
+						<label
+							:for="'tog-' + step.guid"
+						>
+							<icon-button
+								type="ellipses"
+							></icon-button>
+						</label>
+					</template>
+					<template #tooltip>
+						<span class="closed">Show</span><span class="open">Hide</span> extra options
+					</template>
+				</with-simple-tooltip>
 				<!-- Delete button -->
 				<div class="delete-item-wrapper">
-					<icon-button
-						class="delete-item"
-						type="minus"
-						@click="() => deleteVariation(step.guid)"
-					></icon-button>
-					<div class="tooltip">Delete color variant</div>
+					<with-simple-tooltip :horizontalMargin="8">
+						<template #contents>
+							<icon-button
+								class="delete-item"
+								type="minus"
+								@click="() => deleteVariation(step.guid)"
+							></icon-button>
+						</template>
+						<template #tooltip>
+							Delete color variant
+						</template>
+					</with-simple-tooltip>
 				</div>
 				<!-- More options -->
 				<div class="expanded-options">
@@ -136,6 +156,7 @@ import NumberInput from './NumberInput.vue'
 import SelectMenu from './SelectMenu.vue'
 import ToggleInput from './ToggleInput.vue'
 import IconButton from '@/components/general/IconButton.vue'
+import WithSimpleTooltip from '@/components/general/WithSimpleTooltip.vue'
 import TemplateTextInput from './TemplateTextInput.vue'
 import { PaletteColors } from '../../types/Palette'
 import { propTemplates } from '../../data/nameSchemeTemplates'
@@ -148,6 +169,7 @@ export default defineComponent( {
 		ToggleInput,
 		TemplateTextInput,
 		IconButton,
+		WithSimpleTooltip,
 	},
 	props: {
 		modelValue: {
