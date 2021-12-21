@@ -44,12 +44,20 @@
 				>
 					<div class="icon icon--check"></div>
 					<span class="sidebar-button-text">{{ theme.name || 'Untitled Theme' }}</span>
-					<div
-						class="icon-button icon--red delete-item"
-						@click.stop="() => deleteTheme( guid as string )"
-					>
-						<div class="icon icon--trash"></div>
-					</div>
+
+					<with-simple-tooltip :horizontalMargin="8">
+						<template #contents>
+							<div
+								class="icon-button icon--red delete-item"
+								@click.stop="() => deleteTheme( guid as string )"
+							>
+								<div class="icon icon--trash"></div>
+							</div>
+						</template>
+						<template #tooltip>
+							Delete Theme
+						</template>
+					</with-simple-tooltip>
 				</li>
 			</ul>
 			<div class="section-label"> Palettes </div>
@@ -77,12 +85,19 @@
 				>
 					<div class="icon icon--check"></div>
 					<span class="sidebar-button-text">{{ palette.name || 'Untitled Palette' }}</span>
-					<div
-						class="icon-button icon--red delete-item"
-						@click.stop="() => deletePalette( guid as string )"
-					>
-						<div class="icon icon--trash"></div>
-					</div>
+					<with-simple-tooltip :horizontalMargin="8">
+						<template #contents>
+							<div
+								class="icon-button icon--red delete-item"
+								@click.stop="() => deletePalette( guid as string )"
+							>
+								<div class="icon icon--trash"></div>
+							</div>
+						</template>
+						<template #tooltip>
+							Delete Palette
+						</template>
+					</with-simple-tooltip>
 				</li>
 			</ul>
 		</perfect-scrollbar>
@@ -95,8 +110,12 @@ import { useAppStore } from '../stores/app'
 import { usePalettesStore } from '../stores/palettes'
 import { useThemesStore } from '../stores/themes'
 import { storeToRefs } from 'pinia'
+import WithSimpleTooltip from '@/components/general/WithSimpleTooltip.vue'
 
 export default defineComponent( {
+	components: {
+		WithSimpleTooltip,
+	},
 	setup() {
 		const appStore = useAppStore()
 		const { setAppView } = appStore
