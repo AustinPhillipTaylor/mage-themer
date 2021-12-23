@@ -1,5 +1,10 @@
 <template>
-	<div class="modal-wrapper" >
+	<div
+		class="modal-wrapper"
+		tabindex="-1"
+		ref="modalWrapper"
+		@keyup.esc="cancelImport"
+	>
 		<div class="modal">
 			<div class="modal-header">
 				<div class="title type type--bold">
@@ -38,14 +43,18 @@
 			</perfect-scrollbar>
 			<div class="modal-buttons">
 				<Button
+					ref="modalCancel"
 					type="secondary"
 					@click="cancelImport"
+					@keyup.enter="cancelImport"
 				>
 					Cancel Import
 				</Button>
 				<Button
+					ref="modalConfirm"
 					type="primary"
 					@click="completeImport"
+					@keyup.enter="completeImport"
 					:disabled="!status.ready || status.failed"
 				>
 					Finish Import
@@ -55,7 +64,7 @@
 	</div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref } from 'vue'
+import { defineComponent, onMounted, ref, Ref, watch, nextTick } from 'vue'
 import IconButton from '@/components/general/IconButton.vue'
 import Button from '@/components/general/Button.vue'
 import ImportStep from './ImportStep.vue'
@@ -89,11 +98,27 @@ export default defineComponent( {
 		const paletteStore = usePalettesStore()
 		const themeStore = useThemesStore()
 
+		const modalWrapper: Ref<HTMLElement | null> = ref( null )
+		const modalCancel: Ref<{ button: HTMLElement} | null> = ref( null )
+		const modalConfirm: Ref<{ button: HTMLElement} | null> = ref( null )
+
+
+
 		const status = ref( {
 			ready: false,
 			failed: false,
 			canceled: false,
 			conflicts: false,
+		} )
+
+		watch( status.value, async ( s ) => {
+			if( s.failed || s.conflicts || s.canceled ) {
+				await nextTick()
+				modalCancel.value?.button.focus()
+			} else if( s.ready ) {
+				await nextTick()
+				modalConfirm.value?.button.focus()
+			}
 		} )
 
 		const uploadedJSON: Ref<{ palettes: Palettes; themes: Themes } | null> = ref( null )
@@ -134,6 +159,9 @@ export default defineComponent( {
 		} )
 
 		onMounted( () => {
+			// Add focus to entire modal upon first enter
+			modalWrapper.value?.focus()
+
 			if( !props.file || !( props.file instanceof Blob ) ) {
 				steps.value.resolve.failed = true
 				status.value.failed = true
@@ -200,6 +228,9 @@ export default defineComponent( {
 			status,
 			cancelImport,
 			completeImport,
+			modalWrapper,
+			modalCancel,
+			modalConfirm,
 		}
 	},
 } )
