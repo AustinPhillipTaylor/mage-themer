@@ -89,8 +89,6 @@ export default defineComponent( {
 				topY: elm.y,
 				bottomY: elm.y + elm.height,
 			}
-			console.log( 'Element: ', details )
-			console.log( itemWithTooltip.value )
 			return details
 		}
 
@@ -100,7 +98,6 @@ export default defineComponent( {
 				width: elm.width,
 				height: elm.height,
 			}
-			console.log( 'Tooltip: ', details )
 			return details
 		}
 
@@ -109,7 +106,6 @@ export default defineComponent( {
 				width: window.innerWidth,
 				height: window.innerHeight,
 			}
-			console.log( 'Page: ', details )
 			return details
 		}
 
