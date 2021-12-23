@@ -1,5 +1,9 @@
 <template>
-	<div :class="['icon', `icon--${type}`]">
+	<div
+		:class="['icon', `icon--${type}`, {
+			'icon--spin': type === 'spinner'
+		}]"
+	>
 	</div>
 </template>
 
