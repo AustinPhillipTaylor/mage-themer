@@ -41,7 +41,7 @@
 					grid-column: title
 			.modal-body
 				grid-row: body
-				padding: var(--size-xsmall) 0
+				padding: var(--size-xsmall) 0 var(--size-medium) 0
 				.modal-footer-notice
 					margin: var(--size-xsmall) var(--size-xsmall) 0 var(--size-xsmall)
 			.modal-buttons
@@ -51,3 +51,25 @@
 				gap: var(--size-xxsmall)
 				justify-content: flex-end
 				padding: 0 var(--size-xsmall) var(--size-xsmall) var(--size-xsmall)
+	.import-step
+		display: grid
+		padding: var(--size-xxsmall) var(--size-xlarge)
+		grid-gap: var(--size-xsmall)
+		grid-template-columns: var(--size-xlarge) 1fr
+		grid-template-rows: minmax(var(--size-xlarge), auto)
+		align-items: center
+		.import-step-icon
+			justify-self: center
+			.signal-icon
+				display: grid
+				justify-content: center
+				align-content:  center
+				width: var(--size-medium)
+				height: var(--size-medium)
+				background-color: var(--hover-fill)
+				border-radius: 50%
+				&.success-icon
+					filter: invert(66%) sepia(39%) saturate(5382%) hue-rotate(114deg) brightness(102%) contrast(79%)
+				&.failed-icon
+					filter: invert(43%) sepia(56%) saturate(5632%) hue-rotate(349deg) brightness(97%) contrast(95%)
+

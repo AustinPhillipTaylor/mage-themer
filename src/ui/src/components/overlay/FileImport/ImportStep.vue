@@ -1,37 +1,33 @@
 <template>
 	<div class="import-step" >
 
-		<div class="icon">
+		<div class="import-step-icon">
 			<div
 				v-if="!done && !failed && !interrupted"
-				class="waiting-icon"
-			></div>
+				class="signal-icon waiting-icon"
+			>
+				<Icon type="spinner" ></Icon>
+			</div>
 			<div
 				v-else-if="done"
-				class="success-icon"
+				class="signal-icon success-icon"
 			>
-				<span class="material-icons-outlined">
-					done
-				</span>
+				<Icon type="resolve" ></Icon>
 			</div>
 			<div
 				v-else-if="failed"
-				class="failed-icon"
+				class="signal-icon failed-icon"
 			>
-				<span class="material-icons-outlined">
-					close
-				</span>
+				<Icon type="close" ></Icon>
 			</div>
 			<div
 				v-else-if="interrupted"
-				class="interrupted-icon"
+				class="signal-icon interrupted-icon"
 			>
-				<span class="material-icons-outlined">
-					error_outline
-				</span>
+				<Icon type="notice" ></Icon>
 			</div>
 		</div>
-		<div class="text">
+		<div class="text type type--16">
 			<div
 				v-if="!done && !failed && !interrupted"
 				class="waiting-text"
@@ -63,8 +59,12 @@
 </template>
 <script lang="ts">
 import { defineComponent, toRefs, ref, watch, Ref, WatchStopHandle, computed, PropType } from 'vue'
+import Icon from '@/components/general/Icon.vue'
 
 export default defineComponent( {
+	components: {
+		Icon,
+	},
 	props: {
 		done: {
 			type: Boolean,
@@ -106,65 +106,3 @@ export default defineComponent( {
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../../../styles/mixins/fonts'
-@use '../../../styles/mixins/colors'
-@use 'sass:math'
-
-
-@keyframes spinner
-	from
-		transform: rotate(0deg)
-	to
-		transform: rotate(360deg)
-
-$icon-size: 32px
-
-.import-step
-	@include fonts.import-export-step
-	display: grid
-	padding: 0 32px
-	grid-gap: 16px
-	grid-template-columns: 75px 1fr
-	grid-template-rows: minmax(75px, auto)
-	align-items: center
-	.icon
-		justify-self: center
-		div
-			display: grid
-			justify-content: center
-			align-content:  center
-			width: $icon-size
-			height: $icon-size
-			position: relative
-			&.waiting-icon
-				&:before
-					content: ''
-					position: absolute
-					top: 0
-					left: 0
-					box-sizing: border-box
-					width: 100%
-					height: 100%
-					border-radius: 50%
-					border-top: 3px solid colors.$main-dark
-					border-right: 3px solid transparent
-					animation: spinner .6s linear infinite
-			&.success-icon
-				border-radius: 50%
-				background: colors.$icon-success-bg
-				span
-					color: colors.$icon-success-text
-			&.failed-icon
-				border-radius: 50%
-				background: colors.$icon-danger-bg
-				span
-					color: colors.$icon-danger-text
-			&.interrupted-icon
-				border-radius: 50%
-				background: colors.$icon-neutral-bg
-				span
-					color: colors.$icon-neutral-text
-
-</style>
