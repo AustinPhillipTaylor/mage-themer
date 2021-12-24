@@ -3,15 +3,17 @@
 	<div class="view-wrapper view-dashboard">
 		<div class="dashboard-heading type--24 type--medium type--divider">Themes</div>
 		<template v-if="themesLength > 0">
-			<template
-				v-for="(theme, guid) in themes"
-				:key="guid"
-			>
-				<theme-overview
-					:theme="theme"
-					:guid="(guid as string)"
-				/>
-			</template>
+			<div class="theme-overview-list">
+				<template
+					v-for="(theme, guid) in themes"
+					:key="guid"
+				>
+					<theme-overview
+						:theme="theme"
+						:guid="(guid as string)"
+					/>
+				</template>
+			</div>
 		</template>
 		<template v-else>
 			<div class="no-themes">
@@ -39,8 +41,8 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useThemesStore } from '../stores/themes'
-import ThemeOverview from '../components/ThemeOverview.vue'
+import { useThemesStore } from '@/stores/themes'
+import ThemeOverview from '@/components/ThemeOverview.vue'
 
 export default defineComponent( {
 	components: {

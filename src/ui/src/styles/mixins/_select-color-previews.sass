@@ -3,7 +3,6 @@
 	height: var(--size-xsmall)
 	width: var(--size-xsmall)
 	border-radius: var(--border-radius-small)
-	margin-left: var(--size-xxxsmall)
 	vertical-align: middle
 	// Calculate inset border opacity. red, green, and blue vars are set on individual items.
 	--threshold: 0.85
@@ -14,5 +13,9 @@
 	--perceived-lightness: calc(var(--sum) / 255)
 	--alpha: calc((var(--perceived-lightness) - var(--threshold)))
 	border: 1px solid rgba(0,0,0,var(--alpha))
-	&:first-of-type
-		margin-left: var(--size-xxsmall)
+
+.select-menu
+	.color-preview
+		margin-left: var(--size-xxxsmall)
+		&:first-of-type
+			margin-left: var(--size-xxsmall)

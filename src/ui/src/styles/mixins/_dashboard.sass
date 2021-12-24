@@ -1,21 +1,4 @@
 .view-dashboard
-	.action-button
-		display: block
-		width: auto
-		// background: colors.$secondary-button-bg
-		// color: colors.$secondary-button-text
-		// border: 1px solid colors.$secondary-button-border
-		height: auto
-		white-space: nowrap
-		padding: 8px 16px
-		border-radius: 4px
-		text-align: center
-		cursor: pointer
-		&:hover
-			// background: colors.$secondary-button-hover-bg
-			// color: colors.$secondary-button-hover-text
-		&:active
-			// background: colors.$secondary-button-active-bg
 	.no-themes
 		max-width: 280px
 		background: var(--white)
@@ -28,3 +11,45 @@
 			.button
 				width: 100%
 				justify-content: center
+	.theme-overview-list
+		display: grid
+		grid-template-columns: 1fr
+		grid-gap: var(--size-medium)
+		padding: var(--size-medium) 0
+		.theme-overview
+			display: grid
+			grid-auto-rows: auto
+			grid-gap: var(--size-xsmall)
+			width: 100%
+			height: auto
+			min-height: var(--size-medium)
+			border-radius: var(--border-radius-large)
+			background: var(--white)
+			padding: var(--size-xsmall) var(--size-medium)
+			.error-notice
+				ul
+					padding: 0 0 0 var(--size-xsmall)
+					margin: 0
+					li
+						list-style-type: none
+			.details
+				overflow: hidden
+				.palette-colors,
+				.mixing-colors
+					display: grid
+					grid-auto-flow: column
+					justify-content: start
+					grid-gap: var(--size-xxxsmall)
+				.theme-subtitle,
+				.palette-colors
+					margin-bottom: var(--size-xxsmall)
+			.actions
+				white-space: nowrap
+				grid-auto-columns: min-content
+				max-height: 200px
+				grid-gap: 8px
+				display: grid
+				align-items: center
+				justify-content: end
+			&.errors
+				outline: 2px solid var(--red)
