@@ -4,3 +4,11 @@
 	max-width: 800px
 	min-width: 350px
 	padding: var(--size-medium) var(--size-xsmall)
+	&.view-palette
+		.palette-colors
+			display: grid
+			grid-template-columns: 1fr var(--size-medium)
+			grid-gap: var(--size-xxsmall)
+	.swatch-labels
+		display: grid
+		grid-template-columns: 100px 1fr var(--size-medium)

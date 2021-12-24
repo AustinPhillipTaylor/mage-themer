@@ -1,10 +1,11 @@
 
 <template>
+	<div class="section-title">
+		Color Variations
+	</div>
 	<div class="color-variations">
-
 		<div
 			class="variation-labels"
-			v-if="variations.length > 0"
 		>
 			<div class="section-title">
 				<div class="top-row-label">Label</div>

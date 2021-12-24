@@ -43,7 +43,10 @@ export const usePalettesStore = defineStore( {
 					b: 255,
 				},
 			}
-			this.palettes[guid].colors[colorGUID] = newColor
+			this.palettes[guid].colors = {
+				[colorGUID]: newColor,
+				...this.palettes[guid].colors,
+			}
 
 			return newColor
 		},

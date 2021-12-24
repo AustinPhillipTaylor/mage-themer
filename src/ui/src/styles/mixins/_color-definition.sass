@@ -1,0 +1,32 @@
+.color-definition
+	display: grid
+	grid-template-columns: 100px 1fr
+	grid-gap: var(--size-xxsmall)
+	.color-name-input
+		margin: 0
+	.color-swatch
+		position: relative
+		width: 100%
+		height: var(--size-medium)
+		margin: 1px 0
+		background: #fff
+		border-radius: var(--border-radius-small)
+		cursor: pointer
+		// Calculate inset border opacity. red, green, and blue vars are set on individual items.
+		--threshold: 0.9
+		--r: calc(var(--red) * 0.299)
+		--g: calc(var(--green) * 0.587)
+		--b: calc(var(--blue) * 0.114)
+		--sum: calc(var(--r) + var(--g) + var(--b))
+		--perceived-lightness: calc(var(--sum) / 255)
+		--alpha: calc((var(--perceived-lightness) - var(--threshold)))
+		border: 1px solid rgba(0,0,0,var(--alpha))
+		.color-info
+			--threshold: 0.6
+			--r: calc(var(--red) * 0.299)
+			--g: calc(var(--green) * 0.587)
+			--b: calc(var(--blue) * 0.114)
+			--sum: calc(var(--r) + var(--g) + var(--b))
+			--perceived-lightness: calc(var(--sum) / 255)
+			color: hsl(0, 0%, calc((var(--perceived-lightness) - var(--threshold)) * -10000000%))
+			padding: 8px
