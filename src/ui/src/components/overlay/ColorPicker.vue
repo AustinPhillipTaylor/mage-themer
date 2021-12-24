@@ -16,7 +16,7 @@
 			<icon-button
 				class="close-modal"
 				type="close"
-				@click="closeOverlay"
+				@click="closeOverlay()"
 			></icon-button>
 		</div>
 		<color-picker
