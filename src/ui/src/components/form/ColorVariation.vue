@@ -61,16 +61,7 @@
 						#before-selected="workingOption"
 					>
 						<template v-if="workingOption.value">
-							<div
-								:style="{
-									background: hexStringFromRGB( colorList[workingOption.value].rgb ),
-									//@ts-ignore
-									'--red': colorList[workingOption.value].rgb.r,
-									'--green': colorList[workingOption.value].rgb.g,
-									'--blue': colorList[workingOption.value].rgb.b,
-								}"
-								class="color-preview"
-							></div>
+							<color-preview :rgb="colorList[workingOption.value].rgb" />
 						</template>
 					</template>
 				</select-menu>
@@ -158,6 +149,7 @@ import ToggleInput from './ToggleInput.vue'
 import IconButton from '@/components/general/IconButton.vue'
 import WithSimpleTooltip from '@/components/general/WithSimpleTooltip.vue'
 import TemplateTextInput from './TemplateTextInput.vue'
+import ColorPreview from '../general/ColorPreview.vue'
 import { PaletteColors } from '../../types/Palette'
 import { propTemplates } from '../../data/nameSchemeTemplates'
 
@@ -170,6 +162,7 @@ export default defineComponent( {
 		TemplateTextInput,
 		IconButton,
 		WithSimpleTooltip,
+		ColorPreview,
 	},
 	props: {
 		modelValue: {

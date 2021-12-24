@@ -33,16 +33,7 @@
 							v-for="(color, guid) in palettes[workingOption.value].colors"
 							:key="guid"
 						>
-							<div
-								:style="{
-									background: hexStringFromRGB( color.rgb ),
-									//@ts-ignore
-									'--red': color.rgb.r,
-									'--green': color.rgb.g,
-									'--blue': color.rgb.b,
-								}"
-								class="color-preview"
-							></div>
+							<color-preview :rgb="color.rgb" />
 						</template>
 					</template>
 				</template>
@@ -73,16 +64,7 @@
 								v-for="(color, guid) in palettes[workingOption.value].colors"
 								:key="guid"
 							>
-								<div
-									:style="{
-										background: hexStringFromRGB( color.rgb ),
-										//@ts-ignore
-										'--red': color.rgb.r,
-										'--green': color.rgb.g,
-										'--blue': color.rgb.b,
-									}"
-									class="color-preview"
-								></div>
+								<color-preview :rgb="color.rgb" />
 							</template>
 						</template>
 					</template>
@@ -118,9 +100,11 @@ import TextInput from '@/components/form/TextInput.vue'
 import SelectMenu from '@/components/form/SelectMenu.vue'
 import ColorVariation from '@/components/form/ColorVariation.vue'
 import TemplateTextInput from '@/components/form/TemplateTextInput.vue'
+import ColorPreview from '@/components/general/ColorPreview.vue'
 import { SelectOption } from '@/types/SelectOption'
 import { hexStringFromRGB } from '@/utils/hexStringFromRGB'
 import { propTemplates } from '@/data/nameSchemeTemplates'
+
 
 export default defineComponent( {
 	components: {
@@ -128,6 +112,7 @@ export default defineComponent( {
 		ColorVariation,
 		TemplateTextInput,
 		SelectMenu,
+		ColorPreview,
 	},
 	props: {
 		guid: {
