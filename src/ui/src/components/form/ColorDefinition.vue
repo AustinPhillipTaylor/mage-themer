@@ -13,6 +13,7 @@
 				'--blue': rgb.b,
 			}"
 		>
+			<Icon type="blend"></Icon>
 			<div class="color-info type--medium" >
 				{{ hexStringFromRGB(rgb) }}
 			</div>
@@ -31,10 +32,12 @@
 import { defineComponent, PropType, ref, Ref } from 'vue'
 import { hexStringFromRGB } from '@/utils/hexStringFromRGB'
 import TextInput from './TextInput.vue'
+import Icon from '../general/Icon.vue'
 
 export default defineComponent( {
 	components: {
 		TextInput,
+		Icon,
 	},
 	props: {
 		rgb: {

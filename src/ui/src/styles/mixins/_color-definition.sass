@@ -5,6 +5,8 @@
 	.color-name-input
 		margin: 0
 	.color-swatch
+		display: grid
+		grid-template-columns: var(--size-medium) auto
 		position: relative
 		width: 100%
 		height: var(--size-medium)
@@ -21,6 +23,18 @@
 		--perceived-lightness: calc(var(--sum) / 255)
 		--alpha: calc((var(--perceived-lightness) - var(--threshold)))
 		border: 1px solid rgba(0,0,0,var(--alpha))
+		// --threshold: 0.1
+		// --alpha: 0.1
+		// --r: calc(var(--red) * 0.299)
+		// --g: calc(var(--green) * 0.587)
+		// --b: calc(var(--blue) * 0.114)
+		// --sum: calc(var(--r) + var(--g) + var(--b))
+		// --perceived-lightness: calc(var(--sum) / 255)
+		// --bool: min(1, max(var(--perceived-lightness) - var(--threshold), 0))
+		// --bool: calc(var(--perceived-lightness) + var(--threshold))
+		// border: 1px solid rgba(0,0,0, calc(var(--alpha) * var(--bool)) )
+		.icon
+			opacity: .3
 		.color-info
 			--threshold: 0.6
 			--r: calc(var(--red) * 0.299)
@@ -29,4 +43,4 @@
 			--sum: calc(var(--r) + var(--g) + var(--b))
 			--perceived-lightness: calc(var(--sum) / 255)
 			color: hsl(0, 0%, calc((var(--perceived-lightness) - var(--threshold)) * -10000000%))
-			padding: 8px
+			padding: var(--size-xxsmall) var(--size-xxsmall) var(--size-xxsmall) 0
