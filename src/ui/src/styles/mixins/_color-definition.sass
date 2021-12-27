@@ -16,31 +16,29 @@
 		cursor: pointer
 		// Calculate inset border opacity. red, green, and blue vars are set on individual items.
 		--threshold: 0.9
+		--alpha: 0.1
 		--r: calc(var(--red) * 0.299)
 		--g: calc(var(--green) * 0.587)
 		--b: calc(var(--blue) * 0.114)
 		--sum: calc(var(--r) + var(--g) + var(--b))
 		--perceived-lightness: calc(var(--sum) / 255)
-		--alpha: calc((var(--perceived-lightness) - var(--threshold)))
-		border: 1px solid rgba(0,0,0,var(--alpha))
-		// --threshold: 0.1
-		// --alpha: 0.1
-		// --r: calc(var(--red) * 0.299)
-		// --g: calc(var(--green) * 0.587)
-		// --b: calc(var(--blue) * 0.114)
-		// --sum: calc(var(--r) + var(--g) + var(--b))
-		// --perceived-lightness: calc(var(--sum) / 255)
-		// --bool: min(1, max(var(--perceived-lightness) - var(--threshold), 0))
-		// --bool: calc(var(--perceived-lightness) + var(--threshold))
-		// border: 1px solid rgba(0,0,0, calc(var(--alpha) * var(--bool)) )
+		--offset: calc(var(--perceived-lightness) - var(--threshold))
+		--extreme: calc(var(--offset) * 1000000000)
+		--bool: clamp(0, var(--extreme), 1)
+		border: 1px solid rgba(0,0,0, calc(var(--alpha) * var(--bool)) )
 		.icon
-			opacity: .3
+			--threshold: 0.6
+			// perceived-lightness can be inherited from color-swatch
+			--offset: calc(var(--perceived-lightness) - var(--threshold))
+			--extreme: calc(var(--offset) * -1000000000)
+			--bool: clamp(0, var(--extreme), 1)
+			filter: Invert( calc(var(--bool) * 100%) )
+			opacity: calc(.6 - clamp(-.2, var(--offset), .3))
 		.color-info
 			--threshold: 0.6
-			--r: calc(var(--red) * 0.299)
-			--g: calc(var(--green) * 0.587)
-			--b: calc(var(--blue) * 0.114)
-			--sum: calc(var(--r) + var(--g) + var(--b))
-			--perceived-lightness: calc(var(--sum) / 255)
-			color: hsl(0, 0%, calc((var(--perceived-lightness) - var(--threshold)) * -10000000%))
+			// perceived-lightness can be inherited from color-swatch
+			--offset: calc(var(--perceived-lightness) - var(--threshold))
+			--extreme: calc(var(--offset) * -1000000000)
+			--bool: clamp(0, var(--extreme), 1)
+			color: hsl(0, 0%, calc(100% * var(--bool)))
 			padding: var(--size-xxsmall) var(--size-xxsmall) var(--size-xxsmall) 0
