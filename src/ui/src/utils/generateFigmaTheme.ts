@@ -5,7 +5,7 @@ import { unescapeEntities as _U } from './escapeEntities'
 import { mix } from 'tinycolor2'
 import { ColorStyle } from '../types/ColorStyle'
 
-export function generateFigmaTheme( mainColors: PaletteColors, mixColors: PaletteColors, mainName: string, mixName: string, themeName: string, namingScheme: NamingScheme, variations: ColorVariation[] ): ColorStyle[]  {
+export function generateFigmaTheme( mainColors: PaletteColors, mixColors: PaletteColors, mainName: string, mixName: string, themeName: string, namingScheme: NamingScheme, variations: ColorVariation[], useRatio = true ): ColorStyle[]  {
 	const colorStyles: ColorStyle[] = []
 
 	// Loop through main palette
@@ -34,10 +34,11 @@ export function generateFigmaTheme( mainColors: PaletteColors, mixColors: Palett
 			colorStyles.push( {
 				name: resolvedName,
 				color: {
-					// Figma utilizes an RGB ratio, each value needs to be between 0 and 1
-					r: mixedColor.r / 255,
-					g: mixedColor.g / 255,
-					b: mixedColor.b / 255,
+					// Figma utilizes an RGB ratio, each value needs to be between 0 and 1,
+					// we can turn this off by setting useRatio to false
+					r: mixedColor.r / ( useRatio ? 255 : 1 ),
+					g: mixedColor.g / ( useRatio ? 255 : 1 ),
+					b: mixedColor.b / ( useRatio ? 255 : 1 ),
 				},
 			} )
 		}

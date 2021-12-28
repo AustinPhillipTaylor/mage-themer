@@ -120,7 +120,7 @@ export const useThemesStore = defineStore( {
 			}
 		},
 		getFigmaColorList: ( state ) => {
-			return ( guid: string ) => {
+			return ( guid: string, useRatio = true ) => {
 				const paletteStore = usePalettesStore()
 				const palettes = paletteStore.palettes
 				const theme = state.themes[guid]
@@ -131,7 +131,7 @@ export const useThemesStore = defineStore( {
 				const mixName = mixPalette.name
 				const mixColors = mixPalette.colors
 				// Color list
-				return generateFigmaTheme( mainColors, mixColors, mainName, mixName, theme.name, theme.namingScheme, theme.variationMapping )
+				return generateFigmaTheme( mainColors, mixColors, mainName, mixName, theme.name, theme.namingScheme, theme.variationMapping, useRatio )
 			}
 		},
 	},
