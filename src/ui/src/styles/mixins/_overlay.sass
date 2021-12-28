@@ -27,7 +27,8 @@
 			width: 100%
 			max-width: 800px
 			display: grid
-			grid-template-rows: [header] 41px [body] 1fr [buttons] min-content
+			grid-template-rows: [header] 41px [body] minmax(0, 1fr) [buttons] min-content
+			overflow: hidden
 			.modal-header
 				display: grid
 				grid-row: header
@@ -41,7 +42,10 @@
 					grid-column: title
 			.modal-body
 				grid-row: body
-				padding: var(--size-xsmall) var(--size-xsmall) var(--size-medium) var(--size-xsmall)
+				padding: 0 var(--size-xsmall) 0 var(--size-xsmall)
+				margin: var(--size-xsmall) 0 var(--size-medium) 0
+				&.ps
+					height: auto
 				.modal-footer-notice
 					margin: var(--size-xsmall) 0 0 0
 			.modal-buttons

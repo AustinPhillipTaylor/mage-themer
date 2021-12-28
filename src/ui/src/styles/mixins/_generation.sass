@@ -1,0 +1,37 @@
+.modal-wrapper
+	&.theme-generation-preview
+		.modal
+			height: 100%
+			.modal-body
+				padding-bottom: var(--size-xsmall)
+				min-height: 0
+				height: auto
+				.disclosure
+					.disclosure__label
+						cursor: pointer
+				.title-with-buttons
+					display: grid
+					align-items: center
+					grid-template-columns: 1fr min-content
+					padding-bottom: var(--size-xxxsmall)
+					.display-change-icons
+						display: grid
+						grid-auto-flow: column
+				.style-item-group
+					border-radius: var(--border-radius-large)
+					overflow: hidden
+					outline: 1px solid var(--bg-overlay-outline)
+					.style-item
+						padding: var(--size-xxsmall) var(--size-xsmall)
+						margin: 0
+						.color-info
+							--threshold: 0.6
+							--r: calc(var(--red) * 0.299)
+							--g: calc(var(--green) * 0.587)
+							--b: calc(var(--blue) * 0.114)
+							--sum: calc(var(--r) + var(--g) + var(--b))
+							--perceived-lightness: calc(var(--sum) / 255)
+							--offset: calc(var(--perceived-lightness) - var(--threshold))
+							--extreme: calc(var(--offset) * -1000000000)
+							--bool: clamp(0, var(--extreme), 1)
+							color: hsl(0, 0%, calc(100% * var(--bool)))
