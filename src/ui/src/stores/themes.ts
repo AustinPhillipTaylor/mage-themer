@@ -130,7 +130,7 @@ export const useThemesStore = defineStore( {
 				const mixPalette = palettes[theme.mixingPalette]
 				const mixName = mixPalette.name
 				const mixColors = mixPalette.colors
-				// Color list object, each level corresponds to a folder level
+				// Color list
 				return generateFigmaTheme( mainColors, mixColors, mainName, mixName, theme.name, theme.namingScheme, theme.variationMapping )
 			}
 		},
