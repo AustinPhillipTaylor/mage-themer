@@ -43,6 +43,8 @@ export const useThemesStore = defineStore( {
 					for( const variation of theme.variationMapping ) {
 						if( !variation.mixingColor ) {
 							return true
+						} else if( !palettes[theme.mixingPalette] ) {
+							return true
 						} else if(
 							theme.mixingPalette &&
 							!palettes[theme.mixingPalette].colors[variation.mixingColor]

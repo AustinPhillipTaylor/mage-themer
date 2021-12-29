@@ -13,9 +13,7 @@
 			<div class="theme-title type--16 type--medium" > {{ theme.name || 'Untitled Theme' }} </div>
 			<div class="theme-subtitle type--secondary">
 				{{
-					'Generates ' +
-						(colorCount(theme.themePalette) * theme.variationMapping.length) +
-						' colors'
+					'Generates ' + colorGenerationCount + ' colors'
 				}}
 			</div>
 			<div class="palette-colors">
@@ -84,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from 'vue'
+import { defineComponent, computed, PropType, ref } from 'vue'
 import { usePalettesStore } from '@/stores/palettes'
 import { useThemesStore } from '@/stores/themes'
 import { Theme } from '@/types/Theme'
@@ -112,25 +110,27 @@ export default defineComponent( {
 		const themeStore = useThemesStore()
 		const themes = computed( () => themeStore.themes )
 		const themesLength = computed( () => Object.keys( themes.value ).length )
-		const themeErrors = themeStore.themeErrors( props.guid )
+		const themeErrors = computed( () => themeStore.themeErrors( props.guid ) )
 		const generateThemeStyles = themeStore.generateThemeStyles
 
 		const paletteStore = usePalettesStore()
 		const palettes = paletteStore.palettes
 
 		const hasErrors = computed( () => {
-			return themeErrors.length > 0
+			return themeErrors.value.length > 0
 		} )
 
+		const colorGenerationCount = computed( () => colorCount( props.theme.themePalette ) * props.theme.variationMapping.length )
+
 		function colorCount( guid: string ) {
-			if( paletteExists( guid ) ) {
+			if( guid && paletteExists( guid ) ) {
 				return Object.keys( palettes[guid].colors ).length
 			}
 			return 0
 		}
 
 		function colorList( guid: string ) {
-			if( paletteExists( guid ) ) {
+			if( guid && paletteExists( guid ) ) {
 				return palettes[guid].colors
 			}
 			return {}
@@ -153,6 +153,7 @@ export default defineComponent( {
 			themeErrors,
 			hasErrors,
 			generateThemeStyles,
+			colorGenerationCount,
 		}
 	},
 } )
