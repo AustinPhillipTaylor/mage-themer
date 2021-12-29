@@ -22,7 +22,7 @@
 							'--blue': item.color.b,
 						}"
 					>
-						{{ item.name }} ( {{ hexStringFromRGB(item.color) }} )
+						{{ item.name.split('/').join(' / ') }} ( {{ hexStringFromRGB(item.color) }} )
 					</div>
 				</div>
 			</template>

@@ -24,25 +24,25 @@
 					<template v-if="hasStyles">
 						<div class="style-item-group">
 							<template
-								v-for="(style, index) in currentList.styles"
+								v-for="(style, index) in colorTree.styles"
 								:key="index"
 							>
 								<div
 									class="style-item"
 									:style="{
-										background: hexStringFromRGB(style.rgb)
+										background: hexStringFromRGB(style.color)
 									}"
 								>
 									<div
 										class="color-info"
 										:style="{
 											//@ts-ignore
-											'--red': style.rgb.r,
-											'--green': style.rgb.g,
-											'--blue': style.rgb.b,
+											'--red': style.color.r,
+											'--green': style.color.g,
+											'--blue': style.color.b,
 										}"
 									>
-										{{ style.name }} ( {{ hexStringFromRGB(style.rgb) }} )
+										{{ style.name }} ( {{ hexStringFromRGB(style.color) }} )
 									</div>
 								</div>
 							</template>
@@ -52,11 +52,11 @@
 						v-if="hasSubPath"
 					>
 						<template
-							v-for="(subPath, index) in subPaths"
+							v-for="(group, index) in subGroups"
 							:key="index"
 						>
 							<color-list-tree
-								:colorTree="{ [index]: subPath }"
+								:colorTree="group"
 							/>
 						</template>
 					</template>
@@ -66,6 +66,7 @@
 	</ul>
 </template>
 <script lang="ts">
+import { ColorGroup } from '@/types/ColorGroup'
 import { defineComponent, computed, ref, Ref, PropType } from 'vue'
 import { hexStringFromRGB } from '../../../utils/hexStringFromRGB'
 
@@ -73,43 +74,26 @@ export default defineComponent( {
 	name: 'color-list-tree',
 	props: {
 		colorTree: {
-			type: Object,
+			type: Object as PropType<ColorGroup>,
 			required: true,
 		},
 	},
 	setup( props ) {
-
 		const isOpen = ref( true )
 
-		const currentKey = Object.keys( props.colorTree )[0]
-		const currentList = ref( props.colorTree[currentKey] )
+		const currentKey = props.colorTree.groupName || 'Style Group(s)'
 
 		const hasStyles = computed( () => {
-			if( currentList.value.styles && currentList.value.styles.length > 0 ) {
+			if( props.colorTree.styles.length > 0 ) {
 				return true
 			}
 			return false
 		} )
 
-		const subPaths = computed( () => {
-			const pathList = Object.keys( currentList.value )
-			// Check for styles key and
-			// Check that it's an array and not just a path named 'styles'
-			if( pathList.includes( 'styles' ) && currentList.value.styles.length ) {
-				pathList.splice( pathList.indexOf( 'styles' ), 1 )
-			}
-			if( pathList.length > 0 ) {
-				const paths: any = {}
-				for( const path of pathList ) {
-					paths[path] = currentList.value[path]
-				}
-				return paths
-			}
-			return false
-		} )
+		const subGroups = ref( props.colorTree.subGroups )
 
 		const hasSubPath = computed( () => {
-			if( Object.keys( subPaths.value ).length > 0 ) {
+			if( subGroups.value.length > 0 ) {
 				return true
 			}
 			return false
@@ -121,11 +105,10 @@ export default defineComponent( {
 
 		return {
 			hexStringFromRGB,
-			subPaths,
+			subGroups,
 			hasSubPath,
 			toggleOpen,
 			currentKey,
-			currentList,
 			hasStyles,
 			isOpen,
 		}
