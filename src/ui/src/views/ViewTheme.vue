@@ -1,16 +1,17 @@
 
 <template>
-	<div class="view-theme">
+	<div class="view-wrapper view-theme">
 		<div class="theme-name">
 			<text-input
 				v-model="name"
 				id="themeName"
 				label="Theme Name"
 				placeholder="Theme Name"
+				icon="type-layer"
 			/>
 		</div>
 		<div class="palette-select">
-			<select-input
+			<select-menu
 				v-model="themePalette"
 				id="mainPalette"
 				label="Theme Palette"
@@ -19,32 +20,28 @@
 					text: '-- Select Palette --'
 				}"
 				:options="paletteOptions"
-				emptyText="No palettes to select from. Please create a palette to populate your theme."
+				no-options-text="No palettes exist"
+				button-icon="theme"
 				:selectError="themePaletteError"
 				errorText="Selected Palette can not be found"
 			>
 				<template
-					#after-option="workingOption"
+					#after-selected="workingOption"
 				>
 					<template v-if="workingOption.value">
 						<template
 							v-for="(color, guid) in palettes[workingOption.value].colors"
 							:key="guid"
 						>
-							<div
-								:style="{
-									background: hexStringFromRGB( color.rgb ),
-								}"
-								class="color-preview"
-							></div>
+							<color-preview :rgb="color.rgb" />
 						</template>
 					</template>
 				</template>
-			</select-input>
+			</select-menu>
 		</div>
 		<div class="mixing-color-select">
 			<div class="palette-select">
-				<select-input
+				<select-menu
 					v-model="mixingPalette"
 					id="mixingPalette"
 					label="Theme Mixing Colors"
@@ -54,27 +51,24 @@
 					}"
 					:options="paletteOptions"
 					emptyText="No palettes to select from. Please create a palette to populate your mixing colors."
+					no-options-text="No palettes exist"
+					button-icon="blend-empty"
 					:selectError="mixingPaletteError"
 					errorText="Selected Palette can not be found"
 				>
 					<template
-						#after-option="workingOption"
+						#after-selected="workingOption"
 					>
 						<template v-if="workingOption.value">
 							<template
 								v-for="(color, guid) in palettes[workingOption.value].colors"
 								:key="guid"
 							>
-								<div
-									:style="{
-										background: hexStringFromRGB( color.rgb ),
-									}"
-									class="color-preview"
-								></div>
+								<color-preview :rgb="color.rgb" />
 							</template>
 						</template>
 					</template>
-				</select-input>
+				</select-menu>
 			</div>
 		</div>
 		<div class="naming-scheme">
@@ -84,6 +78,7 @@
 				label="Naming Scheme"
 				placeholder="Naming Scheme"
 				:templates="propTemplates"
+				:disabled="false"
 			/>
 		</div>
 		<div class="variations">
@@ -98,23 +93,26 @@
 
 <script lang="ts">
 import { defineComponent, watch, computed } from 'vue'
-import { useAppStore } from '../stores/app'
-import { usePalettesStore } from '../stores/palettes'
-import { useThemesStore } from '../stores/themes'
-import TextInput from '../components/form/TextInput.vue'
-import SelectInput from '../components/form/SelectInput.vue'
-import ColorVariation from '../components/form/ColorVariation.vue'
-import TemplateTextInput from '../components/form/TemplateTextInput.vue'
-import { SelectOption } from '../types/SelectOption'
-import { hexStringFromRGB } from '../utils/hexStringFromRGB'
-import { propTemplates } from '../data/nameSchemeTemplates'
+import { useAppStore } from '@/stores/app'
+import { usePalettesStore } from '@/stores/palettes'
+import { useThemesStore } from '@/stores/themes'
+import TextInput from '@/components/form/TextInput.vue'
+import SelectMenu from '@/components/form/SelectMenu.vue'
+import ColorVariation from '@/components/form/ColorVariation.vue'
+import TemplateTextInput from '@/components/form/TemplateTextInput.vue'
+import ColorPreview from '@/components/general/ColorPreview.vue'
+import { SelectOption } from '@/types/SelectOption'
+import { hexStringFromRGB } from '@/utils/hexStringFromRGB'
+import { propTemplates } from '@/data/nameSchemeTemplates'
+
 
 export default defineComponent( {
 	components: {
 		TextInput,
-		SelectInput,
 		ColorVariation,
 		TemplateTextInput,
+		SelectMenu,
+		ColorPreview,
 	},
 	props: {
 		guid: {
@@ -257,20 +255,3 @@ export default defineComponent( {
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../styles/mixins/colors'
-
-.view-theme
-	display: block
-	width: 100%
-	max-width: 800px
-	.color-preview
-		display: inline-block
-		height: 17px
-		width: 17px
-		border-radius: 50%
-		margin-left: 8px
-		vertical-align: middle
-		border: 1px solid colors.$input-select-preview-swatch-border
-</style>

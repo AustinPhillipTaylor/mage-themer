@@ -10,15 +10,14 @@
 			@mousedown="startDragging"
 			class="color-picker-header"
 		>
-			<div class="color-picker-title">
+			<div class="title type type--bold">
 				Select Color
 			</div>
-			<div
-				class="material-icons-outlined close-color-picker"
-				@click="() => closeOverlay()"
-			>
-				close
-			</div>
+			<icon-button
+				class="close-modal"
+				type="close"
+				@click="closeOverlay()"
+			></icon-button>
 		</div>
 		<color-picker
 			v-model="colorPickerModel"
@@ -30,13 +29,14 @@
 </template>
 <script lang="ts">
 import { defineComponent, toRefs, ref, watch, Ref, WatchStopHandle, computed, PropType } from 'vue'
-import tinyColor from 'tinycolor2'
+import IconButton from '../general/IconButton.vue'
 import { Chrome } from '@ckpack/vue-color'
 import { ColorPickerModel } from '../../types/ColorPicker'
 
 export default defineComponent( {
 	components: {
 		'color-picker': Chrome,
+		IconButton,
 	},
 	props: {
 		callback: {
@@ -159,41 +159,3 @@ export default defineComponent( {
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../../styles/mixins/fonts'
-@use '../../styles/mixins/colors'
-
-.color-picker-float
-	box-shadow: 0 0 2px rgb(0 0 0 / 25%), 0 4px 8px rgb(0 0 0 / 25%)
-	z-index: 99999
-	position: absolute
-	background: #fff
-	border-radius: 4px
-	overflow: hidden
-	.color-picker-header
-		width: 100%
-		height: auto
-		padding: 4px 4px 4px 8px
-		align-items: center
-		display: grid
-		grid-template-columns: auto min-content
-		cursor: pointer
-		.color-picker-title
-			@include fonts.header
-		.material-icons-outlined
-			@include fonts.material-icons
-			&.close-color-picker
-				padding: 4px
-				display: block
-				background: colors.$action-icon-bg
-				border-radius: 4px
-				cursor: pointer
-				height: 28px
-				width: 28px
-				&:hover
-					background: colors.$action-icon-hover-bg
-	.color-picker-inner
-		box-shadow: none
-
-</style>

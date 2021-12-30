@@ -1,34 +1,82 @@
 <template>
-	<div class="modal-wrapper" >
+	<div
+		class="theme-generation-preview modal-wrapper"
+		tabindex="-1"
+		ref="modalWrapper"
+		@keyup.esc="cancellation"
+	>
 		<div class="modal">
 			<div class="modal-header">
-				<div class="title">
+				<div class="title type type--bold">
 					{{ title }}
 				</div>
-				<div
-					class="material-icons-outlined close-modal"
+				<icon-button
+					class="close-modal"
+					type="close"
 					@click="cancellation"
-				>
-					close
-				</div>
+				></icon-button>
 			</div>
 			<perfect-scrollbar class="modal-body">
-				<h4> Theme Preview - {{ name }}</h4>
-				<color-list-tree :colorList="colorList"></color-list-tree>
+				<div class="type--medium type--divider title-with-buttons">
+					<span>Theme Preview - {{ name }}</span>
+					<div class="display-change-icons">
+						<with-simple-tooltip :horizontalMargin="8">
+							<template #contents>
+								<icon-button
+									:class="[{
+										'icon-button--secondary-selected': viewType === 'group'
+									}]"
+									type="folder"
+									@click="setViewType('group')"
+								></icon-button>
+							</template>
+							<template #tooltip>
+								Display as collapsible groups
+							</template>
+						</with-simple-tooltip>
+						<with-simple-tooltip :horizontalMargin="8">
+							<template #contents>
+								<icon-button
+									:class="[{
+										'icon-button--secondary-selected': viewType === 'list'
+									}]"
+									type="list"
+									@click="setViewType('list')"
+								></icon-button>
+							</template>
+							<template #tooltip>
+								Display as list
+							</template>
+						</with-simple-tooltip>
+					</div>
+				</div>
+
+				<template v-if="viewType === 'group'">
+					<color-list-tree :colorTree="colorGroups"></color-list-tree>
+				</template>
+				<template v-if="viewType === 'list'">
+					<color-list-display :colorList="colorList"></color-list-display>
+				</template>
+
+
 			</perfect-scrollbar>
 			<div class="modal-buttons">
-				<button
-					class="button danger"
+				<Button
+					ref="modalCancel"
+					type="secondary"
 					@click="cancellation"
+					@keyup.enter="cancellation"
 				>
 					{{ buttons.cancel|| 'Cancel' }}
-				</button>
-				<button
-					class="button confirm"
+				</Button>
+				<Button
+					ref="modalConfirm"
+					type="primary"
 					@click="confirmation"
+					@keyup.enter="confirmation"
 				>
 					{{ buttons.confirm || 'Confirm' }}
-				</button>
+				</Button>
 			</div>
 		</div>
 	</div>
@@ -37,11 +85,19 @@
 import { defineComponent, onMounted, ref, Ref, PropType } from 'vue'
 import { useThemesStore } from '../../../stores/themes'
 import ColorListTree from './ColorListTree.vue'
+import ColorListDisplay from './ColorListDisplay.vue'
+import IconButton from '@/components/general/IconButton.vue'
+import Button from '@/components/general/Button.vue'
+import WithSimpleTooltip from '@/components/general/WithSimpleTooltip.vue'
 import { generateStyles } from '../../../utils/setFigmaStyles'
 
 export default defineComponent( {
 	components: {
 		ColorListTree,
+		ColorListDisplay,
+		IconButton,
+		Button,
+		WithSimpleTooltip,
 	},
 	props: {
 		closeOverlay: {
@@ -69,7 +125,14 @@ export default defineComponent( {
 		const thisTheme = themes[props.guid]
 		const name = thisTheme.name
 
-		const colorList = themeStore.getColorList( props.guid )
+		const modalWrapper: Ref<HTMLElement | null> = ref( null )
+		const modalCancel: Ref<{ button: HTMLElement} | null> = ref( null )
+		const modalConfirm: Ref<{ button: HTMLElement} | null> = ref( null )
+
+		const viewType: Ref<'group' | 'list'> = ref( 'group' )
+
+		const colorGroups = themeStore.getColorList( props.guid )
+		const colorList = themeStore.getFigmaColorList( props.guid, false )
 
 		function confirmation() {
 			generateStyles( themeStore.getFigmaColorList( props.guid ) )
@@ -80,115 +143,22 @@ export default defineComponent( {
 			props.closeOverlay()
 		}
 
+		function setViewType( type: 'group' | 'list' ) {
+			viewType.value = type
+		}
+
 		return {
 			name,
+			viewType,
+			colorGroups,
 			colorList,
+			setViewType,
 			cancellation,
 			confirmation,
+			modalWrapper,
+			modalCancel,
+			modalConfirm,
 		}
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../../../styles/mixins/fonts'
-@use '../../../styles/mixins/colors'
-
-.modal-wrapper
-	position: absolute
-	top: 0
-	left: 0
-	width: 100vw
-	height: 100vh
-	background: colors.$modal-under
-	display: grid
-	justify-items: center
-	align-items: center
-	padding: 16px
-	.modal
-		background: colors.$modal-bg
-		border-radius: 4px
-		height: 98%
-		min-height: 100px
-		width: 100%
-		max-width: 800px
-		display: grid
-		grid-template-rows: [header] 33px [body] 1fr [buttons] min-content
-		.modal-header
-			display: grid
-			grid-row: header
-			width: 100%
-			grid-template-columns: [title] 1fr [close] 32px
-			align-items: center
-			border-bottom: 1px solid colors.$frame-border
-			.title
-				@include fonts.header
-				grid-column: title
-				padding: 0 0 0 16px
-			.material-icons-outlined
-				@include fonts.material-icons
-				&.close-modal
-					padding: 4px
-					display: block
-					background: colors.$action-icon-bg
-					border-radius: 4px
-					cursor: pointer
-					height: 28px
-					width: 28px
-					grid-column: close
-					justify-self: center
-					&:hover
-						background: colors.$action-icon-hover-bg
-		.modal-body
-			@include fonts.modal-message
-			grid-row: body
-			padding: 32px
-			.modal-footer-notice
-				margin: 32px 32px 0 32px
-			h4
-				margin: 24px 0
-				padding: 0 0 8px 0
-				border-bottom: 1px solid colors.$h1-border
-		.modal-buttons
-			display: grid
-			grid-gap: 16px
-			grid-row: buttons
-			justify-items: right
-			grid-template-columns: 1fr [cancel] auto [confirm] auto
-			padding: 16px 32px
-			border-top: 1px solid colors.$frame-border
-			.button
-				@include fonts.button
-				padding: 8px 16px
-				border-radius: 4px
-				outline: none
-				border: none
-				background: colors.$button-bg
-				border: 2px solid transparent
-				cursor: pointer
-				&.confirm
-					grid-column: confirm
-					color: colors.$button-success
-					border-color: colors.$button-success
-					&:not(:disabled)
-						&:hover
-							background: colors.$button-success
-							color: colors.$button-hover-text
-						&:active
-							background: colors.$button-success-active
-				&.danger
-					grid-column: cancel
-					color: colors.$button-danger
-					border-color: colors.$button-danger
-					&:not(:disabled)
-						&:hover
-							background: colors.$button-danger
-							color: colors.$button-hover-text
-						&:active
-							background: colors.$button-danger-active
-				&:disabled
-					background: colors.$button-disabled
-					color: colors.$button-disabled-text
-					border-color: transparent
-					cursor: not-allowed
-</style>

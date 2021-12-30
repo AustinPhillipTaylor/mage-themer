@@ -1,8 +1,12 @@
 <template>
 	<div class="header" >
-		<add-entry />
-		<import-export />
-		<span class="title" > {{ header }} </span>
+		<div class="start-buttons">
+			<add-entry />
+			<import-export />
+		</div>
+		<span class="title type--medium" > {{ header }} </span>
+		<div class="end-buttons">
+		</div>
 	</div>
 </template>
 
@@ -29,27 +33,39 @@ export default defineComponent( {
 </script>
 
 <style lang="sass" scoped>
-@use '../styles/mixins/fonts'
-@use '../styles/mixins/colors'
-
 .header
 	display: grid
-	grid-template-columns: 32px 150px [header-title] 1fr 150px 32px
-	grid-template-rows: 32px
-	grid-gap: 8px
-	padding: 0 8px
+	grid-template-columns: [start-buttons] 1fr [header-title] auto [end-buttons] 1fr
+	grid-template-rows: var(--size-large)
+	height: var(--size-large)
+	grid-gap: 0
+	padding: 0
 	justify-items: center
 	align-items: center
-	border-bottom: 1px solid colors.$frame-border
-	.title
-		@include fonts.header
+	box-sizing: content-box
+	border-bottom: 1px solid var(--silver)
+	.start-buttons
+		grid-column: start-buttons
+		flex-flow: row nowrap
+		height: var(--size-large)
 		width: 100%
-		display: inline-block
-		line-height: 24px
-		vertical-align: middle
+		display: flex
+		justify-content: flex-start
+		align-items: center
+	.end-buttons
+		grid-column: end-buttons
+		flex-flow: row nowrap
+		height: var(--size-large)
+		width: 100%
+		display: flex
+		justify-content: flex-end
+		align-items: center
+	.title
+		width: 100%
 		text-align: center
 		grid-column: header-title
 		text-overflow: ellipsis
 		overflow: hidden
 		white-space: nowrap
+		padding: 0 var(--size-medium)
 </style>

@@ -7,66 +7,40 @@
 			}
 		]"
 	>
-		<div class="first-row">
-			<div
-				class="details"
-			>
-				<div class="theme-title" > {{ theme.name || 'Untitled Theme' }} </div>
-				<div class="theme-subtitle">
-					{{
-						'Generates ' +
-							(colorCount(theme.themePalette) * theme.variationMapping.length) +
-							' colors'
-					}}
-				</div>
-				<div class="palette-colors">
-					<template v-if="paletteExists(theme.themePalette)">
-						<template
-							v-for="(color, guid) in colorList(theme.themePalette)"
-							:key="guid"
-						>
-							<div
-								:style="{
-									background: hexStringFromRGB( color.rgb ),
-								}"
-								class="color-preview"
-							></div>
-						</template>
-					</template>
-					<template v-else>
-						Main palette not set.
-					</template>
-				</div>
-				<div class="mixing-colors">
-					<template v-if="paletteExists(theme.mixingPalette)">
-						<template
-							v-for="(color, guid) in colorList(theme.mixingPalette)"
-							:key="guid"
-						>
-							<div
-								:style="{
-									background: hexStringFromRGB( color.rgb ),
-								}"
-								class="color-preview"
-							></div>
-						</template>
-					</template>
-					<template v-else>
-						Mixing palette not set.
-					</template>
-				</div>
+		<div
+			class="details"
+		>
+			<div class="theme-title type--16 type--medium" > {{ theme.name || 'Untitled Theme' }} </div>
+			<div class="theme-subtitle type--secondary">
+				{{
+					'Generates ' + colorGenerationCount + ' colors'
+				}}
 			</div>
-			<div class="actions">
-				<div
-					:class="[
-						'action-button',
-						{
-							'disabled': hasErrors
-						}
-					]"
-					@click="!hasErrors && generateThemeStyles( guid )"
-				>Generate Styles and Preview</div>
-				<!-- <div class="action-button">Add Swatches to Canvas</div> -->
+			<div class="palette-colors">
+				<template v-if="paletteExists(theme.themePalette)">
+					<template
+						v-for="(color, guid) in colorList(theme.themePalette)"
+						:key="guid"
+					>
+						<color-preview :rgb="color.rgb"/>
+					</template>
+				</template>
+				<template v-else>
+					Main palette not set.
+				</template>
+			</div>
+			<div class="mixing-colors">
+				<template v-if="paletteExists(theme.mixingPalette)">
+					<template
+						v-for="(color, guid) in colorList(theme.mixingPalette)"
+						:key="guid"
+					>
+						<color-preview :rgb="color.rgb"/>
+					</template>
+				</template>
+				<template v-else>
+					Mixing palette not set.
+				</template>
 			</div>
 		</div>
 		<notice
@@ -94,20 +68,32 @@
 				</li>
 			</ul>
 		</notice>
+		<div class="actions">
+			<button
+				class="button button--primary"
+				@click="!hasErrors && generateThemeStyles( guid )"
+				:disabled="hasErrors"
+			>
+				Preview Styles and Generate
+			</button>
+			<!-- <div class="action-button">Add Swatches to Canvas</div> -->
+		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from 'vue'
-import { usePalettesStore } from '../stores/palettes'
-import { useThemesStore } from '../stores/themes'
-import { Theme } from '../types/Theme'
-import { hexStringFromRGB } from '../utils/hexStringFromRGB'
-import Notice from './general/Notice.vue'
+import { defineComponent, computed, PropType, ref } from 'vue'
+import { usePalettesStore } from '@/stores/palettes'
+import { useThemesStore } from '@/stores/themes'
+import { Theme } from '@/types/Theme'
+import { hexStringFromRGB } from '@/utils/hexStringFromRGB'
+import Notice from '@/components/general/Notice.vue'
+import ColorPreview from '@/components/general/ColorPreview.vue'
 
 export default defineComponent( {
 	components: {
 		Notice,
+		ColorPreview,
 	},
 	props: {
 		theme:{
@@ -124,25 +110,27 @@ export default defineComponent( {
 		const themeStore = useThemesStore()
 		const themes = computed( () => themeStore.themes )
 		const themesLength = computed( () => Object.keys( themes.value ).length )
-		const themeErrors = themeStore.themeErrors( props.guid )
+		const themeErrors = computed( () => themeStore.themeErrors( props.guid ) )
 		const generateThemeStyles = themeStore.generateThemeStyles
 
 		const paletteStore = usePalettesStore()
 		const palettes = paletteStore.palettes
 
 		const hasErrors = computed( () => {
-			return themeErrors.length > 0
+			return themeErrors.value.length > 0
 		} )
 
+		const colorGenerationCount = computed( () => colorCount( props.theme.themePalette ) * props.theme.variationMapping.length )
+
 		function colorCount( guid: string ) {
-			if( paletteExists( guid ) ) {
+			if( guid && paletteExists( guid ) ) {
 				return Object.keys( palettes[guid].colors ).length
 			}
 			return 0
 		}
 
 		function colorList( guid: string ) {
-			if( paletteExists( guid ) ) {
+			if( guid && paletteExists( guid ) ) {
 				return palettes[guid].colors
 			}
 			return {}
@@ -165,84 +153,8 @@ export default defineComponent( {
 			themeErrors,
 			hasErrors,
 			generateThemeStyles,
+			colorGenerationCount,
 		}
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../styles/mixins/colors'
-@use '../styles/mixins/fonts'
-
-.theme-overview
-	display: grid
-	grid-template-rows: auto auto
-	width: 100%
-	height: auto
-	min-height: 32px
-	border-radius: 8px
-	margin: 16px 0
-	border: 2px solid colors.$gray-20
-	padding: 16px 24px
-	.error-notice
-		margin: 16px 0 0 0
-		ul
-			li
-				list-style-type: none
-	.first-row
-		display: grid
-		grid-template-columns: [details] minmax(0, auto) [actions] min-content
-		.details
-			grid-column: details
-			overflow: hidden
-			.theme-title
-				@include fonts.overview-title
-			.theme-subtitle
-				@include fonts.overview-subtitle
-				color: colors.$secondary-text
-		.actions
-			grid-column: actions
-			grid-template-rows: min-content min-content min-content
-			max-height: 200px
-			grid-gap: 8px
-			display: grid
-			align-items: center
-		.palette-colors,
-		.mixing-colors
-			.color-preview
-				display: inline-block
-				height: 17px
-				width: 17px
-				border-radius: 50%
-				margin: 4px 4px 4px 0
-				vertical-align: middle
-				border: 1px solid colors.$input-select-preview-swatch-border
-		&.errors
-			border: 2px solid colors.$danger
-.action-button
-	@include fonts.secondary-button
-	display: block
-	width: auto
-	background: colors.$secondary-button-bg
-	color: colors.$secondary-button-text
-	border: 1px solid colors.$secondary-button-border
-	height: auto
-	white-space: nowrap
-	padding: 8px 16px
-	border-radius: 4px
-	text-align: center
-	cursor: pointer
-	&:hover
-		background: colors.$secondary-button-hover-bg
-		color: colors.$secondary-button-hover-text
-	&:active
-		background: colors.$secondary-button-active-bg
-	&.disabled
-		background: colors.$button-disabled
-		color: colors.$button-disabled-text
-		cursor: not-allowed
-		&:hover,
-		&:active
-			background: colors.$button-disabled
-			color: colors.$button-disabled-text
-</style>

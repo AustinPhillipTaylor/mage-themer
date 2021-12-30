@@ -41,16 +41,3 @@ export default defineComponent( {
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-@use '../../styles/mixins/fonts' as fonts
-
-.app-overlay
-	width: 0
-	height: 0
-	display: block
-	position: absolute
-	top: 0
-	left: 0
-	z-index: 999999999999
-</style>

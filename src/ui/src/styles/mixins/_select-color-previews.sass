@@ -1,0 +1,24 @@
+.color-preview
+	display: inline-block
+	height: var(--size-xsmall)
+	width: var(--size-xsmall)
+	border-radius: var(--border-radius-small)
+	vertical-align: middle
+	// Calculate inset border opacity. red, green, and blue vars are set on individual items.
+	--threshold: 0.9
+	--alpha: 0.1
+	--r: calc(var(--red) * 0.299)
+	--g: calc(var(--green) * 0.587)
+	--b: calc(var(--blue) * 0.114)
+	--sum: calc(var(--r) + var(--g) + var(--b))
+	--perceived-lightness: calc(var(--sum) / 255)
+	--offset: calc(var(--perceived-lightness) - var(--threshold))
+	--extreme: calc(var(--offset) * 1000000000)
+	--bool: clamp(0, var(--extreme), 1)
+	border: 1px solid rgba(0,0,0, calc(var(--alpha) * var(--bool)) )
+
+.select-menu
+	.color-preview
+		margin-left: var(--size-xxxsmall)
+		&:first-of-type
+			margin-left: var(--size-xxsmall)

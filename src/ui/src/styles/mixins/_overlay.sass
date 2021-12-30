@@ -1,0 +1,79 @@
+.app-overlay
+	width: 0
+	height: 0
+	display: block
+	position: absolute
+	top: 0
+	left: 0
+	z-index: 999999999999
+	.modal-wrapper
+		position: absolute
+		top: 0
+		left: 0
+		width: 100vw
+		height: 100vh
+		background: var(--black3)
+		display: grid
+		justify-items: center
+		align-items: center
+		padding: 16px
+		.modal
+			background: var(--white)
+			border-radius: var(--border-radius-small)
+			box-shadow: var(--modal-box-shadow)
+			height: auto
+			max-height: 100%
+			min-height: 100px
+			width: 100%
+			max-width: 800px
+			display: grid
+			grid-template-rows: [header] 41px [body] minmax(0, 1fr) [buttons] min-content
+			overflow: hidden
+			.modal-header
+				display: grid
+				grid-row: header
+				width: 100%
+				grid-template-columns: [title] 1fr [close] var(--size-medium)
+				align-items: center
+				grid-gap: var(--size-xxsmall)
+				padding: 0 var(--size-xxxsmall) 0 var(--size-xsmall)
+				border-bottom: 1px solid var(--black1)
+				.title
+					grid-column: title
+			.modal-body
+				grid-row: body
+				padding: 0 var(--size-xsmall) 0 var(--size-xsmall)
+				margin: var(--size-xsmall) 0 var(--size-medium) 0
+				&.ps
+					height: auto
+				.modal-footer-notice
+					margin: var(--size-xsmall) 0 0 0
+			.modal-buttons
+				grid-row: buttons
+				display: flex
+				flex-direction: row
+				gap: var(--size-xxsmall)
+				justify-content: flex-end
+				padding: 0 var(--size-xsmall) var(--size-xsmall) var(--size-xsmall)
+	.import-step
+		display: grid
+		padding: var(--size-xxsmall) var(--size-large)
+		grid-gap: var(--size-xsmall)
+		grid-template-columns: var(--size-xlarge) 1fr
+		grid-template-rows: minmax(var(--size-xlarge), auto)
+		align-items: center
+		.import-step-icon
+			justify-self: center
+			.signal-icon
+				display: grid
+				justify-content: center
+				align-content:  center
+				width: var(--size-medium)
+				height: var(--size-medium)
+				background-color: var(--hover-fill)
+				border-radius: 50%
+				&.success-icon
+					filter: invert(66%) sepia(39%) saturate(5382%) hue-rotate(114deg) brightness(102%) contrast(79%)
+				&.failed-icon
+					filter: invert(43%) sepia(56%) saturate(5632%) hue-rotate(349deg) brightness(97%) contrast(95%)
+

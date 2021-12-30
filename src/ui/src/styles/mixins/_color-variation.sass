@@ -1,0 +1,65 @@
+.color-variations
+	margin: 0 0 var(--size-small) 0
+	display: grid
+	grid-template-columns: minmax(40px, 200px) minmax(100px, 1fr) auto var(--size-medium) var(--size-medium)
+	align-items: center
+	grid-gap: var(--size-xxsmall)
+	.top-row-label
+		width: 100%
+		white-space: nowrap
+		overflow-x: hidden
+		text-overflow: ellipsis
+	.variation-label,
+	.mix-percentage,
+	.mix-color
+		display: inline-block
+		margin: 0
+		vertical-align: middle
+		white-space: nowrap
+	.variation-labels
+		display: contents
+	.variation
+		display: contents
+	.mix-color
+		min-width: auto
+		.color-preview
+			margin-left: 0
+			margin-right: var(--size-xxxsmall)
+			&:last-of-type
+				margin-right: var(--size-xxsmall)
+	.variation-label
+		min-width: auto
+	.expanded-options
+		display: none
+		grid-template-columns: 1fr
+		min-height: 32px
+		grid-column: 1/-1
+		.advanced-options
+			background: var(--silver)
+			border-radius: 4px
+			padding: var(--size-xxsmall) var(--size-xsmall)
+	.delete-item-wrapper
+		height: min-content
+		position: relative
+	.advanced-options-toggle
+		&:checked
+			&~.expanded-options
+				display: grid
+			&~.simple-tooltip
+				.closed
+					display: none
+				.open
+					display: inline
+			&+ .item-with-tooltip
+				label
+					.icon-button
+						background-color: var(--blue)
+						&:hover
+							background-color: var(--blue)
+						*
+							filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(269deg) brightness(103%) contrast(104%)
+	.simple-tooltip
+		.closed
+			display: inline
+		.open
+			display: none

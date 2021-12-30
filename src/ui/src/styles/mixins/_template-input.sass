@@ -1,0 +1,94 @@
+.template-input
+	position: relative
+	.input-wrapper
+		position: relative
+		font-size: var(--font-size-xsmall)
+		font-weight: var(--font-weight-normal)
+		letter-spacing: var( --font-letter-spacing-neg-xsmall)
+		line-height: var(--line-height)
+		overflow: hidden
+		white-space: nowrap
+		display: grid
+		grid-template-columns: 1fr min-content
+		align-content: center
+		width: 100%
+		height: var(--size-medium)
+		margin: 1px 0
+		padding: 0
+		color: var(--black8)
+		border: 1px solid transparent
+		border-radius: var(--border-radius-small)
+		outline: none
+		background-color: var(--white)
+		&:hover
+			color: var(--black8)
+			border: 1px solid var(--black1)
+			background-image: none
+		&.disabled
+			color: var(--black3)
+			user-select: none
+			&:hover
+				border: 1px solid transparent
+			&:active
+				color: var(--black3)
+				outline: none
+			.input-container
+				display: flex
+				align-items: center
+				user-select: none
+				pointer-events: none
+				.template-item
+					.template-inner
+						color: var(--black3)
+		&:focus,
+		&:active,
+		&:focus-within
+			color: var(--black)
+			border: 1px solid var(--blue)
+			outline: 1px solid var(--blue)
+			outline-offset: -2px
+		.input-container
+			margin: 0 var(--size-xxsmall)
+			display: block
+			outline: none
+			overflow-x: auto
+			scrollbar-width: none
+			-ms-overflow-style: none
+			line-height: var(--size-medium)
+			&::selection
+				color: var(--black)
+				background-color: var(--blue3)
+			&::-webkit-scrollbar
+				width: 0
+				height: 0
+			.template-item
+				display: inline-block
+				position: relative
+				padding: 2px
+				line-height: normal
+				cursor: text
+				.template-inner
+					position: static
+					display: inline-block
+					padding: var(--size-xxxsmall) var(--size-xxsmall)
+					margin: 0
+					border-radius: var(--border-radius-large)
+					background: var(--grey)
+					&::selection
+						background-color: var(--blue3)
+				.template-inner-padding
+					width: 2px
+					height: auto
+					display: inline-block
+					position: static
+					padding: 0
+					margin: 0
+		.placeholder
+			position: absolute
+			top: 50%
+			left: var(--size-xxsmall)
+			transform: translateY(-50%)
+			color: var(--black3)
+			user-select: none
+			pointer-events: none
+			border: 1px solid transparent

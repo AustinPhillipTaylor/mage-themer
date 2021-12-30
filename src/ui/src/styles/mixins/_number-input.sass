@@ -1,0 +1,109 @@
+.number-input
+	.number-input-wrapper
+		position: relative
+		font-size: var(--font-size-xsmall)
+		font-weight: var(--font-weight-normal)
+		letter-spacing: var( --font-letter-spacing-neg-xsmall)
+		line-height: var(--font-line-height)
+		overflow: hidden
+		white-space: nowrap
+		display: grid
+		grid-template-columns: 1fr
+		align-content: center
+		width: 100%
+		height: var(--size-medium)
+		margin: 1px 0
+		padding: 0
+		color: var(--black8)
+		border: 1px solid transparent
+		border-radius: var(--border-radius-small)
+		outline: none
+		background-color: var(--white)
+		&.number-input-with-icon
+			grid-template-columns: var(--size-medium) 1fr
+			.number-input-field
+				padding-left: 0
+			&.number-input-with-arrows
+				grid-template-columns: var(--size-medium) 1fr var(--size-medium)
+		&.number-input-with-arrows
+			grid-template-columns: 1fr var(--size-medium)
+		&:hover
+			color: var(--black8)
+			border: 1px solid var(--black1)
+			background-image: none
+		&.disabled
+			color: var(--black3)
+			user-select: none
+			&:hover
+				border: 1px solid transparent
+			&:active
+				color: var(--black3)
+				outline: none
+			.number-input-field
+				user-select: none
+				pointer-events: none
+		.number-input-field
+			font-size: var(--font-size-xsmall)
+			font-weight: var(--font-weight-normal)
+			letter-spacing: var( --font-letter-spacing-neg-xsmall)
+			line-height: var(--font-line-height)
+			padding: 0 var(--size-xxsmall)
+			display: block
+			outline: none
+			border: none
+			&::selection
+				color: var(--black)
+				background-color: var(--blue3)
+		.icon
+			pointer-events: all
+			width: var(--size-medium)
+			height: var(--size-medium)
+			z-index: 1
+			opacity: 0.3
+			&.num-adjust-icon
+				cursor: ew-resize
+		&:active,
+		&:focus,
+		&:focus-within
+			color: var(--black)
+			border: 1px solid var(--blue)
+			outline: 1px solid var(--blue)
+			outline-offset: -2px
+			.adjustment-arrows
+				margin: 0 1px 0 -1px
+				padding-left: 1px
+				.num-increase,
+				.num-decrease
+					height: calc(var(--size-xsmall) - 2px)
+					grid-template-rows: calc(var(--size-xsmall) - 2px)
+					width: calc(var(--size-medium) - 1px)
+				.num-increase
+					top: 1px
+				.num-decrease
+					bottom: 1px
+		.adjustment-arrows
+			display: block
+			margin: 0
+			.num-increase,
+			.num-decrease
+				display: grid
+				width: var(--size-medium)
+				height: calc(var(--size-xsmall) - 1px)
+				grid-template-rows: calc(var(--size-xsmall) - 1px)
+				position: absolute
+				cursor: pointer
+				.icon
+					height: calc(var(--size-xsmall) - 1px)
+				&:hover
+					background: var(--grey)
+				&:active
+					background: var(--blue)
+					.icon
+						opacity: 1
+						filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(269deg) brightness(103%) contrast(104%)
+			.num-increase
+				top: 0
+				align-items: end
+			.num-decrease
+				bottom: 0
+				align-items: start

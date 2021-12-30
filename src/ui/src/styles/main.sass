@@ -1,29 +1,27 @@
-@use './mixins/fonts' as fonts
-@use './mixins/colors' as colors
-
-html
-	@include fonts.html-size
-
-html, body, *
-	@include fonts.global
-	color: colors.$default-text
-	padding: 0
-	margin: 0
-	box-sizing: border-box
-
-.ps // Perfect scrollbar wrapper
-	height: calc( 100% - 1px ) // Subtract 1px because theres an odd overflow in Figma's iframe
-	&:hover
-		&>.ps__rail-x,
-		&>.ps__rail-y
-			opacity: 0
-	&.ps--focus
-		&>.ps__rail-x,
-		&>.ps__rail-y
-			opacity: .6
-	&.ps--scrolling-x
-		&>.ps__rail-x
-			opacity: .6
-	&.ps--scrolling-y
-		&>.ps__rail-y
-			opacity: .6
+@import 'mixins/resets'
+@import 'mixins/formatting'
+@import 'mixins/views'
+@import 'mixins/icon'
+@import 'mixins/type'
+@import 'mixins/perfect-scrollbar'
+@import 'mixins/menu'
+@import 'mixins/contained-button'
+@import 'mixins/no-items-card'
+@import 'mixins/sidebar'
+@import 'mixins/workspace'
+@import 'mixins/dashboard'
+@import 'mixins/select-color-previews'
+@import 'mixins/select-menu-custom'
+@import 'mixins/template-input'
+@import 'mixins/button-with-menu'
+@import 'mixins/input-general'
+@import 'mixins/color-variation'
+@import 'mixins/number-input'
+@import 'mixins/tooltips'
+@import 'mixins/overlay'
+@import 'mixins/button'
+@import 'mixins/notice'
+@import 'mixins/color-definition'
+@import 'mixins/color-picker'
+@import 'mixins/generation'
+@import 'mixins/root'

@@ -1,0 +1,65 @@
+.sidebar-area
+	overflow-y: auto
+	padding: 0
+	border-right: 1px solid var(--silver)
+	box-sizing: content-box
+	background: var(--white)
+	min-height: calc(100% - 1px) // Subtract 1px because theres an odd overflow in Figma's iframe
+	.section-label
+		width: auto
+		height: var(--size-medium)
+		// color: colors.$sidebar-label-text
+		border-bottom: 1px solid var(--silver)
+		margin: 0 16px 8px 16px
+		padding: 12px 0 2px 0
+		display: block
+	ul
+		list-style-type: none
+		margin: 0
+		padding: 0
+		li
+			list-style-type: none
+			margin: 0
+			padding: 0
+			&.sidebar-button
+				height: var(--size-medium)
+				text-align: left
+				padding: 0 8px
+				background: transparent
+				width: 100%
+				display: grid
+				align-items: center
+				justify-content: flex-start
+				grid-template-columns: 30px 1fr 0
+				position: relative
+				margin: 0
+				border: none
+				outline: none
+				.icon
+					overflow: hidden
+					&.icon--check
+						opacity: 0
+				.icon-button
+					width: 100%
+					overflow: hidden
+				.sidebar-button-text
+					white-space: nowrap
+					overflow: hidden
+					text-overflow: ellipsis
+				&.current
+					// color: colors.$sidebar-link-text-hover
+					cursor: pointer
+					// background: colors.$sidebar-link-hover-bg
+					// border-left: 4px solid colors.$sidebar-link-border-current
+					&:hover
+						// border-left: 4px solid colors.$sidebar-link-border-current
+					.icon
+						opacity: 1
+				&:hover,
+				&:active
+					cursor: pointer
+					// color: colors.$sidebar-link-text-active
+					// background: colors.$sidebar-link-active-bg
+					// border-left: 4px solid colors.$sidebar-link-border-hover
+				&:hover
+					grid-template-columns: 30px 1fr var(--size-medium)

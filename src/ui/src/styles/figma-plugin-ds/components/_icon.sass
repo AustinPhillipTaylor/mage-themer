@@ -1,0 +1,350 @@
+.icon
+	display: flex
+	align-items: center
+	justify-content: center
+	cursor: default
+	width: var(--size-medium)
+	height: var(--size-medium)
+	font-family: var(--font-stack)
+	font-size: var(--font-size-xsmall)
+	user-select: none
+	background-position: 50% 50%
+
+	//rotate the icon in an infinit loop, ex: for a spinner
+	&--spin
+		animation: rotating 1.0s linear infinite
+
+	@keyframes rotating
+		from
+			transform: rotate(0deg)
+
+		to
+			transform: rotate(360deg)
+
+
+
+	//color modifiers
+
+	//blue
+	&--blue
+		filter: invert(54%) sepia(16%) saturate(7499%) hue-rotate(179deg) brightness(98%) contrast(101%)
+
+
+	&--purple
+		filter: invert(40%) sepia(59%) saturate(4001%) hue-rotate(232deg) brightness(103%) contrast(102%)
+
+
+	&--purple4
+		filter: invert(72%) sepia(40%) saturate(660%) hue-rotate(202deg) brightness(103%) contrast(103%)
+
+
+	&--hot-pink
+		filter: invert(18%) sepia(90%) saturate(3347%) hue-rotate(293deg) brightness(116%) contrast(132%)
+
+
+	&--green
+		filter: invert(66%) sepia(39%) saturate(5382%) hue-rotate(114deg) brightness(102%) contrast(79%)
+
+
+	&--red
+		filter: invert(43%) sepia(56%) saturate(5632%) hue-rotate(349deg) brightness(97%) contrast(95%)
+
+
+	&--yellow
+		filter: invert(78%) sepia(86%) saturate(1608%) hue-rotate(1deg) brightness(107%) contrast(104%)
+
+
+	&--black
+		filter: invert(0%) sepia(0%) saturate(7500%) hue-rotate(117deg) brightness(109%) contrast(105%)
+
+
+	&--black8
+		filter: invert(0%) sepia(56%) saturate(25%) hue-rotate(137deg) brightness(105%) contrast(60%)
+
+
+	&--black3
+		filter: invert(100%) sepia(0%) saturate(698%) hue-rotate(219deg) brightness(66%) contrast(127%)
+
+
+	&--white
+		filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(269deg) brightness(103%) contrast(104%)
+
+
+	&--white8
+		filter: invert(99%) sepia(2%) saturate(5%) hue-rotate(55deg) brightness(104%) contrast(98%)
+
+
+	&--white4
+		filter: invert(99%) sepia(2%) saturate(897%) hue-rotate(245deg) brightness(117%) contrast(93%)
+
+
+
+	//icons
+	&--adjust
+		background-image: url('@/icons/figma/adjust.SVG')
+
+	&--alert
+		background-image: url('@/icons/figma/alert.SVG')
+
+	&--angle
+		background-image: url('@/icons/figma/angle.SVG')
+
+	&--arrow-left-right
+		background-image: url('@/icons/figma/arrow-left-right.SVG')
+
+	&--up-down
+		background-image: url('@/icons/figma/arrow-up-down.SVG')
+
+	&--auto-layout-horizontal
+		background-image: url('@/icons/figma/auto-layout-horizontal.SVG')
+
+	&--auto-layout-vertical
+		background-image: url('@/icons/figma/auto-layout-vertical.SVG')
+
+	&--back
+		background-image: url('@/icons/figma/back.SVG')
+
+	&--blend-empty
+		background-image: url('@/icons/figma/blend-empty.SVG')
+
+	&--blend
+		background-image: url('@/icons/figma/blend.SVG')
+
+	&--break
+		background-image: url('@/icons/figma/break.SVG')
+
+	&--caret-down
+		background-image: url('@/icons/figma/caret-down.SVG')
+
+	&--caret-left
+		background-image: url('@/icons/figma/caret-left.SVG')
+
+	&--caret-right
+		background-image: url('@/icons/figma/caret-right.SVG')
+
+	&--caret-up
+		background-image: url('@/icons/figma/caret-up.SVG')
+
+	&--check
+		background-image: url('@/icons/figma/check.SVG')
+
+	&--close
+		background-image: url('@/icons/figma/close.SVG')
+
+	&--component
+		background-image: url('@/icons/figma/component.SVG')
+
+	&--corner-radius
+		background-image: url('@/icons/figma/corner-radius.SVG')
+
+	&--corners
+		background-image: url('@/icons/figma/corners.SVG')
+
+	&--distribute-horizontal-spacing
+		background-image: url('@/icons/figma/distribute-horizontal-spacing.SVG')
+
+	&--distribute-vertical-spacing
+		background-image: url('@/icons/figma/distribute-vertical-spacing.SVG')
+
+	&--draft
+		background-image: url('@/icons/figma/draft.SVG')
+
+	&--effects
+		background-image: url('@/icons/figma/effects.SVG')
+
+	&--ellipses
+		background-image: url('@/icons/figma/ellipses.SVG')
+
+	&--eyedropper
+		background-image: url('@/icons/figma/eyedropper.SVG')
+
+	&--forward
+		background-image: url('@/icons/figma/forward.SVG')
+
+	&--folder
+		background-image: url('@/icons/figma/folder.SVG')
+
+	&--frame
+		background-image: url('@/icons/figma/frame.SVG')
+
+	&--group
+		background-image: url('@/icons/figma/group.SVG')
+
+	&--hidden
+		background-image: url('@/icons/figma/hidden.SVG')
+
+	&--horizontal-padding
+		background-image: url('@/icons/figma/horizontal-padding.SVG')
+
+	&--hyperlink
+		background-image: url('@/icons/figma/hyperlink.SVG')
+
+	&--image
+		background-image: url('@/icons/figma/image.SVG')
+
+	&--instance
+		background-image: url('@/icons/figma/instance.SVG')
+
+	&--key
+		background-image: url('@/icons/figma/key.SVG')
+
+	&--layout-align-bottom
+		background-image: url('@/icons/figma/layout-align-bottom.SVG')
+
+	&--align-horizontal-centers
+		background-image: url('@/icons/figma/layout-align-horizontal-centers.SVG')
+
+	&--align-left
+		background-image: url('@/icons/figma/layout-align-left.SVG')
+
+	&--align-right
+		background-image: url('@/icons/figma/layout-align-right.SVG')
+
+	&--align-top
+		background-image: url('@/icons/figma/layout-align-top.SVG')
+
+	&--align-vertical-centers
+		background-image: url('@/icons/figma/layout-align-vertical-centers.SVG')
+
+	&--layout-grid-columns
+		background-image: url('@/icons/figma/layout-grid-columns.SVG')
+
+	&--layout-grid-rows
+		background-image: url('@/icons/figma/layout-grid-rows.SVG')
+
+	&--layout-grid-uniform
+		background-image: url('@/icons/figma/layout-grid-uniform.SVG')
+
+	&--library
+		background-image: url('@/icons/figma/library.SVG')
+
+	&--link-broken
+		background-image: url('@/icons/figma/link-broken.SVG')
+
+	&--link-connected
+		background-image: url('@/icons/figma/link-connected.SVG')
+
+	&--list-detailed
+		background-image: url('@/icons/figma/list-detailed.SVG')
+
+	&--list-tile
+		background-image: url('@/icons/figma/list-tile.SVG')
+
+	&--list
+		background-image: url('@/icons/figma/list.SVG')
+
+	&--lock-off
+		background-image: url('@/icons/figma/lock-off.SVG')
+
+	&--lock-on
+		background-image: url('@/icons/figma/lock-on.SVG')
+
+	&--minus
+		background-image: url('@/icons/figma/minus.SVG')
+
+	&--notice
+		background-image: url('@/icons/figma/notice.SVG')
+
+	&--play
+		background-image: url('@/icons/figma/play.SVG')
+
+	&--plus
+		background-image: url('@/icons/figma/plus.SVG')
+
+	&--random
+		background-image: url('@/icons/figma/random.SVG')
+
+	&--recent
+		background-image: url('@/icons/figma/recent.SVG')
+
+	&--resize-to-fit
+		background-image: url('@/icons/figma/resize-to-fit.SVG')
+
+	&--resolve-filled
+		background-image: url('@/icons/figma/resolve-filled.SVG')
+
+	&--resolve
+		background-image: url('@/icons/figma/resolve.SVG')
+
+	&--reverse
+		background-image: url('@/icons/figma/reverse.SVG')
+
+	&--search-large
+		background-image: url('@/icons/figma/search-large.SVG')
+
+	&--search
+		background-image: url('@/icons/figma/search.SVG')
+
+	&--settings
+		background-image: url('@/icons/figma/settings.SVG')
+
+	&--share
+		background-image: url('@/icons/figma/share.SVG')
+
+	&--smiley
+		background-image: url('@/icons/figma/smiley.SVG')
+
+	&--sort-alpha-asc
+		background-image: url('@/icons/figma/sort-alpha-asc.SVG')
+
+	&--sort-alpha-dsc
+		background-image: url('@/icons/figma/sort-alpha-dsc.SVG')
+
+	&--sort-top-bottom
+		background-image: url('@/icons/figma/sort-top-bottom.SVG')
+
+	&--spacing
+		background-image: url('@/icons/figma/spacing.SVG')
+
+	&--spinner
+		background-image: url('@/icons/figma/spinner.SVG')
+
+	&--star-off
+		background-image: url('@/icons/figma/star-off.SVG')
+
+	&--star-on
+		background-image: url('@/icons/figma/star-on.SVG')
+
+	&--stroke-weight
+		background-image: url('@/icons/figma/stroke-weight.SVG')
+
+	&--styles
+		background-image: url('@/icons/figma/styles.SVG')
+
+	&--swap
+		background-image: url('@/icons/figma/swap.SVG')
+
+	&--theme
+		background-image: url('@/icons/figma/theme.SVG')
+
+	&--tidy-up-grid
+		background-image: url('@/icons/figma/tidy-up-grid.SVG')
+
+	&--tidy-up-list-horizontal
+		background-image: url('@/icons/figma/tidy-up-list-horizontal.SVG')
+
+	&--tidy-up-list-vertical
+		background-image: url('@/icons/figma/tidy-up-list-vertical.SVG')
+
+	&--timer
+		background-image: url('@/icons/figma/timer.SVG')
+
+	&--trash
+		background-image: url('@/icons/figma/trash.SVG')
+
+	&--type-layer
+		background-image: url('@/icons/figma/type-layer.SVG')
+
+	&--vertical-padding
+		background-image: url('@/icons/figma/vertical-padding.SVG')
+
+	&--visible
+		background-image: url('@/icons/figma/visible.SVG')
+
+	&--warning-large
+		background-image: url('@/icons/figma/warning-large.SVG')
+
+	&--warning
+		background-image: url('@/icons/figma/warning.SVG')
+
+

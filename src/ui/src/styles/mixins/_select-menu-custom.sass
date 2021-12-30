@@ -1,0 +1,19 @@
+.select-menu-field-wrapper
+	&.select-error
+		.select-menu
+			&__button
+				//var(--red) in hsl
+				--h: 11
+				--s: 89%
+				--l: 54%
+				background-color: hsl(var(--h), var(--s), calc(var(--l) + 45%))
+				border-color: var(--red)
+				.selected-text
+					color: var(--red)
+				.select-menu__icon,
+				.select-menu__chevron
+					filter: invert(43%) sepia(56%) saturate(5632%) hue-rotate(349deg) brightness(97%) contrast(95%)
+					opacity: 0.5
+				&:hover .select-menu__chevron,
+				&:focus .select-menu__chevron
+					opacity: 1
