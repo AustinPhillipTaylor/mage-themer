@@ -37,27 +37,3 @@ export default defineComponent( {
 	},
 } )
 </script>
-
-<style lang="sass" scoped>
-.root-wrapper
-	.container
-		margin: 0
-		padding: 0
-		height: 100vh
-		width: 100vw
-		display: grid
-		grid-template-columns: 1fr
-		grid-template-rows: [header] calc(var(--size-large) + 1px) [main] 1fr
-		.header
-			grid-row: header
-		.main
-			display: grid
-			grid-row: main
-			grid-template-columns: [sidebar] 224px [workspace] 1fr
-			overflow: hidden
-			.sidebar
-				grid-column: sidebar
-			.workspace
-				grid-column: workspace
-
-</style>

@@ -1,9 +1,9 @@
 .color-variations
 	margin: 0 0 var(--size-small) 0
 	display: grid
-	grid-template-columns: 200px 1fr auto var(--size-medium) var(--size-medium)
+	grid-template-columns: minmax(40px, 200px) minmax(100px, 1fr) auto var(--size-medium) var(--size-medium)
 	align-items: center
-	grid-gap: 8px
+	grid-gap: var(--size-xxsmall)
 	.top-row-label
 		width: 100%
 		white-space: nowrap
@@ -21,14 +21,14 @@
 	.variation
 		display: contents
 	.mix-color
-		min-width: 200px
+		min-width: auto
 		.color-preview
 			margin-left: 0
 			margin-right: var(--size-xxxsmall)
 			&:last-of-type
 				margin-right: var(--size-xxsmall)
 	.variation-label
-		min-width: 120px
+		min-width: auto
 	.expanded-options
 		display: none
 		grid-template-columns: 1fr

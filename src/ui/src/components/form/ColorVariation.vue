@@ -7,16 +7,16 @@
 		<div
 			class="variation-labels"
 		>
-			<div class="section-title">
+			<div class="type type--medium">
 				<div class="top-row-label">Label</div>
 			</div>
-			<div class="section-title">
+			<div class="type type--medium">
 				<div class="top-row-label">Mix Color</div>
 			</div>
-			<div class="section-title">
+			<div class="type type--medium">
 				<div class="top-row-label">Amount (%)</div>
 			</div>
-			<div class="section-title">
+			<div class="type type--medium">
 				<div class="top-row-label"><!-- Extra options --></div>
 			</div>
 			<div class="top-row-label">
@@ -73,7 +73,7 @@
 					placeholder="%"
 					min="0"
 					max="100"
-					:arrows="true"
+					:arrows="false"
 					icon="blend"
 				/>
 				<!-- Toggle for more options -->
